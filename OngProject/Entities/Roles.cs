@@ -7,7 +7,7 @@ namespace OngProject.Entities
     {
         public Role()
         {
-            User = new List<User>();
+            Users = new List<User>();
         }
 
         [Required]
