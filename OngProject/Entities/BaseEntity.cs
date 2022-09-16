@@ -3,9 +3,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Entities
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
-        [Required]
         [Key]
         public int Id { get; set; }
         public DateTime CreatedAt { get; set; }
