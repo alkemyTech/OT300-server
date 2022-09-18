@@ -1,9 +1,7 @@
 ﻿using OngProject.DataAccess;
-using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
-using OngProject.Services.Interfaces;
 
-namespace OngProject.Services
+namespace OngProject.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

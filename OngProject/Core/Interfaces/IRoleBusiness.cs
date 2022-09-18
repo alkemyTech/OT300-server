@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using OngProject.Entities;
 
-namespace OngProject.Services.Interfaces
+namespace OngProject.Core.Interfaces
 {
-    public interface IRoleService
+    public interface IRoleBusiness
     {
         Role Create(Role request);
         IEnumerable<Role> GetAll();

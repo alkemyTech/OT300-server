@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
-using OngProject.Services.Interfaces;
 
 namespace OngProject.Controllers
 {
@@ -14,24 +14,24 @@ namespace OngProject.Controllers
     [ApiController]
     public class RoleController : ControllerBase
     {
-        private readonly IRoleService _roleService;
+        private readonly IRoleBusiness _roleBusiness;
 
-        public RoleController(IRoleService roleService)
+        public RoleController(IRoleBusiness roleBusiness)
         {
-            _roleService = roleService;
+            _roleBusiness = roleBusiness;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var roles = _roleService.GetAll();
+            var roles = _roleBusiness.GetAll();
             return Ok(roles);
         }
 
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
-            var role = _roleService.GetById(id);
+            var role = _roleBusiness.GetById(id);
             if (role is null)
             {
                 return NotFound($"Role with id: {id} does not exist");
@@ -54,7 +54,7 @@ namespace OngProject.Controllers
                 Name = request.Name,
                 Description = request.Description
             };
-            var result = _roleService.Create(role);
+            var result = _roleBusiness.Create(role);
             return CreatedAtRoute(nameof(Get), result);
         }
 
@@ -66,7 +66,7 @@ namespace OngProject.Controllers
                 return UnprocessableEntity(ModelState);
             }
 
-            var roleToUpdate = _roleService.GetById(id);
+            var roleToUpdate = _roleBusiness.GetById(id);
             if (roleToUpdate is null)
             {
                 return NotFound($"Role with id: {id} does not exist");
@@ -76,20 +76,20 @@ namespace OngProject.Controllers
             roleToUpdate.Name = request.Name;
             roleToUpdate.Description = request.Description;
 
-            var result = _roleService.Update(roleToUpdate);
+            var result = _roleBusiness.Update(roleToUpdate);
             return Ok(result);
         }
 
         [HttpDelete("{id:int}")]
         public IActionResult Delete(int id)
         {
-            var roleToDelete = _roleService.GetById(id);
+            var roleToDelete = _roleBusiness.GetById(id);
             if (roleToDelete is null)
             {
                 return NotFound($"Role with id: {id} does not exist");
             }
 
-            _roleService.Delete(roleToDelete);
+            _roleBusiness.Delete(roleToDelete);
             return Ok();
         }
     }

@@ -1,6 +1,4 @@
-﻿using OngProject.Repositories.Interfaces;
-
-namespace OngProject.Services.Interfaces
+﻿namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {

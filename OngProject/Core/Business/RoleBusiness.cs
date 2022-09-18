@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using OngProject.Core.Interfaces;
 using OngProject.Entities;
-using OngProject.Services.Interfaces;
+using OngProject.Repositories.Interfaces;
 
-namespace OngProject.Services
+namespace OngProject.Core.Business
 {
-    public class RoleService : IRoleService
+    public class RoleBusiness : IRoleBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public RoleService(IUnitOfWork unitOfWork)
+        public RoleBusiness(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
