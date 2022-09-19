@@ -2,7 +2,7 @@
 
 namespace OngProject.Entities
 {
-    public class Categories : BaseEntity
+    public class Category : BaseEntity
     {
         [Required]
         public string Name { get; set; }
