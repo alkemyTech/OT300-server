@@ -2,7 +2,7 @@
 
 namespace OngProject.Entities
 {
-    public class Testimonials: BaseEntity
+    public class Testimonial: BaseEntity
     {
         [Required]
         [MaxLength(255)]
