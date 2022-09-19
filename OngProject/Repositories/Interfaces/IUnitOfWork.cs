@@ -10,6 +10,8 @@ namespace OngProject.Repositories.Interfaces
     {
 
         IRepositoryBase<Members> MembersRepository { get; }
+        IRepositoryBase<Organization> OrganizationRepository { get; }
+
         IRepositoryBase<Categories> CategoriesRepository { get; }
 
         void SaveChanges();
