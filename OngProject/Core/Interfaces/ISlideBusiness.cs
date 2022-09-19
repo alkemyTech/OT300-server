@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace OngProject.Repositories.Interfaces
+namespace OngProject.Core.Interfaces
 {
-    public interface ISlidesBusiness
+    public interface ISlideBusiness
     {
         public Task<bool> RemoveSlide(int id);
     }
