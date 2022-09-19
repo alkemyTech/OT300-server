@@ -1,6 +1,8 @@
-﻿namespace OngProject.Repositories.Interfaces
+﻿using OngProject.Entities;
+
+namespace OngProject.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepositoryBase<User>
     {
     }
 }
