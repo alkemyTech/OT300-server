@@ -10,22 +10,31 @@ namespace OngProject.Repositories
     {
         private readonly OngDbContext _dbContext;
 
-        private readonly IRepositoryBase<Members> _membersRepository;
+        private readonly IRepositoryBase<Activity> _activityRepository;
+        private readonly IRepositoryBase<Category> _categoryRepository;
+        private readonly IRepositoryBase<Member> _memberRepository;
+        private readonly IRepositoryBase<News> _newsRepository;
         private readonly IRepositoryBase<Organization> _organizationRepository;
-        private readonly IRepositoryBase<Categories> _categoriesRepository;
-        private readonly IRepositoryBase<Slides> _slidesRepository;
+        private readonly IRepositoryBase<Role> _roleRepository;
+        private readonly IRepositoryBase<Slide> _slideRepository;
+        private readonly IRepositoryBase<Testimonial> _testimonialRepository;
+        private readonly IRepositoryBase<User> _userRepository;
+
 
         public UnitOfWork(OngDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-
-        public IRepositoryBase<Members> MembersRepository => _membersRepository ?? new RepositoryBase<Members>(_dbContext);
-        public IRepositoryBase<Categories> CategoriesRepository => _categoriesRepository ?? new RepositoryBase<Categories>(_dbContext);
-        public IRepositoryBase<Slides> SlidesRepository => _slidesRepository ?? new RepositoryBase<Slides>(_dbContext);
+        public IRepositoryBase<Activity> ActivityRepository => _activityRepository ?? new RepositoryBase<Activity>(_dbContext);
+        public IRepositoryBase<Category> CategoryRepository => _categoryRepository ?? new RepositoryBase<Category>(_dbContext);
+        public IRepositoryBase<Member> MembersRepository => _memberRepository ?? new RepositoryBase<Member>(_dbContext);
+        public IRepositoryBase<News> NewsRepository => _newsRepository ?? new RepositoryBase<News>(_dbContext);
         public IRepositoryBase<Organization> OrganizationRepository => _organizationRepository ?? new RepositoryBase<Organization>(_dbContext);
-
+        public IRepositoryBase<Role> RoleRepository => _roleRepository ?? new RepositoryBase<Role>(_dbContext);
+        public IRepositoryBase<Slide> SlideRepository => _slideRepository ?? new RepositoryBase<Slide>(_dbContext);
+        public IRepositoryBase<Testimonial> TestimonialRepository => _testimonialRepository ?? new RepositoryBase<Testimonial>(_dbContext);
+        public IRepositoryBase<User> UserRepository => _userRepository ?? new RepositoryBase<User>(_dbContext);
 
 
         public void SaveChanges()

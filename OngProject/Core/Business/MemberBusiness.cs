@@ -1,6 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Entities;
-using OngProject.Services.Interfaces;
+using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
