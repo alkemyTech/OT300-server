@@ -7,7 +7,7 @@ namespace OngProject.Entities
     {
         public Role()
         {
-            User = new List<Users>();
+            Users = new List<User>();
         }
 
         [Required]
@@ -15,7 +15,7 @@ namespace OngProject.Entities
 
         public string Description { get; set; }
 
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 
 }
