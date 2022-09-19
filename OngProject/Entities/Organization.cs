@@ -20,6 +20,19 @@ namespace OngProject.Entities
         public int PhoneNumber { get; set; }
         [Required]
         public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Url)]
+        public string FacebookUrl { get; set; }
+
+        [Required]
+        [DataType(DataType.Url)]
+        public string InstagramUrl { get; set; }
+
+        [Required]
+        [DataType(DataType.Url)]
+        public string LinkedInUrl { get; set; }
+
         [Required]
         public string WelcomeText { get; set; }
         public string AboutUsText { get; set; }
