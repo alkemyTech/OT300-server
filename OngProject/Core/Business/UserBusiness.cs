@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
@@ -36,6 +37,31 @@ namespace OngProject.Core.Business
         }
 
         public void Delete(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<User> IRepositoryBase<User>.GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Add(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IRepositoryBase<User>.Update(User entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveChangesAsync()
         {
             throw new NotImplementedException();
         }

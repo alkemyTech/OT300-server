@@ -3,7 +3,7 @@ using OngProject.Repositories.Interfaces;
 
 namespace OngProject
 {
-    public interface IUserBusiness :IRepositoryBase<User>
-    { 
+    public interface IUserBusiness : IRepositoryBase<User>
+    {
     }
 }

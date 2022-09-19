@@ -24,14 +24,14 @@ namespace OngProject.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public Task<IEnumerable<User>> GetUsers()
         {
             throw new NotImplementedException();
         }
 
         // GET: api/Users2/5
         [HttpGet("{id}")]
-        public ActionResult<User> GetUser(int id)
+        public Task<ActionResult<User>> GetUser(int id)
         {
             throw new NotImplementedException();
         }
@@ -39,21 +39,21 @@ namespace OngProject.Controllers
         // PUT: api/Users2/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public IActionResult PutUser(int id, User user)
+        public Task<IActionResult> PutUser(int id, User user)
         {
             throw new NotImplementedException();
         }
 
         // POST: api/Users2
         [HttpPost]
-        public ActionResult<User> PostUser(User user)
+        public Task<ActionResult<User>> PostUser(User user)
         {
             throw new NotImplementedException();
         }
 
         // DELETE: api/Users2/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(int id)
+        public ActionResult<bool> DeleteUser(int id)
         {
             throw new NotImplementedException();
         }
