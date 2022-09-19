@@ -8,7 +8,7 @@ using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Repositories
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
+    public  class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
         private readonly OngDbContext _dbContext;
 
