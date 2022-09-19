@@ -5,43 +5,35 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Business;
 using OngProject.DataAccess;
 using OngProject.Entities;
-using OngProject.Services;
+using OngProject.Repositories;
 
 namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly UnitOfWork _unitOfWork;
-
-        public UsersController(UnitOfWork unitOfWork)
+        private readonly IUserBusiness _userBusiness;
+        public UserController(IUserBusiness userBusiness)
         {
-            _unitOfWork = unitOfWork;
+            _userBusiness = userBusiness;
         }
 
-        // GET: api/Users2
+        // GET: api/Users
         [HttpGet]
         public IEnumerable<User> GetUsers()
         {
-            var users = _unitOfWork.Users.GetAll();
-            return users;
+            throw new NotImplementedException();
         }
 
         // GET: api/Users2/5
         [HttpGet("{id}")]
         public ActionResult<User> GetUser(int id)
         {
-            var user = _unitOfWork.Users.GetById(id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            return user;
+            throw new NotImplementedException();
         }
 
         // PUT: api/Users2/5
@@ -49,61 +41,21 @@ namespace OngProject.Controllers
         [HttpPut("{id}")]
         public IActionResult PutUser(int id, User user)
         {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _unitOfWork.Users.Update(user);
-
-            try
-            {
-                _unitOfWork.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            throw new NotImplementedException();
         }
 
         // POST: api/Users2
         [HttpPost]
         public ActionResult<User> PostUser(User user)
         {
-            _unitOfWork.Users.Insert(user);
-            _unitOfWork.SaveChanges();
-
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            throw new NotImplementedException();
         }
 
         // DELETE: api/Users2/5
         [HttpDelete("{id}")]
         public IActionResult DeleteUser(int id)
         {
-            var user = _unitOfWork.Users.GetById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _unitOfWork.Users.Delete(user);
-            _unitOfWork.SaveChanges();
-
-            return NoContent();
-        }
-
-        private bool UserExists(int id)
-        {
-            return _unitOfWork.Users.GetById(id) != null;
+            throw new NotImplementedException();
         }
     }
 }
