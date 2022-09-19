@@ -8,6 +8,7 @@ namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {
+
         IRepositoryBase<Activity> ActivityRepository { get; }
         IRepositoryBase<Category> CategoryRepository { get; }
         IRepositoryBase<Member> MembersRepository { get; }
