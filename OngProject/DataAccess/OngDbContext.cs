@@ -12,11 +12,17 @@ namespace OngProject.DataAccess
 
         }
 
+        public virtual DbSet<Activity> Activities { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<News> News { get; set; }
-        public virtual DbSet<Members> Members { get; set; }
-        public virtual DbSet<Organization> Organization { get; set; }
-        public virtual DbSet<Slides> Slide { get; set; }
-        public virtual DbSet<Categories> Categorie { get; set; }
+    
+        public virtual DbSet<Organization> Organizations { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<Slide> Slides { get; set; }
+        public virtual DbSet<Testimonial> Testimonials { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
