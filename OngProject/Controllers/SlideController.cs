@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OngProject.Repositories.Interfaces;
+using OngProject.Core.Interfaces;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -8,11 +8,11 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlidesController : ControllerBase
+    public class SlideController : ControllerBase
     {
-        private readonly ISlidesBusiness _service;
+        private readonly ISlideBusiness _service;
 
-        public SlidesController(ISlidesBusiness service)
+        public SlideController(ISlideBusiness service)
         {
             _service = service;
         }
