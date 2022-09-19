@@ -16,17 +16,17 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Members> GetAll()
+        public IEnumerable<Member> GetAll()
         {
             return _unitOfWork.MembersRepository.GetAll();
         }
 
-        public Task<Members> GetById(int id)
+        public Task<Member> GetById(int id)
         {
             return _unitOfWork.MembersRepository.GetById(id);
         }
 
-        public async Task Add(Members members)
+        public async Task Add(Member members)
         {
             var member = await _unitOfWork.MembersRepository.GetById(members.Id);
             if (member == null)
@@ -38,7 +38,7 @@ namespace OngProject.Core.Business
             _unitOfWork.SaveChanges();
         }
 
-        public async Task<bool> Update(Members members)
+        public async Task<bool> Update(Member members)
         {
             _unitOfWork.MembersRepository.Update(members);
             await _unitOfWork.SaveChangesAsync();

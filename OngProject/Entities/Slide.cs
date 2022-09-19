@@ -2,7 +2,7 @@
 
 namespace OngProject.Entities
 {
-    public class Slides
+    public class Slide:BaseEntity
     {
         [Required]
         [MaxLength(255)]
