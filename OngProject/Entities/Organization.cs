@@ -1,9 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Entities
 {
     public class Organization : BaseEntity
     {
+        public Organization()
+        {
+            {
+                SocialMediaOrg = new List<SocialMedia>();
+            }
+        }
+
         [Required]
         public string Name { get; set; }
         [Required]
@@ -15,5 +23,7 @@ namespace OngProject.Entities
         [Required]
         public string WelcomeText { get; set; }
         public string AboutUsText { get; set; }
+
+        public virtual ICollection<SocialMedia> SocialMediaOrg { get; set; }
     }
 }
