@@ -24,7 +24,9 @@ namespace OngProject.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
+
             var members =  await _memberBusiness.GetById(id);
+
             return Ok(members);
         }
 
