@@ -2,46 +2,61 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
+
 namespace OngProject.Repositories
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
+    public class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
     {
         private readonly OngDbContext _dbContext;
+        protected readonly DbSet<T> _entities;
 
         public RepositoryBase(OngDbContext dbContext)
         {
             _dbContext = dbContext;
+            _entities = dbContext.Set<T>();
         }
         public IEnumerable<T> GetAll()
         {
-            return _dbContext.Set<T>().ToList();
+            return _entities.AsEnumerable();
         }
 
-        public T GetById(int id)
+        public async Task<T> GetById(int id)
         {
-            var result = _dbContext.Set<T>().Find(id);
-            return result;
+            return await _entities.FindAsync(id);
         }
 
-        public T Insert(T entity)
+        public async Task Add(T entity)
         {
-            var result = _dbContext.Set<T>().Add(entity);
-            return result.Entity;
+            await _entities.AddAsync(entity);
+
         }
 
-        public T Update(T entity)
+        public void Update(T entity)
         {
-            var result = _dbContext.Set<T>().Update(entity);
-            return result.Entity;
+            _entities.Update(entity);
+            _dbContext.SaveChanges();
         }
 
-        public void Delete(T entity)
+        public async Task Delete(int id)
         {
-            _dbContext.Set<T>().Remove(entity);
+            T entity = await GetById(id);
+            _entities.Remove(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void SaveChanges()
+        {
+            _dbContext.SaveChanges();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
