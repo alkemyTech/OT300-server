@@ -1,9 +1,10 @@
-﻿using OngProject.Repositories.Interfaces;
+﻿using OngProject.Core.Interfaces;
+using OngProject.Repositories.Interfaces;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
 {
-    public class SlidesBusiness : ISlidesBusiness
+    public class SlidesBusiness : ISlideBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
 

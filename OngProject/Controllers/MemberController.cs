@@ -31,14 +31,14 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(Members members)
+        public async Task<IActionResult> Add(Member members)
         {
             await _memberBusiness.Add(members);
             return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put( Members members)
+        public async Task<IActionResult> Put( Member members)
         {
             var member = await _memberBusiness.Update(members);
 

@@ -12,7 +12,8 @@ namespace OngProject.Repositories
 
         private readonly IRepositoryBase<Members> _membersRepository;
         private readonly IRepositoryBase<Organization> _organizationRepository;
-
+        private readonly IRepositoryBase<Categories> _categoriesRepository;
+        private readonly IRepositoryBase<Slides> _slidesRepository;
 
         public UnitOfWork(OngDbContext dbContext)
         {
@@ -21,10 +22,11 @@ namespace OngProject.Repositories
 
 
         public IRepositoryBase<Members> MembersRepository => _membersRepository ?? new RepositoryBase<Members>(_dbContext);
-
+        public IRepositoryBase<Categories> CategoriesRepository => _categoriesRepository ?? new RepositoryBase<Categories>(_dbContext);
+        public IRepositoryBase<Slides> SlidesRepository => _slidesRepository ?? new RepositoryBase<Slides>(_dbContext);
         public IRepositoryBase<Organization> OrganizationRepository => _organizationRepository ?? new RepositoryBase<Organization>(_dbContext);
 
-        
+
 
         public void SaveChanges()
         {

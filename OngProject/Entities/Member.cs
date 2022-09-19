@@ -3,7 +3,7 @@
 
 namespace OngProject.Entities
 {
-    public class Members: BaseEntity
+    public class Member: BaseEntity
     { 
         //Id and TimeStamp come from BaseEntity
 
