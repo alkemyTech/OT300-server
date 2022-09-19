@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using OngProject.Entities;
 
 namespace OngProject.Repositories.Interfaces
 {
-   public interface IRepositoryBase<T> where T : BaseEntity
+    public interface IRepositoryBase<T> where T : BaseEntity
     {
         IEnumerable<T> GetAll();
-        T GetById(int id);
-        T Insert(T entity);
-        T Update(T entity);
-        void Delete(T entity);
+        Task<T> GetById(int id);
+        Task Add(T entity);
+        void Update(T entity);
+        Task Delete(int id);
 
+        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿
+using Microsoft.EntityFrameworkCore;
+using OngProject.Entities;
+using System.Reflection;
 
 namespace OngProject.DataAccess
 {
@@ -6,6 +9,17 @@ namespace OngProject.DataAccess
     {
         public OngDbContext(DbContextOptions<OngDbContext> options): base(options)
         {
+
+        }
+
+        public virtual DbSet<News> News { get; set; }
+        public virtual DbSet<Members> Members { get; set; }
+        public virtual DbSet<Organization> Organization { get; set; }
+        //public virtual DbSet<Category> Categories { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         }
     }
