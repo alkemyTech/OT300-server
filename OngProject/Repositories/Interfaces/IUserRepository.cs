@@ -1,6 +1,6 @@
 ﻿namespace OngProject.Repositories.Interfaces
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
     }
 }
