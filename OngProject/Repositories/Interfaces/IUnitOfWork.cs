@@ -8,10 +8,9 @@ namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {
-
-        IRepositoryBase<Members> MembersRepository { get; }
+        IRepositoryBase<Member> MembersRepository { get; }
+        IRepositoryBase<Role> RolesRepository { get; }
         IRepositoryBase<Organization> OrganizationRepository { get; }
-
         IRepositoryBase<Categories> CategoriesRepository { get; }
 
         void SaveChanges();
