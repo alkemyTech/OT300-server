@@ -1,8 +1,14 @@
-﻿namespace OngProject.Repositories.Interfaces
+using OngProject.Entities;
+using OngProject.Repositories.Interfaces;
+using System.Threading.Tasks;
+
+namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {
-        IRoleRepository RoleRepository { get; }
+        IRepositoryBase<Members> MembersRepository { get; }
+
         void SaveChanges();
-    }
+        Task SaveChangesAsync();
+}
 }
