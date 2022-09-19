@@ -1,9 +1,9 @@
-﻿using OngProject.Entities;
-using OngProject.Repositories.Interfaces;
+using OngProject.Entities;
+
 
 namespace OngProject
 {
-    public interface IUserBusiness : IRepositoryBase<User>
+    public interface IUserBusiness 
     {
     }
 }
