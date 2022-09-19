@@ -11,6 +11,7 @@ namespace OngProject.Repositories
         private readonly OngDbContext _dbContext;
 
         private readonly IRepositoryBase<Members> _membersRepository;
+        private readonly IRepositoryBase<Organization> _organizationRepository;
 
 
         public UnitOfWork(OngDbContext dbContext)
@@ -20,6 +21,8 @@ namespace OngProject.Repositories
 
 
         public IRepositoryBase<Members> MembersRepository => _membersRepository ?? new RepositoryBase<Members>(_dbContext);
+
+        public IRepositoryBase<Organization> OrganizationRepository => _organizationRepository ?? new RepositoryBase<Organization>(_dbContext);
 
         
 

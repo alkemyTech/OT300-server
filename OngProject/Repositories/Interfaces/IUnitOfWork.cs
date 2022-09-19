@@ -10,7 +10,8 @@ namespace OngProject.Repositories.Interfaces
     {
 
         IRepositoryBase<Members> MembersRepository { get; }
-
+        IRepositoryBase<Organization> OrganizationRepository { get; }
+        
         void SaveChanges();
         Task SaveChangesAsync();
 }
