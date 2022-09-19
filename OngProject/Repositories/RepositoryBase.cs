@@ -31,33 +31,27 @@ namespace OngProject.Repositories
             return await _entities.FindAsync(id);
         }
 
-        public async Task Add(T entity)
+        public async Task<T> Add(T entity)
         {
-            await _entities.AddAsync(entity);
+            var result = await _entities.AddAsync(entity);
 
+            return result.Entity;
         }
 
-        public void Update(T entity)
+        public async Task<T> Update(T entity)
         {
-            _entities.Update(entity);
-            _dbContext.SaveChanges();
+            var result = await _entities.AddAsync(entity);
+
+            return result.Entity;
         }
 
         public async Task Delete(int id)
         {
-            T entity = await GetById(id);
-            _entities.Remove(entity);
-            _dbContext.SaveChanges();
+            T entity = await _entities.FindAsync(id);
+            entity.IsDeleted = true;
+            entity.LastEditedAt = DateTime.UtcNow;
+            _entities.Update(entity);
         }
 
-        public void SaveChanges()
-        {
-            _dbContext.SaveChanges();
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _dbContext.SaveChangesAsync();
-        }
     }
 }

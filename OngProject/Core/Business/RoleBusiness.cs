@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -14,39 +15,38 @@ namespace OngProject.Core.Business
         {
             _unitOfWork = unitOfWork;
         }
-        public Role Create(Role request)
+        public async Task<Role> Create(Role request)
         {
             request.CreatedAt = DateTime.UtcNow;
-            var result = _unitOfWork.RoleRepository.Insert(request);
-            _unitOfWork.SaveChanges();
+            var result = await _unitOfWork.RolesRepository.Add(request);
+            await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
         public IEnumerable<Role> GetAll()
         {
-            return _unitOfWork.RoleRepository.GetAll();
+            return _unitOfWork.RolesRepository.GetAll();
         }
 
-        public Role GetById(int id)
+        public async Task<Role> GetById(int id)
         {
-            var result = _unitOfWork.RoleRepository.GetById(id);
+            var result = await _unitOfWork.RolesRepository.GetById(id);
             return result;
         }
 
-        public Role Update(Role role)
+        public async Task<Role> Update(Role role)
         {
             role.LastEditedAt = DateTime.UtcNow;
-            var result = _unitOfWork.RoleRepository.Update(role);
-            _unitOfWork.SaveChanges();
+            var result = await _unitOfWork.RolesRepository.Update(role);
+            await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
-        public void Delete(Role role)
+        public async Task Delete(Role role)
         {
-            role.IsDeleted = true;
-            role.LastEditedAt = DateTime.UtcNow;
-            _unitOfWork.RoleRepository.Update(role);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.RolesRepository.Delete(role.Id);
+
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

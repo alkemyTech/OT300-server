@@ -59,14 +59,14 @@ namespace OngProject.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public IActionResult Update(int id, RoleDTO request)
+        public async Task<IActionResult> Update(int id, RoleDTO request)
         {
             if (!ModelState.IsValid)
             {
                 return UnprocessableEntity(ModelState);
             }
 
-            var roleToUpdate = _roleBusiness.GetById(id);
+            var roleToUpdate = await _roleBusiness.GetById(id);
             if (roleToUpdate is null)
             {
                 return NotFound($"Role with id: {id} does not exist");
@@ -81,15 +81,15 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var roleToDelete = _roleBusiness.GetById(id);
+            var roleToDelete = await _roleBusiness.GetById(id);
             if (roleToDelete is null)
             {
                 return NotFound($"Role with id: {id} does not exist");
             }
 
-            _roleBusiness.Delete(roleToDelete);
+            await _roleBusiness.Delete(roleToDelete);
             return Ok();
         }
     }
