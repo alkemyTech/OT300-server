@@ -14,6 +14,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OngProject.Core.Business;
+using OngProject.Core.Interfaces;
+using OngProject.DataAccess;
+using OngProject.Repositories;
+using OngProject.Repositories.Interfaces;
 
 namespace OngProject
 {
@@ -29,6 +34,8 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IRoleBusiness, RoleBusiness>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSession();
             services.AddControllers();
             services.AddSwaggerGen(c =>

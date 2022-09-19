@@ -2,7 +2,7 @@
 
 namespace OngProject.Entities
 {
-    public class Organizacion : BaseEntity
+    public class Organization : BaseEntity
     {
         [Required]
         public string Name { get; set; }

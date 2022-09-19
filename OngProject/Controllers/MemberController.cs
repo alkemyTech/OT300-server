@@ -24,7 +24,9 @@ namespace OngProject.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var members = await _memberBusiness.GetById(id);
+
+            var members =  await _memberBusiness.GetById(id);
+
             return Ok(members);
         }
 
@@ -36,7 +38,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Members members)
+        public async Task<IActionResult> Put( Members members)
         {
             var member = await _memberBusiness.Update(members);
 

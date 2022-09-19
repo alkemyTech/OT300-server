@@ -465,3 +465,8 @@ bin/Debug/net5.0
 
 **/appsettings.Development.json
 **/OngProject.xml
+
+
+
+# Visual Studio 2022
+/JSON
