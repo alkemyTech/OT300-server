@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +11,7 @@ using OngProject.Repositories.Interfaces;
 namespace OngProject.Repositories
 {
     public class RepositoryBase<T> : IRepositoryBase<T> where T : BaseEntity
+
     {
         private readonly OngDbContext _dbContext;
         protected readonly DbSet<T> _entities;

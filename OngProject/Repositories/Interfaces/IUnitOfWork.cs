@@ -1,4 +1,4 @@
-﻿using OngProject.Entities;
+using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System.Threading.Tasks;
 
@@ -10,5 +10,5 @@ namespace OngProject.Repositories.Interfaces
 
         void SaveChanges();
         Task SaveChangesAsync();
-    }
+}
 }
