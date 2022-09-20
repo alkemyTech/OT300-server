@@ -16,7 +16,13 @@ namespace OngProject.Core.Business
         {
             _unitOfWork = unitOfWork;
         }
-        public User Insert(Testimonial request)
+
+        public Task Add(Testimonial testimonial)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -31,26 +37,24 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<Testimonial> Update(Testimonial user)
+        public Task<bool> Update(Testimonial testimonial)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(Testimonial user)
+        Task<Testimonial> IRepositoryBase<Testimonial>.Add(Testimonial entity)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Testimonial> Add(Testimonial entity)
+        Task IRepositoryBase<Testimonial>.Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task Delete(int id)
+        Task<Testimonial> IRepositoryBase<Testimonial>.Update(Testimonial entity)
         {
             throw new NotImplementedException();
         }
-
-
     }
 }
