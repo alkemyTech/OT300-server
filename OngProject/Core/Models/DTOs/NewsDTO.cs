@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -12,7 +13,7 @@ namespace OngProject.Core.Models.DTOs
 
         [Required]
         public string Image { get; set; }
-
+        [Required, ForeignKey("Category")]
         public int IdCategory { get; set; }
     }
 }
