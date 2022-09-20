@@ -15,6 +15,7 @@ namespace OngProject.Controllers
             _memberBusiness = memberBusiness;
         }
 
+        [HttpGet]
         public IActionResult GetAll()
         {
             var members = _memberBusiness.GetAll();
