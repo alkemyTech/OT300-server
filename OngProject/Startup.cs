@@ -19,6 +19,7 @@ using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace OngProject
 {
@@ -34,10 +35,10 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IRoleBusiness, RoleBusiness>();
+          //  services.AddScoped<IRoleBusiness, RoleBusiness>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISlideBusiness, SlidesBusiness>();
-            services.AddSession();
+          //  services.AddSession();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -60,6 +61,10 @@ namespace OngProject
                     };
                 }
             );
+
+            ////agrego EF
+            services.AddDbContext<OngDbContext>(options =>
+                      options.UseSqlServer(Configuration.GetConnectionString("ONG")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
