@@ -41,17 +41,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        Task<User> IRepositoryBase<User>.GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task Add(User entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IRepositoryBase<User>.Update(User entity)
         {
             throw new NotImplementedException();
         }
