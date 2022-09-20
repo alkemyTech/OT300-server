@@ -3,10 +3,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System;
-using Microsoft.AspNetCore.Mvc;
 
 namespace OngProject.Core.Business
 {
