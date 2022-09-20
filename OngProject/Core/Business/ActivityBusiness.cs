@@ -16,7 +16,13 @@ namespace OngProject.Core.Business
         {
             _unitOfWork = unitOfWork;
         }
-        public Activity Insert(Activity request)
+
+        public Task Add(Activity activity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -31,25 +37,9 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<Activity> Update(Activity user)
+        public Task<bool> Update(Activity activity)
         {
             throw new NotImplementedException();
         }
-
-        public void Delete(Activity user)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Activity> Add(Activity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }
