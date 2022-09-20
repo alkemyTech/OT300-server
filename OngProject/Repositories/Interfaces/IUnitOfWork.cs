@@ -1,4 +1,3 @@
-
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System.Threading.Tasks;
@@ -8,12 +7,17 @@ namespace OngProject.Repositories.Interfaces
 {
     public interface IUnitOfWork
     {
+        IRepositoryBase<Activity> ActivityRepository { get; }
+        IRepositoryBase<Category> CategoryRepository { get; }
         IRepositoryBase<Member> MembersRepository { get; }
-        IRepositoryBase<Role> RolesRepository { get; }
+        IRepositoryBase<News> NewsRepository { get; }
         IRepositoryBase<Organization> OrganizationRepository { get; }
-        IRepositoryBase<Categories> CategoriesRepository { get; }
+        IRepositoryBase<Role> RoleRepository { get; }
+        IRepositoryBase<Slide> SlideRepository { get; }
+        IRepositoryBase<Testimonial> TestimonialRepository { get; }
+        IRepositoryBase<User> UserRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();
-}
+    }
 }
