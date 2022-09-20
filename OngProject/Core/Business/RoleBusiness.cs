@@ -18,33 +18,33 @@ namespace OngProject.Core.Business
         public async Task<Role> Create(Role request)
         {
             request.CreatedAt = DateTime.UtcNow;
-            var result = await _unitOfWork.RolesRepository.Add(request);
+            var result = await _unitOfWork.RoleRepository.Add(request);
             await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
         public IEnumerable<Role> GetAll()
         {
-            return _unitOfWork.RolesRepository.GetAll();
+            return _unitOfWork.RoleRepository.GetAll();
         }
 
         public async Task<Role> GetById(int id)
         {
-            var result = await _unitOfWork.RolesRepository.GetById(id);
+            var result = await _unitOfWork.RoleRepository.GetById(id);
             return result;
         }
 
         public async Task<Role> Update(Role role)
         {
             role.LastEditedAt = DateTime.UtcNow;
-            var result = await _unitOfWork.RolesRepository.Update(role);
+            var result = await _unitOfWork.RoleRepository.Update(role);
             await _unitOfWork.SaveChangesAsync();
             return result;
         }
 
         public async Task Delete(Role role)
         {
-            await _unitOfWork.RolesRepository.Delete(role.Id);
+            await _unitOfWork.RoleRepository.Delete(role.Id);
 
             await _unitOfWork.SaveChangesAsync();
         }
