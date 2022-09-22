@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Entities
 {
-    public class Contact:BaseEntity
+
+    public class Contact : BaseEntity
     {
         [Required]
         [StringLength(100)]

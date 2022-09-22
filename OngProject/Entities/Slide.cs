@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OngProject.Entities
 {
-    public class Slide:BaseEntity
+    public class Slide : BaseEntity
     {
         [Required]
         [MaxLength(255)]
