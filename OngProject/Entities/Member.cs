@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OngProject.Entities
 {
@@ -22,8 +23,7 @@ namespace OngProject.Entities
         [Required(ErrorMessage = "An image is required")]
         public string Image { get; set; }
 
-        //Even when description isn't required it's assign a max length to be really specific
-        [MaxLength(255)]
+        [Column(TypeName = "varchar(MAX)")]
         public string? Description { get; set; }
        
     }

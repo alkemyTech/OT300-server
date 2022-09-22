@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.DataAccess.Seeds;
 using OngProject.Entities;
 using System.Reflection;
 
@@ -27,6 +28,7 @@ namespace OngProject.DataAccess
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             modelBuilder.Entity<Member>().HasData(MemberSeed.GetData());
             modelBuilder.Entity<Testimonial>().HasData(TestimonialSeed.GetData());
+
         }
     }
 }
