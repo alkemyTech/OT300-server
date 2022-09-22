@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OngProject.Entities
 {
-    public class Slide:BaseEntity
+    public class Slide : BaseEntity
     {
         [Required]
         [MaxLength(255)]
@@ -16,6 +17,7 @@ namespace OngProject.Entities
         public int Order { get; set; }
 
         [Required]
+        [ForeignKey("Organization")]
         public int OrganizationId { get; set; }
     }
 }
