@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OngProject.DataAccess.Seeds;
 using OngProject.Entities;
 using System.Reflection;
 
@@ -25,7 +26,7 @@ namespace OngProject.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
+            modelBuilder.Entity<Member>().HasData(MemberSeed.GetData());
         }
     }
 }
