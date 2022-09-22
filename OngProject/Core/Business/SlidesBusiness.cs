@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OngProject.Core.Mapper;
 
 namespace OngProject.Core.Business
 {
@@ -22,12 +23,6 @@ namespace OngProject.Core.Business
             throw new System.NotImplementedException();
         }
 
-        //public IEnumerable<Slide> GetAll()
-        //{
-        //    throw new NotImplementedException();
-
-        //}
-
         /// <summary>
         /// Get the  slides from the organization
         /// </summary>
@@ -35,20 +30,7 @@ namespace OngProject.Core.Business
         public IEnumerable<SlideDTO> GetAll()
         {
             var slides = _unitOfWork.SlideRepository.GetAll();
-            var dtos = new List<SlideDTO>();
-
-            #region Mapper
-            foreach (var slide in slides)
-            {
-                dtos.Add(new SlideDTO()
-                {
-                  //  Id = slide.Id,
-                    ImageUrl = slide.ImageUrl,
-                    Order = slide.Order,
-                    Text = $"caption-{slide.Id}"
-                });
-            } 
-            #endregion
+            var dtos = SlideMapper.ToDTO(slides);
             return dtos;
         }
     }
