@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,9 +23,10 @@ namespace OngProject.Controllers
 
         // GET: api/<SlidesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        [Authorize]
+        public IEnumerable<SlideDTO> Get()
         {
-            return new string[] { "value1", "value2" };
+           return _service.GetAll();
         }
 
         // GET api/<SlidesController>/5
