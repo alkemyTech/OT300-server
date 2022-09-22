@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace OngProject.Controllers
 
         // GET: api/<SlidesController>
         [HttpGet]
+        [Authorize]
         public IEnumerable<SlideDTO> Get()
         {
            return _service.GetAll();
