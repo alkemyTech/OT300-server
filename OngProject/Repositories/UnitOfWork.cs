@@ -19,6 +19,7 @@ namespace OngProject.Repositories
         private readonly IRepositoryBase<Slide> _slideRepository;
         private readonly IRepositoryBase<Testimonial> _testimonialRepository;
         private readonly IRepositoryBase<User> _userRepository;
+        private IRepositoryBase<Contact> _contactRepository;
 
 
         public UnitOfWork(OngDbContext dbContext)
@@ -35,6 +36,10 @@ namespace OngProject.Repositories
         public IRepositoryBase<Slide> SlideRepository => _slideRepository ?? new RepositoryBase<Slide>(_dbContext);
         public IRepositoryBase<Testimonial> TestimonialRepository => _testimonialRepository ?? new RepositoryBase<Testimonial>(_dbContext);
         public IRepositoryBase<User> UserRepository => _userRepository ?? new RepositoryBase<User>(_dbContext);
+        public IRepositoryBase<Contact> ContactRepository => _contactRepository ?? new RepositoryBase<Contact>(_dbContext);
+
+
+
 
 
         public void SaveChanges()

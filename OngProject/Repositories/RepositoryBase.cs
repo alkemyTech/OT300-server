@@ -21,10 +21,7 @@ namespace OngProject.Repositories
             _dbContext = dbContext;
             _entities = dbContext.Set<T>();
         }
-        public IEnumerable<T> GetAll()
-        {
-            return _entities.AsEnumerable();
-        }
+        
 
         public async Task<T> GetById(int id)
         {
@@ -53,5 +50,9 @@ namespace OngProject.Repositories
             _entities.Update(entity);
         }
 
+        IEnumerable<T> IRepositoryBase<T>.GetAll()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
