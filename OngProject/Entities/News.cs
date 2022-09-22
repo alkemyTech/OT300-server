@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OngProject.Entities
 {
@@ -12,7 +13,8 @@ namespace OngProject.Entities
 
         [Required]
         public string Image { get; set; }
-
+        
+        [ForeignKey("Category")]
         public int IdCategory { get; set; }
 
     }
