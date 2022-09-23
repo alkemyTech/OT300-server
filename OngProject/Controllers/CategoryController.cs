@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OngProject.Core.Interfaces;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,12 +10,20 @@ namespace OngProject.Controllers
     [ApiController]
     public class CategorieController : ControllerBase
     {
+        
+        
+        private readonly ICategoryBusiness _categoryBusiness;
+        
+        
         // GET: api/<CategoriesController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        [HttpGet("/api/categories")]
+        public IActionResult GetAllNames()
         {
-            return new string[] { "value1", "value2" };
+            return Ok(_categoryBusiness.GetAllCatNames());
         }
+
+
 
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
