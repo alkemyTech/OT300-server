@@ -26,7 +26,7 @@ namespace OngProject.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            //modelBuilder.Entity<Member>().HasData(MemberSeed.GetData());
+            modelBuilder.Entity<Member>().HasData(MemberSeed.GetData());
             modelBuilder.Entity<Testimonial>().HasData(TestimonialSeed.GetData());
             modelBuilder.Entity<News>().HasData(NewsSeed.GetData());
         }
