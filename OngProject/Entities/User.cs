@@ -17,7 +17,7 @@ namespace OngProject.Entities
         [Required]
         [Column(TypeName = "varchar(MAX)")]
         public string LastName { get; set; }
-
+        [Required]
         public string Email { get; set; }
 
         [Required]
