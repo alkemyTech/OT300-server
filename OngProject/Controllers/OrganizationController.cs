@@ -20,16 +20,25 @@ namespace OngProject.Controllers
         {
             _organizationService = service;
         }
-
+    
         [HttpGet("/api/organization")]
-
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllOrganizations()
         {
             var organizations = _organizationService.GetAll();
             return Ok(organizations);
         }
 
+        [HttpGet("/api/organization/public")]
+        [AllowAnonymous]
+        public IActionResult GetOrganizationPublicInfo()
+        {
+            var orgPubInfoDTO= _organizationService.GetPublicInfo();
+            return Ok(orgPubInfoDTO);
+        }
+
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetByIdOrganization(int id)
         {
             var organization = await _organizationService.GetById(id);

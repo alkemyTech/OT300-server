@@ -1,9 +1,14 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using OngProject.Core.Mapper;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace OngProject.Core.Business
 {
@@ -64,6 +69,26 @@ namespace OngProject.Core.Business
             else
             {
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// US-30 | Public data 
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.Exception"></exception>
+        public OrganizationPublicDTO GetPublicInfo()
+        {
+            try
+            {
+                Organization org = _unitOfWork.OrganizationRepository.GetAll().First();
+                var dto = org.ToPublicDTO();
+                return dto;
+            }
+            catch (Exception e)
+            {
+                //Log(e);
+                throw new Exception("Cannot retrieve organization public details, see inner excepction",e);
             }
         }
     }
