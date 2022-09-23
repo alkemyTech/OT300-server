@@ -21,15 +21,12 @@ namespace OngProject.Controllers
         
         
         // GET: api/<CategoriesController>
-
-        [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IEnumerable<string> Get()
+        [HttpGet("/api/categories")]
+        [Authorize(Roles = "Admin")]        
+        public IActionResult GetAllNames()
         {
             return Ok(_categoryBusiness.GetAllCatNames());
         }
-
-
 
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
