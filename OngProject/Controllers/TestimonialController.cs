@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using OngProject.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OngProject.Controllers
 {
+    [Authorize]
     public class TestimonialController : Controller
     {
         private readonly ITestimonialBusiness _testimonialBusiness;
