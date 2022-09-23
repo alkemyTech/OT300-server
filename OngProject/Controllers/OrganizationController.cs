@@ -29,6 +29,14 @@ namespace OngProject.Controllers
             return Ok(organizations);
         }
 
+        [HttpGet("/api/organization/public")]
+        [AllowAnonymous]
+        public IActionResult GetOrganizationPublicInfo()
+        {
+            var orgPubInfoDTO= _organizationService.GetPublicInfo();
+            return Ok(orgPubInfoDTO);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdOrganization(int id)
         {
