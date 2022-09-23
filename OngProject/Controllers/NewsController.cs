@@ -11,7 +11,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "User, Admin")]
     public class NewsController : ControllerBase
     {
         private readonly INewsBusiness _newsService;

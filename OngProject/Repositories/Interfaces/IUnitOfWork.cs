@@ -16,6 +16,7 @@ namespace OngProject.Repositories.Interfaces
         IRepositoryBase<Slide> SlideRepository { get; }
         IRepositoryBase<Testimonial> TestimonialRepository { get; }
         IRepositoryBase<User> UserRepository { get; }
+        IRepositoryBase<Contact> ContactRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();
