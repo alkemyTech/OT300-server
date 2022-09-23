@@ -20,9 +20,9 @@ namespace OngProject.Controllers
         {
             _organizationService = service;
         }
-
+    
         [HttpGet("/api/organization")]
-
+        [Authorize(Roles = "Admin")]
         public IActionResult GetAllOrganizations()
         {
             var organizations = _organizationService.GetAll();
@@ -30,6 +30,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetByIdOrganization(int id)
         {
             var organization = await _organizationService.GetById(id);
