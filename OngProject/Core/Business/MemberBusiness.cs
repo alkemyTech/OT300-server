@@ -1,4 +1,6 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -16,9 +18,17 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<Member> GetAll()
+        public IEnumerable<MembersDTO> GetAll()
         {
-            return _unitOfWork.MembersRepository.GetAll();
+            var members = _unitOfWork.MembersRepository.GetAll();
+            var dtos = new List<MembersDTO>();
+
+            foreach (var member in members)
+            {
+                dtos.Add(MemberMapper.ToPublicDTO(member));
+            }
+
+            return dtos;
         }
 
         public Task<Member> GetById(int id)
@@ -50,5 +60,6 @@ namespace OngProject.Core.Business
             await _unitOfWork.MembersRepository.Delete(id);
             return true;
         }
+
     }
 }

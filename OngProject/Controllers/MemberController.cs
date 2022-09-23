@@ -18,7 +18,6 @@ namespace OngProject.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public IActionResult GetAll()
         {
             var members = _memberBusiness.GetAll();
