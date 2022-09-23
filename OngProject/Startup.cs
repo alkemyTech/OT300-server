@@ -20,6 +20,7 @@ using OngProject.DataAccess;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using OngProject.Core.Models;
 
 namespace OngProject
 {
@@ -61,6 +62,9 @@ namespace OngProject
                     };
                 }
             );
+            //Injects the configuration to the AWS3 helper
+            services.Configure<AWS3ConfigurationModel>(
+                Configuration.GetSection(AWS3ConfigurationModel.AwsConfiguration));
 
             ////agrego EF
             services.AddDbContext<OngDbContext>(options =>
