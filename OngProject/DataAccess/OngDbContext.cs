@@ -33,6 +33,7 @@ namespace OngProject.DataAccess
             modelBuilder.Entity<Testimonial>().HasData(TestimonialSeed.GetData());
 
             modelBuilder.Entity<News>().HasData(NewsSeed.GetData());
+            modelBuilder.Entity<Category>().HasData(CategorySeed.GetData());
 
             modelBuilder.SeedActivitiesData();
 
