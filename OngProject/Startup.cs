@@ -20,6 +20,8 @@ using OngProject.DataAccess;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using OngProject.Services;
+using OngProject.Services.Interfaces;
 
 namespace OngProject
 {
@@ -36,6 +38,7 @@ namespace OngProject
         public void ConfigureServices(IServiceCollection services)
         {
           //  services.AddScoped<IRoleBusiness, RoleBusiness>();
+          services.AddScoped<IEmailService, SendGridEmailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISlideBusiness, SlidesBusiness>();
           //  services.AddSession();
@@ -77,7 +80,7 @@ namespace OngProject
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OngProject v1"));
             }
 
-          //  app.UseSession();
+            //  app.UseSession();
 
             app.UseHttpsRedirection();
 
