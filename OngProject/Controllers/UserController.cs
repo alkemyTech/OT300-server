@@ -27,9 +27,9 @@ namespace OngProject.Controllers
         // GET: api/Users
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public Task<IEnumerable<User>> GetUsers()
+        public IEnumerable<User> GetUsers()
         {
-            throw new NotImplementedException();
+            return _userBusiness.GetAllUsers();
         }
 
         // GET: api/Users2/5

@@ -21,9 +21,9 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            return _unitOfWork.UserRepository.GetAll();
         }
 
         public User GetById(int id)
