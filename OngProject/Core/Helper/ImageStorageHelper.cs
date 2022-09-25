@@ -21,13 +21,16 @@ namespace OngProject.Core.Helper
 
         public async Task<string> UploadImageAsync(FileStream imageFile)
         {
-            var fileName = imageFile.Name;
+            var fileName = imageFile.Name.Normalize().Trim().ToLower();
+
             var credentials = new BasicAWSCredentials(_credentialsConfig.AWSAccessKey, _credentialsConfig.AWSSecretKey);
+
             var regionEndpoint = new AmazonS3Config()
             {
                 //Todo: Complete when get the credentials
                 // RegionEndpoint = Amazon.RegionEndpoint
             };
+
             var uploadRequest = new TransferUtilityUploadRequest()
             {
                 InputStream = imageFile,
