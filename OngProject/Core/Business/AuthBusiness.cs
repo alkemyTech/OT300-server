@@ -9,16 +9,12 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Core.Business
 {
-    public class UserLogin
-    {
-        public string Email { get; set; }
-        public string Password { get; set;}
-    }
     public class AuthBusiness : IAuthBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -30,14 +26,14 @@ namespace OngProject.Core.Business
             _config = config;
         }
 
-        public string Login(UserLogin login)
+        public string Login(UserLoginDTO login)
         {
-            User CurrentUser = Authenticate(login);
+            User currentUser = Authenticate(login);
 
-            if (CurrentUser is not null)
+            if (currentUser is not null)
             {
-                string Token = Generate(CurrentUser);
-                return Token;
+                string token = Generate(currentUser);
+                return token;
             }
 
             return null;
@@ -45,68 +41,66 @@ namespace OngProject.Core.Business
 
         private string Generate(User userInput)
         {
-            Claim[] Claims = new Claim[]
+            Claim[] claims = new Claim[]
             {
                 new Claim("Identifier", userInput.Id.ToString()),
                 new Claim(ClaimTypes.Email, userInput.Email),
                 new Claim(ClaimTypes.Role, userInput.RoleId.ToString())
             };
 
-            SymmetricSecurityKey SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            SigningCredentials Credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
-            JwtSecurityToken Token = new JwtSecurityToken
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            JwtSecurityToken token = new JwtSecurityToken
             (
                 _config["Jwt:Issuer"],
                 _config["Jwt:Audience"],
-                claims: Claims, 
+                claims: claims, 
                 expires: DateTime.Now.AddMinutes(30),
-                signingCredentials: Credentials
+                signingCredentials: credentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(Token);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private User Authenticate(UserLogin loginUser)
+        private User Authenticate(UserLoginDTO loginUser)
         {
-            User FoundUser = ValidateUserEmail(loginUser);
+            User foundUser = ValidateUserEmail(loginUser);
 
-            if (FoundUser is not null)
+            if (foundUser is not null)
             {
-                User CurrentUser = ComparePasswords(loginUser, FoundUser);
+                User currentUser = ComparePasswords(loginUser, foundUser);
 
-                return CurrentUser ?? null;
+                return currentUser ?? null;
             }   
 
             return null;
         }
 
-        private User ComparePasswords(UserLogin requestUser, User foundUser)
+        private User ComparePasswords(UserLoginDTO requestUser, User foundUser)
         {
             requestUser.Password = EncryptPassword(requestUser.Password);
 
             if (foundUser.Password.Equals(requestUser.Password))
-            {
                 return foundUser;
-            }
-
+            
             return null;
         }
 
-        private User ValidateUserEmail(UserLogin checkUserEmail)
+        private User ValidateUserEmail(UserLoginDTO checkUserEmail)
         {
-            string Email = checkUserEmail.Email;
-            User CurrentUser = _unitOfWork.UserRepository.GetAll().FirstOrDefault(user => Email == user.Email);
+            string email = checkUserEmail.Email;
+            User currentUser = _unitOfWork.UserRepository.GetAll().FirstOrDefault(user => email == user.Email);
 
-            return CurrentUser;
+            return currentUser;
         }
 
         private string EncryptPassword(string password)
         {
-            string Salt = "OTSampleSalt300";
-            password += Salt;
-            byte[] PasswordBytes = Encoding.UTF8.GetBytes(password);
-            string EncryptedPassword = Convert.ToBase64String(PasswordBytes);
-            return EncryptedPassword;
+            string salt = "OTSampleSalt300";
+            password += salt;
+            byte[] encoded = Encoding.UTF8.GetBytes(password);
+            string encrypted = Convert.ToBase64String(encoded);
+            return encrypted;
         }
     }
 }

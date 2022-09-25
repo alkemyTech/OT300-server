@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Controllers
@@ -20,12 +21,12 @@ namespace OngProject.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] UserLogin Login)
+        public IActionResult Login([FromBody] UserLoginDTO login)
         {
-            string Token = _authBusiness.Login(Login);
+            string token = _authBusiness.Login(login);
 
-            if (!string.IsNullOrEmpty(Token))
-                return Ok(Token);
+            if (!string.IsNullOrEmpty(token))
+                return Ok(token);
 
             return Unauthorized("{ok:false}");
         }
