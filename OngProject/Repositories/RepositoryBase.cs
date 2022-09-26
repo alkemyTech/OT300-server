@@ -50,9 +50,9 @@ namespace OngProject.Repositories
             _entities.Update(entity);
         }
 
-        IEnumerable<T> IRepositoryBase<T>.GetAll()
+        public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _entities;
         }
     }
 }

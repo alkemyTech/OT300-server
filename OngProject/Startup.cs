@@ -38,6 +38,7 @@ namespace OngProject
           //  services.AddScoped<IRoleBusiness, RoleBusiness>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISlideBusiness, SlidesBusiness>();
+            services.AddScoped<IAuthBusiness, AuthBusiness>();
           //  services.AddSession();
             services.AddControllers();
             services.AddSwaggerGen(c =>
