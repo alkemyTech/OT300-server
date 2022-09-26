@@ -33,5 +33,10 @@ namespace OngProject.Core.Business
             var dtos = SlideMapper.ToDTO(slides);
             return dtos;
         }
+
+        public IEnumerable<Slide> GetAllSlides()
+        {
+            return _unitOfWork.SlideRepository.GetAll().OrderBy(or => or.Order);
+        }
     }
 }

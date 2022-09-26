@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Business;
 
 namespace OngProject.Controllers
 {
@@ -15,6 +16,7 @@ namespace OngProject.Controllers
     public class OrganizationsController : ControllerBase
     {
         private readonly IOrganizationBusiness _organizationService;
+        private readonly ISlideBusiness _slideBusiness;
 
         public OrganizationsController(IOrganizationBusiness service)
         {
@@ -33,7 +35,8 @@ namespace OngProject.Controllers
         [AllowAnonymous]
         public IActionResult GetOrganizationPublicInfo()
         {
-            var orgPubInfoDTO= _organizationService.GetPublicInfo();
+            var orgPubInfoDTO = _organizationService.GetPublicInfo();
+            var slidesOrganizations = _slideBusiness.GetAllSlides();
             return Ok(orgPubInfoDTO);
         }
 
