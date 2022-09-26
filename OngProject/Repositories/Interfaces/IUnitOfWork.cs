@@ -1,5 +1,4 @@
 using OngProject.Entities;
-using OngProject.Repositories.Interfaces;
 using System.Threading.Tasks;
 
 
@@ -17,6 +16,7 @@ namespace OngProject.Repositories.Interfaces
         IRepositoryBase<Testimonial> TestimonialRepository { get; }
         IRepositoryBase<User> UserRepository { get; }
         IRepositoryBase<Contact> ContactRepository { get; }
+        IRepositoryBase<Comment> CommentRepository { get; }
 
         void SaveChanges();
         Task SaveChangesAsync();
