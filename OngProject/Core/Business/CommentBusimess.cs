@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System;
@@ -19,10 +21,19 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
         
-        public IEnumerable<Comment> GetAll()
+        public IEnumerable<CommentDTO> GetAll()
         {
-            return _unitOfWork.CommentRepository.GetAll().OrderBy(x => x.CreationDate);
+            var comment = _unitOfWork.CommentRepository.GetAll();
+            var commentDto = new List<CommentDTO>();
+
+            foreach (var comments in comment)
+            {
+                commentDto.Add(CommentMapper.CommentToCommentDTO(comments));
+            }
+
+            return commentDto;
         }
+
 
         public Task<Comment> GetById(int id)
         {
