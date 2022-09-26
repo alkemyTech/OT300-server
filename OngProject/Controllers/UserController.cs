@@ -27,9 +27,9 @@ namespace OngProject.Controllers
         // GET: api/Users
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IEnumerable<User> GetUsers()
+        public IActionResult GetUsers()
         {
-            return _userBusiness.GetAllUsers();
+            return Ok(_userBusiness.GetAllUsers());
         }
 
         // GET: api/Users2/5
