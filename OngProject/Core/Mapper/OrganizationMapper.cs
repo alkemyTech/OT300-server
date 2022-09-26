@@ -18,7 +18,10 @@ namespace OngProject.Core.Mapper
                 Name = org.Name,
                 Img = org.Img,
                 Adress = org.Adress,
-                PhoneNumber = org.PhoneNumber
+                PhoneNumber = org.PhoneNumber,
+                FacebookUrl = org.FacebookUrl,
+                InstagramUrl = org.InstagramUrl,
+                LinkedInUrl = org.LinkedInUrl
             };
             return dto;
         }
