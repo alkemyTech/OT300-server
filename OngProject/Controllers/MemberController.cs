@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User, Admin")]
     public class MemberController : ControllerBase
     {
         private readonly IMemberBusiness _memberBusiness;
@@ -23,6 +25,7 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetById(int id)
         {
 
@@ -32,6 +35,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Add(Member members)
         {
             await _memberBusiness.Add(members);
@@ -39,6 +43,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Put( Member members)
         {
             var member = await _memberBusiness.Update(members);
@@ -47,6 +52,7 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             var member = await _memberBusiness.Delete(id);

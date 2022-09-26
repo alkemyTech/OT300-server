@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class RoleController : ControllerBase
     {
         private readonly IRoleBusiness _roleBusiness;

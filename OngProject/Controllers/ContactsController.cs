@@ -10,18 +10,14 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User, Admin")]
     public class ContactsController : ControllerBase
     {
-
-
         private readonly IContactsBusiness _contactsBusiness;
         public ContactsController(IContactsBusiness business)
         {
             _contactsBusiness = business;
         }
-
-
-
 
         // GET: api/<ContactsController>
         [Authorize(Roles = "Admin")]
@@ -34,6 +30,7 @@ namespace OngProject.Controllers
 
         // GET api/<ContactsController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public string Get(int id)
         {
             return "value";

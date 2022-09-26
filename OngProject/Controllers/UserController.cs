@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User, Admin")]
     public class UserController : ControllerBase
     {
         private readonly IUserBusiness _userBusiness;
@@ -24,6 +26,7 @@ namespace OngProject.Controllers
 
         // GET: api/Users
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public Task<IEnumerable<User>> GetUsers()
         {
             throw new NotImplementedException();
@@ -31,6 +34,7 @@ namespace OngProject.Controllers
 
         // GET: api/Users2/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public Task<ActionResult<User>> GetUser(int id)
         {
             throw new NotImplementedException();

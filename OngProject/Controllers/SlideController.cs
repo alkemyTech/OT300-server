@@ -10,6 +10,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "User, Admin")]
     public class SlideController : ControllerBase
     {
         private readonly ISlideBusiness _service;
@@ -23,7 +24,7 @@ namespace OngProject.Controllers
 
         // GET: api/<SlidesController>
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public IEnumerable<SlideDTO> Get()
         {
            return _service.GetAll();
@@ -31,6 +32,7 @@ namespace OngProject.Controllers
 
         // GET api/<SlidesController>/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public string Get(int id)
         {
             return "value";
@@ -38,18 +40,21 @@ namespace OngProject.Controllers
 
         // POST api/<SlidesController>
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public void Post([FromBody] string value)
         {
         }
 
         // PUT api/<SlidesController>/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/<SlidesController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public void Delete(int id)
         {
         }
