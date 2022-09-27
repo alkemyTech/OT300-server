@@ -11,5 +11,7 @@ namespace OngProject.Core.Models.DTOs
         public string Email { get; set; }
         public string WelcomeText { get; set; }
         public string AboutUsText { get; set; }
+
+        
     }
 }

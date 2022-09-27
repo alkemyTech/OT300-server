@@ -9,7 +9,8 @@ namespace OngProject.Core.Interfaces
     {
         public Task<bool> RemoveSlide(int id);
         public IEnumerable<SlideDTO> GetAll();
-
+        public IEnumerable<SlidePublicDTO> GetAllSlides();
+        
 
     }
 }

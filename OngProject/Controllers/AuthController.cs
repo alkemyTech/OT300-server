@@ -15,7 +15,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] UserLoginDTO login)
+        public IActionResult Login(UserLoginDTO login)
         {
             string token = _authBusiness.Login(login);
 
@@ -24,6 +24,7 @@ namespace OngProject.Controllers
 
             return Unauthorized("{ok:false}");
         }
+
 
         [HttpPost("/auth/register")]
         public IActionResult Register([FromBody] RegisterDTO register)

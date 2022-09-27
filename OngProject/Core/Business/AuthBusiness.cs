@@ -113,10 +113,11 @@ namespace OngProject.Core.Business
 
         private string EncryptPassword(string password)
         {
-            string salt = "OTSampleSalt300";
-            password += salt;
-            byte[] encoded = Encoding.UTF8.GetBytes(password);
-            string encrypted = Convert.ToBase64String(encoded);
+            var encrypted = Core.Helper.AuthHelper.EncryptPassword(password);
+            //string salt = "OTSampleSalt300";
+            //password += salt;
+            //byte[] encoded = Encoding.UTF8.GetBytes(password);
+            //string encrypted = Convert.ToBase64String(encoded);
             return encrypted;
         }
     }
