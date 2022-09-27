@@ -26,10 +26,10 @@ namespace OngProject.Controllers
 
         // GET: api/Users
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public Task<IEnumerable<User>> GetUsers()
+        [Authorize(Roles = "admin")]
+        public IActionResult GetUsers()
         {
-            throw new NotImplementedException();
+            return Ok(_userBusiness.GetAllUsers());
         }
 
         // GET: api/Users2/5

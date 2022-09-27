@@ -44,8 +44,13 @@ namespace OngProject
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISlideBusiness, SlidesBusiness>();
             services.AddScoped<IAuthBusiness, AuthBusiness>();
+
+          //  services.AddSession();
+            services.AddScoped<IUserBusiness, UserBusiness>();
+
             services.AddScoped<ICommentBusiness, CommentBusiness>();
-            //  services.AddSession();
+
+        
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
