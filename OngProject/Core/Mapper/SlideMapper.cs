@@ -19,5 +19,17 @@ namespace OngProject.Core.Mapper
         {
             return slides.Select(s => ToDTO(s));
         }
+
+        public static SlidePublicDTO ToPublicDTO(Slide slide)
+        {
+            SlidePublicDTO dto = new SlidePublicDTO()
+            {
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order,
+                OrganizationId = slide.OrganizationId,
+                Text = slide.Text
+            };
+            return dto;
+        }
     }
 }

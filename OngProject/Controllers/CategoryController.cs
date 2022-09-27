@@ -13,7 +13,7 @@ namespace OngProject.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "User, Admin")]
-    public class CategorieController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         
         
