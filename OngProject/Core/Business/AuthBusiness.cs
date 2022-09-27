@@ -36,7 +36,7 @@ namespace OngProject.Core.Business
             return null;
         }
 
-        public RegisterDTO Register(RegisterDTO register)
+        public User Register(RegisterDTO register)
         {
             var encryptedPassword = EncryptPassword(register.Password);
 
@@ -52,11 +52,11 @@ namespace OngProject.Core.Business
             _unitOfWork.SaveChanges();
 
 
-            return register;
+            return userNew;
 
         }
 
-        private string Generate(User userInput)
+        public string Generate(User userInput)
         {
             Claim[] claims = new Claim[]
             {
@@ -113,11 +113,7 @@ namespace OngProject.Core.Business
 
         private string EncryptPassword(string password)
         {
-            var encrypted = Core.Helper.AuthHelper.EncryptPassword(password);
-            //string salt = "OTSampleSalt300";
-            //password += salt;
-            //byte[] encoded = Encoding.UTF8.GetBytes(password);
-            //string encrypted = Convert.ToBase64String(encoded);
+            string encrypted = Helper.AuthHelper.EncryptPassword(password);
             return encrypted;
         }
     }
