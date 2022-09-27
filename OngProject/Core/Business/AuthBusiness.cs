@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
@@ -37,6 +34,26 @@ namespace OngProject.Core.Business
             }
 
             return null;
+        }
+
+        public RegisterDTO Register(RegisterDTO register)
+        {
+            var encryptedPassword = EncryptPassword(register.Password);
+
+            var userNew = new User
+            {
+                LastName = register.LastName,
+                FirstName = register.FirstName,
+                Email = register.Email,
+                Password = encryptedPassword
+            };
+
+            _unitOfWork.UserRepository.Add(userNew);
+            _unitOfWork.SaveChanges();
+
+
+            return register;
+
         }
 
         private string Generate(User userInput)
