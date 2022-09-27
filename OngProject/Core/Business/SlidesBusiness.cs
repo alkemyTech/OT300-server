@@ -34,9 +34,16 @@ namespace OngProject.Core.Business
             return dtos;
         }
 
-        public IEnumerable<Slide> GetAllSlides()
+        public IEnumerable<SlidePublicDTO> GetAllSlides()
         {
-            return _unitOfWork.SlideRepository.GetAll().OrderBy(or => or.Order);
+            var slides = _unitOfWork.SlideRepository.GetAll().OrderBy(or => or.Order);
+            var slidesDTO = new List<SlidePublicDTO>();
+            foreach (var slide in slides)
+            {
+                slidesDTO.Add(SlideMapper.ToPublicDTO(slide));
+            }
+            
+            return slidesDTO;
         }
     }
 }

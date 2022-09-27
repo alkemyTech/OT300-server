@@ -37,7 +37,7 @@ namespace OngProject.Controllers
         {
             var orgPubInfoDTO = _organizationService.GetPublicInfo();
             var slidesOrganizations = _slideBusiness.GetAllSlides();
-            return Ok(orgPubInfoDTO);
+            return Ok(new {orgPubInfoDTO, slidesOrganizations});
         }
 
         [HttpGet("{id}")]
