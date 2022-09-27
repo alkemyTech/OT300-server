@@ -3,10 +3,10 @@ using OngProject.Entities;
 
 namespace OngProject.Core.Mapper
 {
-    public class UserMapper
+    public static class UserMapper
     {
 
-        public static UserGetDTO ToUserDTO (User user)
+        public static UserGetDTO ToUserDTO (this User user)
         {
             UserGetDTO userDTO = new UserGetDTO()
             {

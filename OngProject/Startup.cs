@@ -39,21 +39,21 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //  services.AddScoped<IRoleBusiness, RoleBusiness>();
-            //  services.AddSession();
+            services.AddScoped<IActivityBusiness, ActivityBusiness>();
+            services.AddScoped<IAuthBusiness, AuthBusiness>();
+            services.AddScoped<ICategoryBusiness, CategoryBusiness>();
+            services.AddScoped<ICommentBusiness, CommentBusiness>();
+            services.AddScoped<IContactsBusiness, ContactBusiness>();
             services.AddScoped<IEmailService, SendGridEmailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ISlideBusiness, SlidesBusiness>();
-            services.AddScoped<IAuthBusiness, AuthBusiness>();          
-            services.AddScoped<IUserBusiness, UserBusiness>();
-            services.AddScoped<IOrganizationBusiness, OrganizationBusiness>();
-            services.AddScoped<ICommentBusiness, CommentBusiness>();
-            services.AddScoped<ICategoryBusiness, CategoryBusiness>();
-            services.AddScoped<IContactsBusiness, ContactBusiness>();
             services.AddScoped<IMemberBusiness, MemberBusiness>();
             services.AddScoped<INewsBusiness, NewsBusiness>();
+            services.AddScoped<IOrganizationBusiness, OrganizationBusiness>();
             services.AddScoped<IRoleBusiness, RoleBusiness>();
+            services.AddScoped<ISlideBusiness, SlidesBusiness>();
             services.AddScoped<ITestimonialBusiness, TestimonialBusiness>();
+            services.AddScoped<IUserBusiness, UserBusiness>();
+            
         
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -96,16 +96,11 @@ namespace OngProject
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OngProject v1"));
             }
 
-            //  app.UseSession();
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthentication();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
