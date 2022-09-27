@@ -46,7 +46,8 @@ namespace OngProject.Repositories
 
         public void SaveChanges()
         {
-            _dbContext.SaveChangesAsync();
+            //_dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
 
 

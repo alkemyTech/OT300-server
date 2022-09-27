@@ -3,9 +3,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -36,7 +38,7 @@ namespace OngProject.Core.Business
             return null;
         }
 
-        public RegisterDTO Register(RegisterDTO register)
+        public UserGetDTO Register(RegisterDTO register)
         {
             var encryptedPassword = EncryptPassword(register.Password);
 
@@ -45,24 +47,27 @@ namespace OngProject.Core.Business
                 LastName = register.LastName,
                 FirstName = register.FirstName,
                 Email = register.Email,
-                Password = encryptedPassword
+                Password = encryptedPassword,
+                RoleId = 2
             };
 
             _unitOfWork.UserRepository.Add(userNew);
             _unitOfWork.SaveChanges();
 
 
-            return register;
-
+            return userNew.ToUserDTO();
         }
 
         private string Generate(User userInput)
         {
+            Task<Role> task = _unitOfWork.RoleRepository.GetById(userInput.RoleId);
+            task.Wait();
+            var roleName = task.Result.Name;
             Claim[] claims = new Claim[]
             {
                 new Claim("Identifier", userInput.Id.ToString()),
                 new Claim(ClaimTypes.Email, userInput.Email),
-                new Claim(ClaimTypes.Role, userInput.RoleId.ToString())
+                new Claim(ClaimTypes.Role, roleName)
             };
 
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));

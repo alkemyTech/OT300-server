@@ -6,9 +6,9 @@ namespace OngProject.DataAccess.Seeds
 {
     public static class ActivitiesSeed
     {
-        public static void SeedActivitiesData(this ModelBuilder builder)
+        public static Activity[] GetData()
         {
-            builder.Entity<Activity>().HasData(new Activity()
+            var data = new[] {new Activity()
                 {
                     Id = 1, Name = "Encuentro para Innovadores y Emprendedores Sociales",
                     Content =
@@ -54,7 +54,9 @@ namespace OngProject.DataAccess.Seeds
                               "dinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con " +
                               "100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención " +
                               "del territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
-                });
+                }
+            };
+            return data;
         }
     }
 }

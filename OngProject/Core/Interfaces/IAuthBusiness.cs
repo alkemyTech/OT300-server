@@ -13,6 +13,6 @@ namespace OngProject.Core.Interfaces
     {
         string Login(UserLoginDTO login);
 
-        RegisterDTO Register(RegisterDTO register)
+        UserGetDTO Register(RegisterDTO register);
     }
 }
