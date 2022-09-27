@@ -40,7 +40,7 @@ namespace OngProject.Core.Business
             return organization;
         }
 
-        
+
         public async Task<Organization> Update(int id, Organization organization)
         {
             var orgToUpdate = await _unitOfWork.OrganizationRepository.GetById(id);
@@ -81,14 +81,17 @@ namespace OngProject.Core.Business
         {
             try
             {
-                Organization org = _unitOfWork.OrganizationRepository.GetAll().First();
-                var dto = org.ToPublicDTO();
+                Organization org = _unitOfWork.OrganizationRepository.GetAll().FirstOrDefault();
+                OrganizationPublicDTO dto =
+                    org == null ?
+                    new OrganizationPublicDTO() :
+                    org.ToPublicDTO();
                 return dto;
             }
             catch (Exception e)
             {
                 //Log(e);
-                throw new Exception("Cannot retrieve organization public details, see inner excepction",e);
+                throw new Exception("Cannot retrieve organization public details, see inner excepction", e);
             }
         }
     }

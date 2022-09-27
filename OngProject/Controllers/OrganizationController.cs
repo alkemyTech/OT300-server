@@ -20,7 +20,7 @@ namespace OngProject.Controllers
         {
             _organizationService = service;
         }
-    
+
         [HttpGet("/api/organization")]
         [Authorize(Roles = "Admin")]
         public IActionResult GetAllOrganizations()
@@ -33,8 +33,12 @@ namespace OngProject.Controllers
         [AllowAnonymous]
         public IActionResult GetOrganizationPublicInfo()
         {
-            var orgPubInfoDTO= _organizationService.GetPublicInfo();
-            return Ok(orgPubInfoDTO);
+            var orgPubInfoDTO = _organizationService.GetPublicInfo();
+            return
+                String.IsNullOrEmpty(orgPubInfoDTO.Name) ?
+                //or new orgPubInfoDTO()???
+                NoContent()  :
+                Ok(orgPubInfoDTO);
         }
 
         [HttpGet("{id}")]
@@ -57,7 +61,7 @@ namespace OngProject.Controllers
                 await _organizationService.Insert(organization);
                 return Ok(organization);
             }
-                       
+
         }
 
         [HttpPut("{id}")]
