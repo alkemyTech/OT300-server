@@ -34,6 +34,8 @@ namespace OngProject.DataAccess
 
             modelBuilder.Entity<News>().HasData(NewsSeed.GetData());
             modelBuilder.Entity<Category>().HasData(CategorySeed.GetData());
+            modelBuilder.Entity<Slide>().HasData(SlideSeed.GetData());
+
 
             modelBuilder.SeedActivitiesData();
 
