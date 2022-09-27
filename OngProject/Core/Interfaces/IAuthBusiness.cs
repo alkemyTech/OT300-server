@@ -11,6 +11,8 @@ namespace OngProject.Core.Interfaces
 {
     public interface IAuthBusiness
     {
-        public string Login(UserLoginDTO login);
+        string Login(UserLoginDTO login);
+
+        RegisterDTO Register(RegisterDTO register)
     }
 }
