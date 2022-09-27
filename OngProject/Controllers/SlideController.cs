@@ -25,17 +25,17 @@ namespace OngProject.Controllers
         // GET: api/<SlidesController>
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public IEnumerable<SlideDTO> Get()
+        public IActionResult Get()
         {
-           return _service.GetAll();
+           return Ok(_service.GetAll());
         }
 
         // GET api/<SlidesController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
-        public string Get(int id)
+        public IActionResult GetById(int id)
         {
-            return "value";
+            return Ok("value");
         }
 
         // POST api/<SlidesController>
