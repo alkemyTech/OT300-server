@@ -15,7 +15,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(UserLoginDTO login)
+        public IActionResult Login([FromBody] UserLoginDTO login)
         {
             string token = _authBusiness.Login(login);
 
@@ -26,12 +26,20 @@ namespace OngProject.Controllers
         }
 
 
-        [HttpPost("/auth/register")]
+        [HttpPost("Register")]
         public IActionResult Register([FromBody] RegisterDTO register)
         {
             var result = _authBusiness.Register(register);
+            string token = _authBusiness.Generate(result);
 
-            return Ok(result);
+            return Ok
+            (
+                new
+                {
+                    newUser = result,
+                    token = token
+                }
+            ); ;
         }
 
     }
