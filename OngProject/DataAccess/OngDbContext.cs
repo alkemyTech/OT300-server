@@ -34,11 +34,11 @@ namespace OngProject.DataAccess
 
             modelBuilder.Entity<News>().HasData(NewsSeed.GetData());
             modelBuilder.Entity<Category>().HasData(CategorySeed.GetData());
-            modelBuilder.Entity<Role>().HasData(RoleSeed.GetData());
-            modelBuilder.Entity<User>().HasData(UserSeed.GetData());
-            modelBuilder.Entity<Organization>().HasData(OrganizationSeed.GetData());
+            modelBuilder.Entity<Slide>().HasData(SlideSeed.GetData());
 
-           
+            modelBuilder.Entity<Role>().HasData(RoleSeed.GetData());
+            modelBuilder.Entity<User>().HasData(UserSeed.GetData());                     
+            modelBuilder.Entity<Organization>().HasData(OrganizationSeed.GetData());
 
             modelBuilder.SeedActivitiesData();
 
