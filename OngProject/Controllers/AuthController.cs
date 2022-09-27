@@ -21,7 +21,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] UserLoginDTO login)
+        public IActionResult Login(UserLoginDTO login)
         {
             string token = _authBusiness.Login(login);
 
