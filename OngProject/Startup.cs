@@ -39,17 +39,21 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          //  services.AddScoped<IRoleBusiness, RoleBusiness>();
-          services.AddScoped<IEmailService, SendGridEmailService>();
+            //  services.AddScoped<IRoleBusiness, RoleBusiness>();
+            //  services.AddSession();
+            services.AddScoped<IEmailService, SendGridEmailService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISlideBusiness, SlidesBusiness>();
-            services.AddScoped<IAuthBusiness, AuthBusiness>();
-
-          //  services.AddSession();
+            services.AddScoped<IAuthBusiness, AuthBusiness>();          
             services.AddScoped<IUserBusiness, UserBusiness>();
-
+            services.AddScoped<IOrganizationBusiness, OrganizationBusiness>();
             services.AddScoped<ICommentBusiness, CommentBusiness>();
-
+            services.AddScoped<ICategoryBusiness, CategoryBusiness>();
+            services.AddScoped<IContactsBusiness, ContactBusiness>();
+            services.AddScoped<IMemberBusiness, MemberBusiness>();
+            services.AddScoped<INewsBusiness, NewsBusiness>();
+            services.AddScoped<IRoleBusiness, RoleBusiness>();
+            services.AddScoped<ITestimonialBusiness, TestimonialBusiness>();
         
             services.AddControllers();
             services.AddSwaggerGen(c =>
