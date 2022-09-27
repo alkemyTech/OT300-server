@@ -12,7 +12,7 @@ namespace OngProject.Core.Interfaces
     public interface IAuthBusiness
     {
         string Login(UserLoginDTO login);
-
-        RegisterDTO Register(RegisterDTO register)
+        string Generate(User userInput);
+        User Register(RegisterDTO register);
     }
 }
