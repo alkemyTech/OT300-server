@@ -18,6 +18,6 @@ namespace OngProject.Entities
 
         [Required]
         [StringLength(200)]
-        public string Menssage { get; set; }
+        public string Message { get; set; }
     }
 }

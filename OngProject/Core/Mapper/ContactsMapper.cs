@@ -17,7 +17,7 @@ namespace OngProject.Core.Mapper
                 Name = contact.Name,
                 Phone = contact.Phone,
                 Email = contact.Email,
-                Message = contact.Menssage
+                Message = contact.Message
             };       
             return contactsDTO;           
         }

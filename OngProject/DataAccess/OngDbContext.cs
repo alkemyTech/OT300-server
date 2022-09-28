@@ -42,6 +42,7 @@ namespace OngProject.DataAccess
             modelBuilder.Entity<Organization>().HasData(OrganizationSeed.GetData());
             modelBuilder.Entity<Activity>().HasData(ActivitiesSeed.GetData());
             modelBuilder.Entity<Comment>().HasData(CommentSeed.GetData());
+            modelBuilder.Entity<Contact>().HasData(ContactSeed.GetData());
         }
     }
 }
