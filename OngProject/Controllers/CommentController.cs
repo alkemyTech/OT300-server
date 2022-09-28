@@ -20,7 +20,7 @@ namespace OngProject.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("/ Comments")]
+        [HttpGet]
         public IActionResult GetListComment()
         {
             return Ok(_commentBusiness.GetAll());

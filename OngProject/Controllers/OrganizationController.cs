@@ -18,9 +18,10 @@ namespace OngProject.Controllers
         private readonly IOrganizationBusiness _organizationService;
         private readonly ISlideBusiness _slideBusiness;
 
-        public OrganizationsController(IOrganizationBusiness service)
+        public OrganizationsController(IOrganizationBusiness service, ISlideBusiness slideBusiness)
         {
             _organizationService = service;
+            _slideBusiness = slideBusiness;
         }
     
         [HttpGet("/api/organization")]
