@@ -18,10 +18,15 @@ namespace OngProject.Controllers
         
         
         private readonly ICategoryBusiness _categoryBusiness;
+
+        public CategoryController(ICategoryBusiness categoryBusiness)
+        {
+            _categoryBusiness = categoryBusiness;
+        }
         
         
         // GET: api/<CategoriesController>
-        [HttpGet("/api/categories")]
+        [HttpGet]
         [Authorize(Roles = "Admin")]        
         public IActionResult GetAllNames()
         {

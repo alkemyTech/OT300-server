@@ -30,14 +30,14 @@ namespace OngProject.Controllers
         public IActionResult Register([FromBody] RegisterDTO register)
         {
             var result = _authBusiness.Register(register);
-            string token = _authBusiness.Generate(result);
+         //   string token = _authBusiness.Generate(result);
 
             return Ok
             (
                 new
                 {
                     newUser = result,
-                    token = token
+                  //  token = token
                 }
             ); ;
         }
