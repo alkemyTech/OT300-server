@@ -1,4 +1,5 @@
 using System;
+using System.Dynamic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -71,13 +72,12 @@ namespace OngProject.Core.Business
         public async Task<string> Generate(UserGetDTO userInput)
         {
             Role userRole = await _unitOfWork.RoleRepository.GetById(userInput.RoleId);
-            string roleName = userRole.Name;
 
             Claim[] claims = new Claim[]
             {
                 new Claim("Identifier", userInput.Id.ToString()),
                 new Claim(ClaimTypes.Email, userInput.Email),
-                new Claim(ClaimTypes.Role, roleName)
+                new Claim(ClaimTypes.Role, userRole.Name)
             };
 
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));

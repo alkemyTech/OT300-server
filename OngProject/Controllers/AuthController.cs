@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -30,6 +31,11 @@ namespace OngProject.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO register)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("data error");
+            }
+
             var result = await _authBusiness.Register(register);
             string token = await _authBusiness.Generate(result);
 
