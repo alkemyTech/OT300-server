@@ -25,20 +25,30 @@ namespace OngProject.Core.Business
             _config = config;
         }
 
-        public string Login(UserLoginDTO login)
+        public async Task<string> Login(UserLoginDTO login)
         {
             User currentUser = Authenticate(login);
 
+            UserGetDTO user = new UserGetDTO()
+            {
+                Id = currentUser.Id,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+                Email = currentUser.Email,
+                Photo = currentUser.Photo,
+                RoleId = currentUser.RoleId
+            };
+
             if (currentUser is not null)
             {
-                string token = Generate(currentUser);
+                string token = await Generate(user);
                 return token;
             }
 
             return null;
         }
 
-        public UserGetDTO Register(RegisterDTO register)
+        public async Task<UserGetDTO> Register(RegisterDTO register)
         {
             var encryptedPassword = EncryptPassword(register.Password);
 
@@ -51,18 +61,18 @@ namespace OngProject.Core.Business
                 RoleId = 2
             };
 
-            _unitOfWork.UserRepository.Add(userNew);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.UserRepository.Add(userNew);
+            await _unitOfWork.SaveChangesAsync();
 
 
             return userNew.ToUserDTO();
         }
 
-        private string Generate(User userInput)
+        public async Task<string> Generate(UserGetDTO userInput)
         {
-            Task<Role> task = _unitOfWork.RoleRepository.GetById(userInput.RoleId);
-            task.Wait();
-            var roleName = task.Result.Name;
+            Role userRole = await _unitOfWork.RoleRepository.GetById(userInput.RoleId);
+            string roleName = userRole.Name;
+
             Claim[] claims = new Claim[]
             {
                 new Claim("Identifier", userInput.Id.ToString()),
@@ -77,7 +87,7 @@ namespace OngProject.Core.Business
                 _config["Jwt:Issuer"],
                 _config["Jwt:Audience"],
                 claims: claims, 
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: credentials
             );
 
@@ -118,11 +128,7 @@ namespace OngProject.Core.Business
 
         private string EncryptPassword(string password)
         {
-            var encrypted = Core.Helper.AuthHelper.EncryptPassword(password);
-            //string salt = "OTSampleSalt300";
-            //password += salt;
-            //byte[] encoded = Encoding.UTF8.GetBytes(password);
-            //string encrypted = Convert.ToBase64String(encoded);
+            var encrypted = Helper.AuthHelper.EncryptPassword(password);
             return encrypted;
         }
     }
