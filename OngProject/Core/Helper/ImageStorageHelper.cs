@@ -50,5 +50,10 @@ namespace OngProject.Core.Helper
             return absolutePath;
 
         }
+
+        public Task<string> UploadImageAsync(Stream imageFile, string fileName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
