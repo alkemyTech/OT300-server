@@ -11,6 +11,6 @@ namespace OngProject.Core.Interfaces
         Task<News> GetById(int id);
         Task<News> Add(News news);
         Task<News> Update(News news);
-        Task<bool> Delete(int id);
+        Task Delete(int id);
     }
 }

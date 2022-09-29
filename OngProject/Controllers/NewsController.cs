@@ -71,15 +71,17 @@ namespace OngProject.Controllers
             }
         }
 
-        //i was looking about this because i don't know if the service return false what it going to happens here.
-
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrganization(int id)
-        {
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
+        {   
+            if (await _newsService.GetById(id) is null)
+            {
+                return NotFound();
+            }
             await _newsService.Delete(id);
-            return Ok();
+
+            return Ok("Deleted succesfully");
         }
-
-
     }
 }

@@ -45,9 +45,17 @@ namespace OngProject.Repositories
         public async Task Delete(int id)
         {
             T entity = await _entities.FindAsync(id);
+
+            if (entity is null)
+            {
+                return;
+            }
+
             entity.IsDeleted = true;
             entity.LastEditedAt = DateTime.UtcNow;
             _entities.Update(entity);
+
+            await _dbContext.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetAll()

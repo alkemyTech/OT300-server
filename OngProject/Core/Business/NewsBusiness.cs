@@ -24,19 +24,9 @@ namespace OngProject.Core.Business
             return news;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task Delete(int id)
         {
-            var newsToDelete = await _unitOfWork.NewsRepository.GetById(id);
-            if (newsToDelete != null)
-            {
-                newsToDelete.IsDeleted = true;
-                _unitOfWork.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            await _unitOfWork.NewsRepository.Delete(id);
         }
 
         public IEnumerable<NewsDTO> GetAll()
