@@ -26,13 +26,7 @@ namespace OngProject.Core.Business
                     return;
                 }
 
-                Contact contact = new Contact()
-                {
-                    Name = values.Name,
-                    Email = values.Email,
-                    Phone = values.Phone,
-                    Message = values.Message,
-                };
+                Contact contact = ContactsMapper.ToEntity(values);
 
                 await _unitOfWork.ContactRepository.Add(contact);
                 await _unitOfWork.SaveChangesAsync();

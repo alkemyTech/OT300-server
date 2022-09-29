@@ -22,5 +22,18 @@ namespace OngProject.Core.Mapper
             return contactsDTO;           
         }
 
+        public static Contact ToEntity(ContactDTO dto)
+        {
+            Contact contact = new Contact()
+            {
+                Name = dto.Name,
+                Phone = dto.Phone,
+                Email = dto.Email,
+                Message = dto.Message
+            };
+
+            return contact;
+        }
+
     }
 }
