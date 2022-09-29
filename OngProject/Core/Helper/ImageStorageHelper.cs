@@ -5,6 +5,7 @@ using Amazon.Runtime;
 using Amazon.S3;
 using Amazon.S3.Transfer;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 
@@ -14,28 +15,27 @@ namespace OngProject.Core.Helper
     {
         private readonly AWS3ConfigurationModel _credentialsConfig;
 
-        public ImageStorageHelper(AWS3ConfigurationModel credentialsConfig)
+        public ImageStorageHelper(IOptions<AWS3ConfigurationModel> credentialsConfig)
         {
-            _credentialsConfig = credentialsConfig;
+            _credentialsConfig = credentialsConfig.Value;
         }
 
-        public async Task<string> UploadImageAsync(FileStream imageFile)
+        public async Task<string> UploadImageAsync(Stream imageFile, string fileName)
         {
-            var fileName = imageFile.Name.Normalize().Trim().ToLower();
 
             var credentials = new BasicAWSCredentials(_credentialsConfig.AWSAccessKey, _credentialsConfig.AWSSecretKey);
 
             var regionEndpoint = new AmazonS3Config()
             {
-                //Todo: Complete when get the credentials
-                // RegionEndpoint = Amazon.RegionEndpoint
+                RegionEndpoint = Amazon.RegionEndpoint.USEast1
             };
 
             var uploadRequest = new TransferUtilityUploadRequest()
             {
                 InputStream = imageFile,
                 Key = fileName,
-                BucketName = _credentialsConfig.AWSBuctketName
+                BucketName = _credentialsConfig.AWSBucketName,
+                CannedACL = new S3CannedACL("public-read")
             };
 
             using var amazonClient = new AmazonS3Client(credentials, regionEndpoint);
@@ -45,15 +45,12 @@ namespace OngProject.Core.Helper
             await transferUtility.UploadAsync(uploadRequest);
 
             var absolutePath =
-                $"https://{_credentialsConfig.AWSBuctketName}.s3.{regionEndpoint}.amazonaws.com/{fileName}";
+                $"https://{_credentialsConfig.AWSBucketName}.s3.amazonaws.com/{fileName}";
 
             return absolutePath;
 
         }
 
-        public Task<string> UploadImageAsync(Stream imageFile, string fileName)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }

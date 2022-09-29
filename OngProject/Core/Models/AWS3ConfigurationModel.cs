@@ -8,6 +8,6 @@
 
         public string AWSSecretKey { get; set; }
 
-        public string AWSBuctketName { get; set; }
+        public string AWSBucketName { get; set; }
     }
 }
