@@ -54,6 +54,22 @@ namespace OngProject.Core.Business
             }
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            var entity = await _unitOfWork.CategoryRepository.GetById(id);
+            if (entity == null || entity.IsDeleted) return false;
+
+            try
+            {
+                await _unitOfWork.CategoryRepository.Delete(id);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                //Log()
+                throw;
+            }
+        }
 
         public IEnumerable<CategoryDTO> GetAllCatNames()
         {

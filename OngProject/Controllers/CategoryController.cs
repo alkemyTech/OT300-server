@@ -68,8 +68,10 @@ namespace OngProject.Controllers
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            var result = await _categoryBusiness.Delete(id);
+            return result?NoContent():NotFound("Either we couldn't find that category or we're having a problem");
         }
     }
 }
