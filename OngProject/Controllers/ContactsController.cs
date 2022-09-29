@@ -40,7 +40,7 @@ namespace OngProject.Controllers
         // POST api/<ContactsController>
         [HttpPost]
         [Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> Post([FromBody] ContactDTO contact)
+        public async Task<IActionResult> AddContact([FromBody] ContactDTO contact)
         {
             if (!ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace OngProject.Controllers
 
             await _contactsBusiness.AddContact(contact);
 
-            return Ok(contact);
+            return Created("https://localhost:5001/api/Contacts", contact);
         }
 
     }
