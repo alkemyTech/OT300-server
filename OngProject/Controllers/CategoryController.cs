@@ -24,7 +24,7 @@ namespace OngProject.Controllers
     {
         private readonly ICategoryBusiness _categoryBusiness;
 
-        public CategoryController(ICategoryBusiness categoryBusiness)
+        public CategoryController(ICategoryBusiness categoryBusiness, IImageStorageHerlper imageHelper)
         {
             _categoryBusiness = categoryBusiness;
         }
