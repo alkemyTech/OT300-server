@@ -38,8 +38,7 @@ namespace OngProject.Controllers
             return Ok(news);
         }
 
-        [HttpPost]
-        [AllowAnonymous] //remove
+        [HttpPost]       
         public async Task<IActionResult> InsertNews([FromForm] NewsPostDTO dto, [Required]IFormFile imageFile)
         {
             var stream = imageFile.OpenReadStream();
