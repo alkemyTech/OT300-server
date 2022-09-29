@@ -11,7 +11,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "User, Admin")]
     public class ContactsController : ControllerBase
     {
         private readonly IContactsBusiness _contactsBusiness;
@@ -39,7 +39,7 @@ namespace OngProject.Controllers
 
         // POST api/<ContactsController>
         [HttpPost]
-        //[Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin,User")]
         public async Task<IActionResult> Add([FromBody] ContactDTO values)
         {
             if (!ModelState.IsValid)
