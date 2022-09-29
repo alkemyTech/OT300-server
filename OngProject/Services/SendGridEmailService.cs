@@ -12,12 +12,15 @@ namespace OngProject.Services
         public async Task SendEmailAsync(EmailModel emailModel)
         {
             var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var senderEmail = "Group300Alkemy@protonmail.com";
+            var senderName = "Alkemy300";
+
 
             var client = new SendGridClient(apiKey);
 
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress(emailModel.SenderEmail, emailModel.SenderName),
+                From = new EmailAddress(senderEmail, senderName),
                 Subject = emailModel.Subject,
                 PlainTextContent = emailModel.Content
             };
@@ -25,6 +28,7 @@ namespace OngProject.Services
             msg.AddTo(new EmailAddress(emailModel.RecipientEmail, emailModel.RecipientName));
 
             var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
+
         }
     }
 }
