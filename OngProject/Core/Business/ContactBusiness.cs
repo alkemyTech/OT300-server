@@ -17,14 +17,14 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
-		public async Task AddContact(ContactDTO values)
-		{
-			try
-			{
+        public async Task AddContact(ContactDTO values)
+        {
+            try
+            {
                 if (values.Email is null && values.Name is null)
-				{
+                {
                     return;
-				}
+                }
 
                 Contact contact = new Contact()
                 {
@@ -36,12 +36,12 @@ namespace OngProject.Core.Business
 
                 await _unitOfWork.ContactRepository.Add(contact);
                 await _unitOfWork.SaveChangesAsync();
-			}
-			catch (System.ArgumentNullException)
-			{
-				throw;
-			}
-		}
+            }
+            catch (System.ArgumentNullException)
+            {
+                throw;
+            }
+        }
 
         public IEnumerable<ContactDTO> GetAllContacts()
         {

@@ -43,9 +43,9 @@ namespace OngProject.Controllers
         public async Task<IActionResult> Add([FromBody] ContactDTO values)
         {
             if (!ModelState.IsValid)
-		    {
+            {
                 return BadRequest("data error");
-		    }
+            }
 
             await _contactsBusiness.AddContact(values);
 
