@@ -17,11 +17,31 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
         }
 
+		public async Task AddContact(ContactDTO values)
+		{
+			try
+			{
+                if (values.Email is null && values.Name is null)
+				{
+                    return;
+				}
 
-        public Task<bool> CreateContact()
-        {
-            throw new System.NotImplementedException();
-        }
+                Contact contact = new Contact()
+                {
+                    Name = values.Name,
+                    Email = values.Email,
+                    Phone = values.Phone,
+                    Message = values.Message,
+                };
+
+                await _unitOfWork.ContactRepository.Add(contact);
+                await _unitOfWork.SaveChangesAsync();
+			}
+			catch (System.ArgumentNullException)
+			{
+				throw;
+			}
+		}
 
         public IEnumerable<ContactDTO> GetAllContacts()
         {

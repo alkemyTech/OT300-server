@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User, Admin")]
+    //[Authorize(Roles = "User, Admin")]
     public class ContactsController : ControllerBase
     {
         private readonly IContactsBusiness _contactsBusiness;
@@ -38,8 +39,17 @@ namespace OngProject.Controllers
 
         // POST api/<ContactsController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        //[Authorize(Roles = "Admin,User")]
+        public async Task<IActionResult> Add([FromBody] ContactDTO values)
         {
+            if (!ModelState.IsValid)
+		    {
+                return BadRequest("data error");
+		    }
+
+            await _contactsBusiness.AddContact(values);
+
+            return Created("https://localhost:5001/Contacts/", values);
         }
 
         // PUT api/<ContactsController>/5

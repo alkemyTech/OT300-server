@@ -8,6 +8,6 @@ namespace OngProject.Core.Interfaces
     public interface IContactsBusiness
     {
         IEnumerable<ContactDTO> GetAllContacts();
-
-    }
+		Task AddContact(ContactDTO values);
+	}
 }
