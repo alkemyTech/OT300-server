@@ -1,27 +1,44 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using static Amazon.S3.Util.S3EventNotification;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace OngProject.Core.Business
 {
     public class NewsBusiness : INewsBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly NewsBusiness _newsBusiness;
+        private IImageStorageHerlper _imageStorageHerlper;
 
-        public NewsBusiness(IUnitOfWork unitOfWork)
+        public NewsBusiness(IUnitOfWork unitOfWork, IImageStorageHerlper imageStorageHerlper)
         {
             _unitOfWork = unitOfWork;
+            _imageStorageHerlper = imageStorageHerlper;
         }
 
-        public async Task<News> Add(News news)
+        public async Task<NewsFullDTO> Add(NewsPostDTO news, Stream image)
         {
-            await _unitOfWork.NewsRepository.Add(news);
+            //find category if not found what  returns?
+            var categoryExists = await _unitOfWork.CategoryRepository.GetById(news.IdCategory);
+            //TODO: no existe categoria Bad Request?
+            if (categoryExists == null) return new NewsFullDTO();
+
+            var entity = news.ToEntity();
+            var path = image.Length == 0 ? "" :
+                await _imageStorageHerlper.UploadImageAsync(image, $"news-{entity.Name}.jpg");
+
+            entity.Image = path;
+            await _unitOfWork.NewsRepository.Add(entity);
             _unitOfWork.SaveChanges();
-            return news;
+
+            return entity.ToFullDTO();
         }
 
         public async Task<bool> Delete(int id)
