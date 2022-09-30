@@ -9,5 +9,6 @@
         public string SenderName { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
+        public string Title { get; set; }
     }
 }

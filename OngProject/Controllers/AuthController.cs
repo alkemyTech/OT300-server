@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
+using OngProject.Templates;
 
 namespace OngProject.Controllers
 {
@@ -9,6 +11,7 @@ namespace OngProject.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthBusiness _authBusiness;
+
         public AuthController(IAuthBusiness authBusiness)
         {
             _authBusiness = authBusiness;
@@ -29,18 +32,11 @@ namespace OngProject.Controllers
         [HttpPost("Register")]
         public IActionResult Register([FromBody] RegisterDTO register)
         {
+            //Todo: Throws Exception whe same email is used. It should not try to save to db if email is being used..
             var result = _authBusiness.Register(register);
-         //   string token = _authBusiness.Generate(result);
 
-            return Ok
-            (
-                new
-                {
-                    newUser = result,
-                  //  token = token
-                }
-            ); ;
+            //Todo: Should we return the user or the token? if token is not returning why not just return the result?
+            return Ok(new { newUser = result, /*token = token*/});;
         }
-
     }
 }

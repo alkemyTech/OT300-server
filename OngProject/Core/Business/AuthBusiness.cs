@@ -8,9 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using OngProject.Services.Interfaces;
 
 namespace OngProject.Core.Business
 {
@@ -18,11 +20,13 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
-        
-        public AuthBusiness(IUnitOfWork unitOfWork, IConfiguration config)
+        private readonly IEmailService _emailService;
+
+        public AuthBusiness(IUnitOfWork unitOfWork, IConfiguration config, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _config = config;
+            _emailService = emailService;
         }
 
         public string Login(UserLoginDTO login)
@@ -42,6 +46,15 @@ namespace OngProject.Core.Business
         {
             var encryptedPassword = EncryptPassword(register.Password);
 
+            var email = new EmailModel()
+            {
+                Content = "Queremos darte las gracias por decidir formar parte de nuestra familia",
+                RecipientEmail = register.Email,
+                RecipientName = $"{register.FirstName} {register.LastName}",
+                Subject = "Bienvenido a NuestraOrg",
+                Title = "Bienvenido a NuestraORG"
+            };
+            _emailService.SendEmailAsync(email);
             var userNew = new User
             {
                 LastName = register.LastName,
