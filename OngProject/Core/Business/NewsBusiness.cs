@@ -23,16 +23,14 @@ namespace OngProject.Core.Business
             _imageStorageHerlper = imageStorageHerlper;
         }
 
-        public async Task<NewsFullDTO> Add(NewsPostDTO news, Stream image)
+        public async Task<NewsFullDTO> Add(NewsPostDTO news)
         {
-            //find category if not found what  returns?
             var categoryExists = await _unitOfWork.CategoryRepository.GetById(news.IdCategory);
-            //TODO: no existe categoria Bad Request?
             if (categoryExists == null) return new NewsFullDTO();
 
             var entity = news.ToEntity();
-            var path = image.Length == 0 ? "" :
-                await _imageStorageHerlper.UploadImageAsync(image, $"news-{entity.Name}.jpg");
+            var path = news.ImageFile.Length == 0 ? "" :
+                await _imageStorageHerlper.UploadImageAsync(news.ImageFile, $"news-{entity.Name}.jpg");
 
             entity.Image = path;
             await _unitOfWork.NewsRepository.Add(entity);

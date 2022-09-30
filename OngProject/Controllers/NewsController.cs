@@ -41,9 +41,9 @@ namespace OngProject.Controllers
         [HttpPost]       
         public async Task<IActionResult> InsertNews([FromForm] NewsPostDTO dto, [Required]IFormFile imageFile)
         {
-            var stream = imageFile.OpenReadStream();
+            dto.ImageFile =imageFile.OpenReadStream();
 
-            NewsFullDTO created = await _newsService.Add(dto, stream);
+            NewsFullDTO created = await _newsService.Add(dto);
 
             if (created.IdCategory == 0)
                 return Conflict($"Category doesn't exists : {dto.IdCategory} ");

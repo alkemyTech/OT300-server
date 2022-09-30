@@ -10,7 +10,7 @@ namespace OngProject.Core.Interfaces
     {
         IEnumerable<NewsDTO> GetAll();
         Task<News> GetById(int id);
-        Task<NewsFullDTO> Add(NewsPostDTO dto, Stream imageFile);
+        Task<NewsFullDTO> Add(NewsPostDTO dto);
         Task<News> Update(News news);
         Task<bool> Delete(int id);
     }

@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -32,6 +34,8 @@ namespace OngProject.Core.Models.DTOs
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Invalid value {0}")]
         public int IdCategory { get; set; }
+
+        internal Stream ImageFile { get; set; }
 
     }
 }
