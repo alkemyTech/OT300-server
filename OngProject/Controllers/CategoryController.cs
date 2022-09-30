@@ -53,9 +53,9 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Post([Bind(new string[] { "Name", "Description" })][FromForm] CategoryPostDTO dto, IFormFile imageFile)
         {
-            var stream = imageFile.OpenReadStream();
+            dto.File = imageFile.OpenReadStream();
 
-            CategoryFullDTO created = await _categoryBusiness.Add(dto, stream);
+            CategoryFullDTO created = await _categoryBusiness.Add(dto);
 
             return (created.Id == 0) ?
                  Conflict($"Category with  name : {dto.Name} already exists") :

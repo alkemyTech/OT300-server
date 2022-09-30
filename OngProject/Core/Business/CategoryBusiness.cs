@@ -26,7 +26,7 @@ namespace OngProject.Core.Business
             _imageStorageHerlper = imageStorageHerlper;
         }
 
-        public async Task<CategoryFullDTO> Add(CategoryPostDTO newDTO, Stream image)
+        public async Task<CategoryFullDTO> Add(CategoryPostDTO newDTO)
         {
             var categories = _unitOfWork.CategoryRepository.GetAll();
             var exists = categories.Any(x => x.Name == newDTO.Name);
@@ -42,8 +42,8 @@ namespace OngProject.Core.Business
                 //TODO: Check if stream is an image
                 //TODO: Check image format for extension.
 
-                var path = image.Length == 0 ? "" :
-                  await _imageStorageHerlper.UploadImageAsync(image, $"category-{entity.Name}.jpg");
+                var path = newDTO.File.Length == 0 ? "" :
+                  await _imageStorageHerlper.UploadImageAsync(newDTO.File, $"category-{entity.Name}.jpg");
                 entity.Image = path;
 
                 var newCategory = await _unitOfWork.CategoryRepository.Add(entity);
