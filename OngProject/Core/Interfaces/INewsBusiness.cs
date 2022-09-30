@@ -1,6 +1,7 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
@@ -9,8 +10,8 @@ namespace OngProject.Core.Interfaces
     {
         IEnumerable<NewsDTO> GetAll();
         Task<News> GetById(int id);
-        Task<News> Add(News news);
+        Task<NewsFullDTO> Add(NewsPostDTO dto);
         Task<News> Update(News news);
-        Task<bool> Delete(int id);
+        Task Delete(int id);
     }
 }

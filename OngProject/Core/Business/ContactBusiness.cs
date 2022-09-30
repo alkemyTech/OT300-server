@@ -25,7 +25,7 @@ namespace OngProject.Core.Business
                 {
                     return;
                 }
-
+                
                 Contact contact = new Contact()
                 {
                     Name = values.Name,

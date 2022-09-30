@@ -23,7 +23,7 @@ using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Models;
 using OngProject.Services;
 using OngProject.Services.Interfaces;
-
+using OngProject.Core.Helper;
 
 namespace OngProject
 {
@@ -53,6 +53,8 @@ namespace OngProject
             services.AddScoped<ISlideBusiness, SlidesBusiness>();
             services.AddScoped<ITestimonialBusiness, TestimonialBusiness>();
             services.AddScoped<IUserBusiness, UserBusiness>();
+
+            services.AddScoped<IImageStorageHerlper, ImageStorageHelper>();
             
         
             services.AddControllers();

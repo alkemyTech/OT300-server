@@ -5,6 +5,6 @@ namespace OngProject.Core.Interfaces
 {
     public interface IImageStorageHerlper
     {
-        Task<string> UploadImageAsync(FileStream imageFile);
+        Task<string> UploadImageAsync(Stream imageFile,string fileName);
     }
 }
