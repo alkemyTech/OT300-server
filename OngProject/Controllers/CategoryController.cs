@@ -41,9 +41,11 @@ namespace OngProject.Controllers
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
-        public string Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            return "value";
+            var exists = await _categoryBusiness.GetById(id);
+            if (exists == null || exists.Id == 0) return NotFound("No category with such id");
+            return Ok(exists);
         }
 
         // POST api/<CategoriesController>
