@@ -29,9 +29,16 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetByIdNews(int id)
         {
-            var news = await _newsService.GetById(id);
+            News news = await _newsService.GetById(id);
+
+            if (news is null)
+            {
+                return NotFound("New does not exist");
+            }
+
             return Ok(news);
         }
 
