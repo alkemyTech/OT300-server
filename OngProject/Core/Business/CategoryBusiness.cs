@@ -70,8 +70,8 @@ namespace OngProject.Core.Business
 
         public async Task<CategoryFullDTO> GetById(int id)
         {
-            var dto = await _unitOfWork.CategoryRepository.GetById(id);
-            return dto.ToFullDTO();
+            var entity = await _unitOfWork.CategoryRepository.GetById(id);
+            return  (entity.IsDeleted)?new CategoryFullDTO(): entity.ToFullDTO();
         }
     }
 }
