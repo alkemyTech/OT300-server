@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Threading.Tasks;
 
@@ -36,10 +38,19 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Add(Member members)
+        public async Task<IActionResult> Add([FromForm]MembersDTO members, IFormFile imageFile)
         {
-            await _memberBusiness.Add(members);
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                members.Image = imageFile.OpenReadStream();
+
+                await _memberBusiness.Add(members);
+                return Ok();
+            }
         }
 
         [HttpPut]

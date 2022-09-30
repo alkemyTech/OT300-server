@@ -36,21 +36,33 @@ namespace OngProject.Core.Business
             return _unitOfWork.MembersRepository.GetById(id);
         }
 
-        public async Task Add(Member members)
-        {
-            var member = await _unitOfWork.MembersRepository.GetById(members.Id);
-            if (member == null)
+        public async Task Add(MembersDTO members)
+        {   
+
+            //var member = await _unitOfWork.MembersRepository.GetById(members.Id);
+
+
+            if (members.Name is null && members.Image is null)
             {
-                throw new Exception("Members doesn't exist");
+                throw new Exception("The information is incorrect");
             }
 
-            await _unitOfWork.MembersRepository.Add(members);
+            Member newMember = new Member()
+            {
+                Name = members.Name,
+                FacebookUrl = members.FacebookUrl,
+                InstagramUrl = members.InstagramUrl,
+                LinkedInUrl = members.LinkedInUrl,
+                Description = members.Description                
+            };
+
+            await _unitOfWork.MembersRepository.Add(newMember);
             _unitOfWork.SaveChanges();
         }
 
         public async Task<bool> Update(Member members)
         {
-            _unitOfWork.MembersRepository.Update(members);
+            await _unitOfWork.MembersRepository.Update(members);
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
