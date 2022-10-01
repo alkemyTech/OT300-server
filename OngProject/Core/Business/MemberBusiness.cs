@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -6,12 +7,14 @@ using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static Amazon.S3.Util.S3EventNotification;
 
 namespace OngProject.Core.Business
 {
     public class MemberBusiness : IMemberBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IImageStorageHerlper _imageStorageHerlper;
 
         public MemberBusiness(IUnitOfWork unitOfWork)
         {
@@ -36,28 +39,18 @@ namespace OngProject.Core.Business
             return _unitOfWork.MembersRepository.GetById(id);
         }
 
-        public async Task Add(MembersDTO members)
+        public async Task<MembersDTO> Add(MembersDTO members)
         {   
+            var memberEntity = members.DtoToMember();
 
-            //var member = await _unitOfWork.MembersRepository.GetById(members.Id);
+            var path = members.Image.Length == 0 ? "" :
+                  await _imageStorageHerlper.UploadImageAsync(members.Image, $"Member-{memberEntity.Name}.jpg");
+            memberEntity.Image = path;
 
+            await _unitOfWork.MembersRepository.Add(memberEntity);
+            await _unitOfWork.SaveChangesAsync();
 
-            if (members.Name is null && members.Image is null)
-            {
-                throw new Exception("The information is incorrect");
-            }
-
-            Member newMember = new Member()
-            {
-                Name = members.Name,
-                FacebookUrl = members.FacebookUrl,
-                InstagramUrl = members.InstagramUrl,
-                LinkedInUrl = members.LinkedInUrl,
-                Description = members.Description                
-            };
-
-            await _unitOfWork.MembersRepository.Add(newMember);
-            _unitOfWork.SaveChanges();
+            return members;
         }
 
         public async Task<bool> Update(Member members)

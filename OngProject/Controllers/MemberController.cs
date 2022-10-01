@@ -38,7 +38,7 @@ namespace OngProject.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Add([FromForm]MembersDTO members, IFormFile imageFile)
+        public async Task<IActionResult> Add([FromForm]MembersDTO memberDTO, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
             {
@@ -46,9 +46,9 @@ namespace OngProject.Controllers
             }
             else
             {
-                members.Image = imageFile.OpenReadStream();
+                memberDTO.Image = imageFile.OpenReadStream();
 
-                await _memberBusiness.Add(members);
+                await _memberBusiness.Add(memberDTO);
                 return Ok();
             }
         }
