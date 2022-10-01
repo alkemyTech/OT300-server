@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -9,15 +10,16 @@ namespace OngProject.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthBusiness _authBusiness;
+
         public AuthController(IAuthBusiness authBusiness)
         {
             _authBusiness = authBusiness;
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] UserLoginDTO login)
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO login)
         {
-            string token = _authBusiness.Login(login);
+            string token = await _authBusiness.Login(login);
 
             if (!string.IsNullOrEmpty(token))
                 return Ok(token);
@@ -27,20 +29,18 @@ namespace OngProject.Controllers
 
 
         [HttpPost("Register")]
-        public IActionResult Register([FromBody] RegisterDTO register)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO register)
         {
-            var result = _authBusiness.Register(register);
-         //   string token = _authBusiness.Generate(result);
+            var result = await _authBusiness.Register(register);
 
-            return Ok
-            (
-                new
-                {
-                    newUser = result,
-                  //  token = token
-                }
-            ); ;
+            if (result is null)
+            {
+                return BadRequest("There's an user registered with that email. Please try another one.");
+            }
+
+            string token = await _authBusiness.Generate(result);
+
+            return Created("", token);
         }
-
     }
 }
