@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using OngProject.Core.Mapper;
+using OngProject.Entities;
+using OngProject.Filters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +17,11 @@ namespace OngProject.Controllers
     [Authorize(Roles = "User, Admin")]
     public class SlideController : ControllerBase
     {
-        private readonly ISlideBusiness _service;
+        private readonly ISlideBusiness _slideBusiness;
 
-        public SlideController(ISlideBusiness service)
+        public SlideController(ISlideBusiness slideBusiness)
         {
-            _service = service;
+            _slideBusiness = slideBusiness;
         }
 
 
@@ -27,7 +31,7 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Get()
         {
-           return Ok(_service.GetAll());
+           return Ok(_slideBusiness.GetAll());
         }
 
         // GET api/<SlidesController>/5
@@ -41,8 +45,13 @@ namespace OngProject.Controllers
         // POST api/<SlidesController>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public void Post([FromBody] string value)
+        [ServiceFilter(typeof(ModelStateFilter))]
+        public async Task<IActionResult> Create([FromForm] SlideCreateDTO createRequest)
         {
+
+           var slide = await _slideBusiness.Create(createRequest);
+
+           return Ok(slide);
         }
 
         // PUT api/<SlidesController>/5

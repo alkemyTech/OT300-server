@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OngProject.Core.Helper;
 using OngProject.Core.Mapper;
 
 namespace OngProject.Core.Business
@@ -13,10 +14,12 @@ namespace OngProject.Core.Business
     public class SlidesBusiness : ISlideBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IImageStorageHerlper _imageStorageHelper;
 
-        public SlidesBusiness(IUnitOfWork unitOfWork)
+        public SlidesBusiness(IUnitOfWork unitOfWork, IImageStorageHerlper imageStorageHelper)
         {
             _unitOfWork = unitOfWork;
+            _imageStorageHelper = imageStorageHelper;
         }
         public Task<bool> RemoveSlide(int id)
         {
@@ -44,6 +47,24 @@ namespace OngProject.Core.Business
             }
             
             return slidesDTO;
+        }
+
+        public async Task<Slide> Create(SlideCreateDTO slide)
+        {
+
+            var stream = slide.ImageStream.OpenReadStream();
+            var fileName = slide.ImageStream.FileName.ToLower();
+
+            var imageUrl = await _imageStorageHelper.UploadImageAsync(stream, fileName);
+
+            var slideToCreate = SlideMapper.ToSlideEntity(slide);
+            slideToCreate.ImageUrl = imageUrl;
+
+            var slideCreated = await _unitOfWork.SlideRepository.Add(slideToCreate);
+
+            _unitOfWork.SaveChangesAsync();
+
+            return slideCreated;
         }
     }
 }

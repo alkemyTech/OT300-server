@@ -24,6 +24,7 @@ using OngProject.Core.Models;
 using OngProject.Services;
 using OngProject.Services.Interfaces;
 using OngProject.Core.Helper;
+using OngProject.Filters;
 
 namespace OngProject
 {
@@ -39,6 +40,10 @@ namespace OngProject
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //Injects the configuration to the AWS3 helper
+            services.Configure<AWS3ConfigurationModel>(
+                Configuration.GetSection(AWS3ConfigurationModel.AwsConfiguration));
+            services.AddScoped<IImageStorageHerlper, ImageStorageHelper>();
             services.AddScoped<IActivityBusiness, ActivityBusiness>();
             services.AddScoped<IAuthBusiness, AuthBusiness>();
             services.AddScoped<ICategoryBusiness, CategoryBusiness>();
@@ -53,8 +58,9 @@ namespace OngProject
             services.AddScoped<ISlideBusiness, SlidesBusiness>();
             services.AddScoped<ITestimonialBusiness, TestimonialBusiness>();
             services.AddScoped<IUserBusiness, UserBusiness>();
+            services.AddScoped<ModelStateFilter>();
 
-            services.AddScoped<IImageStorageHerlper, ImageStorageHelper>();
+
             
         
             services.AddControllers();
@@ -79,9 +85,7 @@ namespace OngProject
                     };
                 }
             );
-            //Injects the configuration to the AWS3 helper
-            services.Configure<AWS3ConfigurationModel>(
-                Configuration.GetSection(AWS3ConfigurationModel.AwsConfiguration));
+
 
             ////agrego EF
             services.AddDbContext<OngDbContext>(options =>

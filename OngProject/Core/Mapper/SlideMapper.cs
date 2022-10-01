@@ -31,5 +31,15 @@ namespace OngProject.Core.Mapper
             };
             return dto;
         }
+
+        public static Slide ToSlideEntity(SlideCreateDTO dto)
+        {
+            return new Slide()
+            {
+                Order = dto.Order,
+                OrganizationId = dto.OrganizationId,
+                Text = dto.Text
+            };
+        }
     }
 }
