@@ -31,6 +31,8 @@ namespace OngProject.Repositories
         public async Task<T> Add(T entity)
         {
             var result = await _entities.AddAsync(entity);
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.LastEditedAt = DateTime.UtcNow;
 
             return result.Entity;
         }
@@ -38,6 +40,7 @@ namespace OngProject.Repositories
         public async Task<T> Update(T entity)
         {
             var result = await _entities.AddAsync(entity);
+            entity.LastEditedAt = DateTime.UtcNow;
 
             return result.Entity;
         }
@@ -46,16 +49,8 @@ namespace OngProject.Repositories
         {
             T entity = await _entities.FindAsync(id);
 
-            if (entity is null)
-            {
-                return;
-            }
-
             entity.IsDeleted = true;
-            entity.LastEditedAt = DateTime.UtcNow;
             _entities.Update(entity);
-
-            await _dbContext.SaveChangesAsync();
         }
 
         public IEnumerable<T> GetAll()
