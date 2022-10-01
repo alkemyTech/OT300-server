@@ -41,10 +41,14 @@ namespace OngProject.Core.Business
 
                 //TODO: Check if stream is an image
                 //TODO: Check image format for extension.
+                if (newDTO.File is not null)
+                {
+                    var path = newDTO.File.Length == 0 ?
+                            "" :
+                            await _imageStorageHerlper.UploadImageAsync(newDTO.File, $"category-{entity.Name}.jpg");
 
-                var path = newDTO.File.Length == 0 ? "" :
-                  await _imageStorageHerlper.UploadImageAsync(newDTO.File, $"category-{entity.Name}.jpg");
-                entity.Image = path;
+                    entity.Image = path;
+                }
 
                 var newCategory = await _unitOfWork.CategoryRepository.Add(entity);
                 await _unitOfWork.SaveChangesAsync();
@@ -87,7 +91,7 @@ namespace OngProject.Core.Business
         public async Task<CategoryFullDTO> GetById(int id)
         {
             var entity = await _unitOfWork.CategoryRepository.GetById(id);
-            return  (entity.IsDeleted)?new CategoryFullDTO(): entity.ToFullDTO();
+            return (entity.IsDeleted) ? new CategoryFullDTO() : entity.ToFullDTO();
         }
     }
 }
