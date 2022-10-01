@@ -23,15 +23,14 @@ namespace OngProject.Core.Mapper
 
         public static UserTokenDTO ToUserTokenDTO(this User user)
         {
-			UserTokenDTO userTokenDTO = new UserTokenDTO
+	    UserTokenDTO userTokenDTO = new UserTokenDTO
             {
                 Id = user.Id,
-				Email = user.Email,
-				RoleId = user.RoleId
-			};
+		Email = user.Email,
+		RoleId = user.RoleId
+	     };
 
             return userTokenDTO;
-		}
-
+	}
     }
 }
