@@ -84,14 +84,13 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {   
-            bool deleted = await _newsService.Delete(id);
-
-            if (deleted)
+            if (await _newsService.GetById(id) is null)
             {
-                return NoContent();
+                return NotFound();
             }
+            await _newsService.Delete(id);
 
-            return NotFound();
+            return Ok("Deleted succesfully");
         }
     }
 }

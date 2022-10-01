@@ -12,6 +12,6 @@ namespace OngProject.Core.Interfaces
         Task<News> GetById(int id);
         Task<NewsFullDTO> Add(NewsPostDTO dto);
         Task<News> Update(News news);
-        Task<bool> Delete(int id);
+        Task Delete(int id);
     }
 }
