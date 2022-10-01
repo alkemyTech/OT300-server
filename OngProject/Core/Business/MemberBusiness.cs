@@ -16,9 +16,10 @@ namespace OngProject.Core.Business
         private readonly IUnitOfWork _unitOfWork;
         private readonly IImageStorageHerlper _imageStorageHerlper;
 
-        public MemberBusiness(IUnitOfWork unitOfWork)
+        public MemberBusiness(IUnitOfWork unitOfWork, IImageStorageHerlper imageStorageHerlper)
         {
             _unitOfWork = unitOfWork;
+            _imageStorageHerlper = imageStorageHerlper;
         }
 
         public IEnumerable<MembersDTO> GetAll()
@@ -48,7 +49,7 @@ namespace OngProject.Core.Business
 
             memberEntity = members.DtoToMember();
 
-            if (members.Image.Length == 0)
+            if (members.Image.Length == 0 || members.Image is null)
             {
                 memberEntity.Image = "";
             }
