@@ -44,14 +44,13 @@ namespace OngProject.Controllers
 
         // POST api/<SlidesController>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ServiceFilter(typeof(ModelStateFilter))]
         public async Task<IActionResult> Create([FromForm] SlideCreateDTO createRequest)
         {
+            var slide = await _slideBusiness.Create(createRequest);
 
-           var slide = await _slideBusiness.Create(createRequest);
-
-           return Ok(slide);
+           return CreatedAtAction(nameof(GetById), slide.Id, slide);
         }
 
         // PUT api/<SlidesController>/5
