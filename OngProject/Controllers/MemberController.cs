@@ -37,8 +37,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        //[Authorize]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> Add([FromForm]MembersDTO memberDTO, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
