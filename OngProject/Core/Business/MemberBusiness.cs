@@ -41,12 +41,23 @@ namespace OngProject.Core.Business
 
         public async Task<MembersDTO> Add(MembersDTO members)
         {   
-            var memberEntity = members.DtoToMember();
 
-            var path = members.Image.Length == 0 ? "" :
-                  await _imageStorageHerlper.UploadImageAsync(members.Image, $"Member-{memberEntity.Name}.jpg");
-            memberEntity.Image = path;
+            Member memberEntity = new Member();
 
+            var fileName = "Member-" + members.Name + ".jpg";
+
+            memberEntity = members.DtoToMember();
+
+            if (members.Image.Length == 0)
+            {
+                memberEntity.Image = "";
+            }
+            else
+            {
+                memberEntity.Image = await _imageStorageHerlper.UploadImageAsync(members.Image, fileName);
+            }
+
+            
             await _unitOfWork.MembersRepository.Add(memberEntity);
             await _unitOfWork.SaveChangesAsync();
 
