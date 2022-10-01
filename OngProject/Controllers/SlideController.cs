@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using OngProject.Core.Mapper;
-using OngProject.Entities;
-using OngProject.Filters;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,7 +42,6 @@ namespace OngProject.Controllers
         // POST api/<SlidesController>
         [HttpPost]
         //[Authorize(Roles = "Admin")]
-        [ServiceFilter(typeof(ModelStateFilter))]
         public async Task<IActionResult> Create([FromForm] SlideCreateDTO createRequest)
         {
             var slide = await _slideBusiness.Create(createRequest);
