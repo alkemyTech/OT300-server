@@ -39,9 +39,9 @@ namespace OngProject.Controllers
             return Ok("value");
         }
 
-        // POST api/<SlidesController>
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(201, Type = typeof(SlideResponseDTO))]
         public async Task<IActionResult> Create([FromForm] SlideCreateDTO createRequest)
         {
             var slide = await _slideBusiness.Create(createRequest);

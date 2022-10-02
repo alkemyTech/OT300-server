@@ -462,7 +462,7 @@ bin/Debug/net5.0
 ##
 ## Archivos de proyecto
 ##
-
+**/appsettings.debug.json
 **/appsettings.Development.json
 **/OngProject.xml
 

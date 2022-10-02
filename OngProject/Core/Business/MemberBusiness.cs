@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Helper;
+using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
@@ -6,16 +7,19 @@ using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using static Amazon.S3.Util.S3EventNotification;
 
 namespace OngProject.Core.Business
 {
     public class MemberBusiness : IMemberBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IImageStorageHerlper _imageStorageHerlper;
 
-        public MemberBusiness(IUnitOfWork unitOfWork)
+        public MemberBusiness(IUnitOfWork unitOfWork, IImageStorageHerlper imageStorageHerlper)
         {
             _unitOfWork = unitOfWork;
+            _imageStorageHerlper = imageStorageHerlper;
         }
 
         public IEnumerable<MembersDTO> GetAll()
@@ -36,21 +40,34 @@ namespace OngProject.Core.Business
             return _unitOfWork.MembersRepository.GetById(id);
         }
 
-        public async Task Add(Member members)
-        {
-            var member = await _unitOfWork.MembersRepository.GetById(members.Id);
-            if (member == null)
+        public async Task<MembersDTO> Add(MembersDTO members)
+        {   
+
+            Member memberEntity = new Member();
+
+            var fileName = "Member-" + members.Name + ".jpg";
+
+            memberEntity = members.DtoToMember();
+
+            if (members.Image.Length == 0 || members.Image is null)
             {
-                throw new Exception("Members doesn't exist");
+                memberEntity.Image = "";
+            }
+            else
+            {
+                memberEntity.Image = await _imageStorageHerlper.UploadImageAsync(members.Image, fileName);
             }
 
-            await _unitOfWork.MembersRepository.Add(members);
-            _unitOfWork.SaveChanges();
+            
+            await _unitOfWork.MembersRepository.Add(memberEntity);
+            await _unitOfWork.SaveChangesAsync();
+
+            return members;
         }
 
         public async Task<bool> Update(Member members)
         {
-            _unitOfWork.MembersRepository.Update(members);
+            await _unitOfWork.MembersRepository.Update(members);
             await _unitOfWork.SaveChangesAsync();
             return true;
         }

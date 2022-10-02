@@ -7,9 +7,9 @@ namespace OngProject.Entities
     {
         [Key]
         public int Id { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime LastEditedAt { get; set; }
+        public DateTimeOffset LastEditedAt { get; set; }
 
     }
 }
