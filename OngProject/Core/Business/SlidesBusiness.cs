@@ -49,7 +49,7 @@ namespace OngProject.Core.Business
             return slidesDTO;
         }
 
-        public async Task<Slide> Create(SlideCreateDTO slide)
+        public async Task<SlideResponseDTO> Create(SlideCreateDTO slide)
         {
 
             var stream = slide.ImageStream.OpenReadStream();
@@ -62,9 +62,9 @@ namespace OngProject.Core.Business
 
             var slideCreated = await _unitOfWork.SlideRepository.Add(slideToCreate);
 
-            _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
-            return slideCreated;
+            return slideCreated.ToSlideResponseDTO();
         }
     }
 }

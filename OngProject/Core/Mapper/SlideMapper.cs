@@ -20,7 +20,7 @@ namespace OngProject.Core.Mapper
             return slides.Select(s => ToDTO(s));
         }
 
-        public static SlidePublicDTO ToPublicDTO(Slide slide)
+        public static SlidePublicDTO ToPublicDTO(this Slide slide)
         {
             SlidePublicDTO dto = new SlidePublicDTO()
             {
@@ -41,5 +41,20 @@ namespace OngProject.Core.Mapper
                 Text = dto.Text
             };
         }
+
+        public static SlideResponseDTO ToSlideResponseDTO(this Slide slide)
+        {
+            var model = new SlideResponseDTO()
+            {
+                Id = slide.Id,
+                ImageUrl = slide.ImageUrl,
+                Order = slide.Order,
+                OrganizationId = slide.OrganizationId,
+                Text = slide.Text
+            };
+            return model;
+        }
+
+
     }
 }
