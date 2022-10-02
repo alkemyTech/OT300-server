@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using System.Threading.Tasks;
+using OngProject.Core.Mapper;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,15 +29,21 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Get()
         {
-           return Ok(_slideBusiness.GetAll());
+            return Ok(_slideBusiness.GetAll());
         }
 
         // GET api/<SlidesController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return Ok("value");
+            var slide = await _slideBusiness.GetById(id);
+            if (slide is null)
+            {
+                return NotFound("Slide with given id does not exist");
+            }
+
+            return Ok(slide.ToSlideResponseDTO());
         }
 
         [HttpPost]

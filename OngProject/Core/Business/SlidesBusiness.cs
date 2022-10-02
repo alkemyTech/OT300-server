@@ -66,5 +66,10 @@ namespace OngProject.Core.Business
 
             return slideCreated.ToSlideResponseDTO();
         }
+
+        public async Task<Slide> GetById(int id)
+        {
+           return await _unitOfWork.SlideRepository.GetById(id);
+        }
     }
 }

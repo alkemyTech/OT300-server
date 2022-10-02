@@ -11,5 +11,6 @@ namespace OngProject.Core.Interfaces
         public IEnumerable<SlideDTO> GetAll();
         public IEnumerable<SlidePublicDTO> GetAllSlides();
         Task<SlideResponseDTO> Create(SlideCreateDTO slide);
+        Task<Slide> GetById(int id);
     }
 }
