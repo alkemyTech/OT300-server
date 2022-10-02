@@ -72,10 +72,9 @@ namespace OngProject.Core.Business
             return true;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task Delete(Member entity)
         {
-            await _unitOfWork.MembersRepository.Delete(id);
-            return true;
+            await _unitOfWork.MembersRepository.Delete(entity);
         }
 
     }

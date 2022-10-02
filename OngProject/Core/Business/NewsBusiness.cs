@@ -39,9 +39,9 @@ namespace OngProject.Core.Business
             return entity.ToFullDTO();
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(News entity)
         {
-            await _unitOfWork.NewsRepository.Delete(id);
+            await _unitOfWork.NewsRepository.Delete(entity);
         }
 
         public IEnumerable<NewsDTO> GetAll()

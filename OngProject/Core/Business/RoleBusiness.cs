@@ -44,7 +44,7 @@ namespace OngProject.Core.Business
 
         public async Task Delete(Role role)
         {
-            await _unitOfWork.RoleRepository.Delete(role.Id);
+            await _unitOfWork.RoleRepository.Delete(role);
 
             await _unitOfWork.SaveChangesAsync();
         }

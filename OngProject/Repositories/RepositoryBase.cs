@@ -42,14 +42,10 @@ namespace OngProject.Repositories
             return result.Entity;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(T entity)
         {
-            T entity = await _entities.FindAsync(id);
-
-            if (entity is null)
-            {
-                return;
-            }
+            /* If we check in the controller if the entity is null then we sould retutn 404
+             if is not null then we call the delete method and pass the entity to it.*/
 
             entity.IsDeleted = true;
             entity.LastEditedAt = DateTime.UtcNow;

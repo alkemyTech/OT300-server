@@ -66,8 +66,16 @@ namespace OngProject.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
-            var member = await _memberBusiness.Delete(id);
-            return Ok(member);
+            var member = await _memberBusiness.GetById(id);
+            if (member is null)
+            {
+                return NotFound();
+            }
+
+            //Here member will never be null since we check above so we can just delete
+            await _memberBusiness.Delete(member);
+
+            return Ok();
         }
     }
 }
