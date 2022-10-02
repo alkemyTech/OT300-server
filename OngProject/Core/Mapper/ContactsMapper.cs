@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using OngProject.Core.Models;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,17 @@ namespace OngProject.Core.Mapper
                 Message = contact.Message
             };       
             return contactsDTO;           
+        }
+
+        public static EmailModel ContactToEmailModel(Contact contact)
+        {
+            EmailModel emailModel = new EmailModel()
+            {
+                RecipientEmail = contact.Email,
+                RecipientName = contact.Name,
+            };
+
+            return emailModel;
         }
 
     }
