@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
 
 namespace OngProject.Core.Models.DTOs
 {
@@ -10,8 +12,9 @@ namespace OngProject.Core.Models.DTOs
         public string? InstagramUrl { get; set; }
         public string? LinkedInUrl { get; set; }
         [Required(ErrorMessage = "An image is required")]
-        public string Image { get; set; }
+        internal Stream Image { get; set; }
         [MaxLength(255)]
         public string? Description { get; set; }
+        
     }
 }

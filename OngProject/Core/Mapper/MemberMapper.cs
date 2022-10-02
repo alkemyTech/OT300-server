@@ -14,10 +14,25 @@ namespace OngProject.Core.Mapper
                 FacebookUrl = member.FacebookUrl,
                 InstagramUrl = member.InstagramUrl,
                 LinkedInUrl = member.LinkedInUrl,
-                Image = member.Image,
+                //Image = member.Image,
                 Description = member.Description,
             };
             return dto;
+        }
+
+        public static Member DtoToMember (this MembersDTO membersDTO)
+        {
+            Member member = new Member()
+            {
+                Name = membersDTO.Name,
+                Description = membersDTO.Description,
+                FacebookUrl = membersDTO.FacebookUrl,
+                LinkedInUrl = membersDTO.LinkedInUrl,
+                InstagramUrl = membersDTO.InstagramUrl
+            };
+
+
+            return member;
         }
     }
 }
