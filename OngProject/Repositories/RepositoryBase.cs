@@ -42,7 +42,7 @@ namespace OngProject.Repositories
             return result.Entity;
         }
 
-        public async Task Delete(T entity)
+        public Task Delete(T entity)
         {
             /* If we check in the controller if the entity is null then we sould retutn 404
              if is not null then we call the delete method and pass the entity to it.*/
@@ -51,7 +51,7 @@ namespace OngProject.Repositories
             entity.LastEditedAt = DateTime.UtcNow;
             _entities.Update(entity);
 
-            await _dbContext.SaveChangesAsync();
+            return Task.CompletedTask;
         }
 
         public IEnumerable<T> GetAll()

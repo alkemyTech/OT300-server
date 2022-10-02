@@ -57,6 +57,7 @@ namespace OngProject.Core.Business
         public async Task Delete(Category entity)
         {
                 await _unitOfWork.CategoryRepository.Delete(entity);
+                await _unitOfWork.SaveChangesAsync();
         }
 
         public IEnumerable<CategoryDTO> GetAllCatNames()
