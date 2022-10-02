@@ -25,22 +25,28 @@ namespace OngProject.Core.Business
             _config = config;
         }
 
-        public string Login(UserLoginDTO login)
+        public async Task<string> Login(UserLoginDTO login)
         {
             User currentUser = Authenticate(login);
 
             if (currentUser is not null)
             {
-                string token = Generate(currentUser);
+                UserTokenDTO tokenDTO = currentUser.ToUserTokenDTO();
+                string token = await Generate(tokenDTO);
                 return token;
             }
 
             return null;
         }
 
-        public UserGetDTO Register(RegisterDTO register)
+        public async Task<UserTokenDTO> Register(RegisterDTO register)
         {
             var encryptedPassword = EncryptPassword(register.Password);
+
+            if (ValidateUserEmail(register.Email) is not null)
+            {
+                return null;
+            }
 
             var userNew = new User
             {
@@ -51,18 +57,17 @@ namespace OngProject.Core.Business
                 RoleId = 2
             };
 
-            _unitOfWork.UserRepository.Add(userNew);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.UserRepository.Add(userNew);
+            await _unitOfWork.SaveChangesAsync();
 
-
-            return userNew.ToUserDTO();
+            return userNew.ToUserTokenDTO();
         }
 
-        private string Generate(User userInput)
+        public async Task<string> Generate(UserTokenDTO userInput)
         {
-            Task<Role> task = _unitOfWork.RoleRepository.GetById(userInput.RoleId);
-            task.Wait();
-            var roleName = task.Result.Name;
+            Role task = await _unitOfWork.RoleRepository.GetById(userInput.RoleId);
+            string roleName = task.Name;
+
             Claim[] claims = new Claim[]
             {
                 new Claim("Identifier", userInput.Id.ToString()),
@@ -86,7 +91,7 @@ namespace OngProject.Core.Business
 
         private User Authenticate(UserLoginDTO loginUser)
         {
-            User foundUser = ValidateUserEmail(loginUser);
+            User foundUser = ValidateUserEmail(loginUser.Email);
 
             if (foundUser is not null)
             {
@@ -108,9 +113,8 @@ namespace OngProject.Core.Business
             return null;
         }
 
-        private User ValidateUserEmail(UserLoginDTO checkUserEmail)
+        private User ValidateUserEmail(string email)
         {
-            string email = checkUserEmail.Email;
             User currentUser = _unitOfWork.UserRepository.GetAll().FirstOrDefault(user => email == user.Email);
 
             return currentUser;
@@ -118,12 +122,7 @@ namespace OngProject.Core.Business
 
         private string EncryptPassword(string password)
         {
-            var encrypted = Core.Helper.AuthHelper.EncryptPassword(password);
-            //string salt = "OTSampleSalt300";
-            //password += salt;
-            //byte[] encoded = Encoding.UTF8.GetBytes(password);
-            //string encrypted = Convert.ToBase64String(encoded);
-            return encrypted;
+            return Helper.AuthHelper.EncryptPassword(password);
         }
     }
 }

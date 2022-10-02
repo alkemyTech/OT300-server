@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
     {
         IEnumerable<MembersDTO> GetAll();
         Task<Member> GetById(int id);
-        Task Add(Member members);
+        Task<MembersDTO> Add(MembersDTO members);
         Task<bool> Update(Member members);
         Task<bool> Delete(int id);
     }
