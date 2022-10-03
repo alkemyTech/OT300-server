@@ -11,6 +11,8 @@ namespace OngProject.Core.Interfaces
         Task<Testimonial> GetById(int id);
         Task Add(Testimonial testimonial);
         Task<bool> Update(Testimonial testimonial);
-        Task<bool> Delete(int id);
+        Task Delete(int id);
+        Task<bool> DoesExist(int id);
+
     }
 }
