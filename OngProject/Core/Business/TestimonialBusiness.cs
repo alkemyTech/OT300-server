@@ -22,29 +22,32 @@ namespace OngProject.Core.Business
             _imageStorageHerlper = imageStorageHerlper;
         }
 
-        public async Task<TestimonialDTO> Add(TestimonialDTO testimonial)
+        public async Task<TestimonialDTO> Add(TestimonialDTO testimonialDTO)
         {
 
-            Testimonial testimonialEntity = new Testimonial();
+            Testimonial testimonial = new Testimonial();
 
-            var fileName = "Testimonial-" + testimonial.Name + ".jpg";
+            //set the file name for the path
+            var fileName = "Testimonial-" + testimonialDTO.Name + ".jpg";
 
-            testimonialEntity = testimonial.DtoToTestimonial();
+            //Map the DTO so when the Entity is added have all the information for the Database
+            testimonial = testimonialDTO.DtoToTestimonial();
 
-            if (testimonial.Image.Length == 0 || testimonial.Image is null)
+            //first Check if there is an image and if it had information, and if it's not return an empty string, otherwise upload the image and return it's path
+            if (testimonialDTO.Image.Length == 0 || testimonialDTO.Image is null)
             {
-                testimonialEntity.Image = "";
+                testimonial.Image = "";
             }
             else
             {
-                testimonialEntity.Image = await _imageStorageHerlper.UploadImageAsync(testimonial.Image, fileName);
+                testimonial.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDTO.Image, fileName);
             }
 
 
-            await _unitOfWork.TestimonialRepository.Add(testimonialEntity);
+            await _unitOfWork.TestimonialRepository.Add(testimonial);
             await _unitOfWork.SaveChangesAsync();
 
-            return testimonial;
+            return testimonialDTO;
 
         }
 
