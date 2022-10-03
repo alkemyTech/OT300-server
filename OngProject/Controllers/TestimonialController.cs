@@ -13,7 +13,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class TestimonialController : Controller
     {
         private readonly ITestimonialBusiness _testimonialBusiness;
