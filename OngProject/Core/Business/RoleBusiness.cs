@@ -42,11 +42,15 @@ namespace OngProject.Core.Business
             return result;
         }
 
-        public async Task Delete(Role role)
+        public async Task Delete(int id)
         {
-            await _unitOfWork.RoleRepository.Delete(role);
+            await _unitOfWork.RoleRepository.Delete(id);
 
             await _unitOfWork.SaveChangesAsync();
+        }
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.RoleRepository.EntityExist(id);
         }
     }
 }

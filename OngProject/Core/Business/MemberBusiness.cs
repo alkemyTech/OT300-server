@@ -72,10 +72,15 @@ namespace OngProject.Core.Business
             return true;
         }
 
-        public async Task Delete(Member entity)
+        public async Task Delete(int id)
         {
-            await _unitOfWork.MembersRepository.Delete(entity);
+            await _unitOfWork.MembersRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.MembersRepository.EntityExist(id);
+        }
     }
 }

@@ -13,7 +13,8 @@ namespace OngProject.Core.Interfaces
         Task<CategoryFullDTO> Add(CategoryPostDTO categoryFullDTO);
         Task<CategoryFullDTO> GetById(int id);
         Task<Category> GetEntityById(int id);
-        Task Delete(Category entity);
+        Task Delete(int id);
+        Task<bool> DoesExist(int id);
 
     }
 }

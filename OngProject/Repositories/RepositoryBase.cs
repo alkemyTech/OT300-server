@@ -21,7 +21,7 @@ namespace OngProject.Repositories
             _dbContext = dbContext;
             _entities = dbContext.Set<T>();
         }
-        
+
 
         public async Task<T> GetById(int id)
         {
@@ -30,6 +30,9 @@ namespace OngProject.Repositories
 
         public async Task<T> Add(T entity)
         {
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.LastEditedAt = DateTime.UtcNow;
+
             var result = await _entities.AddAsync(entity);
 
             return result.Entity;
@@ -42,16 +45,19 @@ namespace OngProject.Repositories
             return result.Entity;
         }
 
-        public Task Delete(T entity)
+        public async Task Delete(int id)
         {
-            /* If we check in the controller if the entity is null then we sould retutn 404
-             if is not null then we call the delete method and pass the entity to it.*/
+            var entity = await _entities.FindAsync(id);
 
             entity.IsDeleted = true;
             entity.LastEditedAt = DateTime.UtcNow;
-            _entities.Update(entity);
 
-            return Task.CompletedTask;
+            _entities.Update(entity);
+        }
+
+        public async Task<bool> EntityExist(int id)
+        {
+            return await _entities.AnyAsync(x => x.Id == id);
         }
 
         public IEnumerable<T> GetAll()

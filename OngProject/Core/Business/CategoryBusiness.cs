@@ -54,11 +54,17 @@ namespace OngProject.Core.Business
             }
         }
 
-        public async Task Delete(Category entity)
+        public async Task Delete(int id)
         {
-                await _unitOfWork.CategoryRepository.Delete(entity);
+                await _unitOfWork.CategoryRepository.Delete(id);
                 await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.CategoryRepository.EntityExist(id);
+        }
+
 
         public IEnumerable<CategoryDTO> GetAllCatNames()
         {
