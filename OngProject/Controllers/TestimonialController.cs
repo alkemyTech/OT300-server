@@ -5,10 +5,15 @@ using System.Threading.Tasks;
 using System;
 using OngProject.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using OngProject.Core.Business;
+using OngProject.Core.Models.DTOs;
 
 namespace OngProject.Controllers
 {
-    [Authorize]
+    [Route("api/[controller]")]
+    [ApiController]
+    //[Authorize]
     public class TestimonialController : Controller
     {
         private readonly ITestimonialBusiness _testimonialBusiness;
@@ -41,9 +46,18 @@ namespace OngProject.Controllers
 
         // POST: api/Testimonial
         [HttpPost]
-        public Task<ActionResult<User>> PostTestimonial(User user)
+        public async Task<ActionResult> PostTestimonial([FromForm] TestimonialDTO testimonialDTO, IFormFile imageFile)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                testimonialDTO.Image = imageFile.OpenReadStream();
+                await _testimonialBusiness.Add(testimonialDTO);
+                return Ok(testimonialDTO);
+            }
         }
 
         // DELETE: api/Testimonial/5
