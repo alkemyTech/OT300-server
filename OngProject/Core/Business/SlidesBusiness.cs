@@ -21,9 +21,20 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
             _imageStorageHelper = imageStorageHelper;
         }
-        public Task<bool> RemoveSlide(int id)
+        
+        
+        public async Task<bool> RemoveSlide(int id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                await _unitOfWork.SlideRepository.Delete(id);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
         }
 
         /// <summary>
