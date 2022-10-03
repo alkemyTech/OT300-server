@@ -6,6 +6,9 @@ using OngProject.Entities;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using OngProject.Core.Models.DTOs;
+using OngProject.Core.Business;
+using System.ComponentModel.DataAnnotations;
 
 namespace OngProject.Controllers
 {
@@ -29,25 +32,31 @@ namespace OngProject.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetByIdNews(int id)
         {
-            var news = await _newsService.GetById(id);
+            News news = await _newsService.GetById(id);
+
+            if (news is null)
+            {
+                return NotFound("New does not exist");
+            }
+
             return Ok(news);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> InsertNews([FromBody] News news)
+        [HttpPost]       
+        public async Task<IActionResult> InsertNews([FromForm] NewsPostDTO dto, [Required]IFormFile imageFile)
         {
-            if (news == null)
-            {
-                throw new ArgumentNullException(nameof(news));
-            }
-            else
-            {
-                await _newsService.Add(news);
-                return Ok(news);
-            }
+            dto.ImageFile =imageFile.OpenReadStream();
 
+            NewsFullDTO created = await _newsService.Add(dto);
+
+            if (created.IdCategory == 0)
+                return Conflict($"Category doesn't exists : {dto.IdCategory} ");
+            if (created.Id == 0)
+                return Conflict($"There was an error");
+            return Created("", created);
         }
 
         [HttpPut("{id}")]

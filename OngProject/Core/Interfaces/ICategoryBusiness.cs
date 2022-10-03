@@ -10,8 +10,9 @@ namespace OngProject.Core.Interfaces
     public interface ICategoryBusiness
     {
         IEnumerable<CategoryDTO> GetAllCatNames();
-        Task<CategoryFullDTO> Add(CategoryPostDTO categoryFullDTO, Stream file);
+        Task<CategoryFullDTO> Add(CategoryPostDTO categoryFullDTO);
         Task<CategoryFullDTO> GetById(int id);
+        Task<bool> Delete(int id);
 
     }
 }

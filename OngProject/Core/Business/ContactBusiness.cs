@@ -1,8 +1,11 @@
 ﻿using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using OngProject.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -34,6 +37,8 @@ namespace OngProject.Core.Business
                     Message = values.Message,
                 };
 
+                await SendContactEmail(contact);
+
                 await _unitOfWork.ContactRepository.Add(contact);
                 await _unitOfWork.SaveChangesAsync();
             }
@@ -41,6 +46,22 @@ namespace OngProject.Core.Business
             {
                 throw;
             }
+        }
+
+        private async Task SendContactEmail(Contact contact)
+        {
+            EmailModel email = ContactsMapper.ContactToEmailModel(contact);
+
+            string title = "Registro completado exitosamente";
+            string content = "Gracias por añadir este nuevo contacto y aportar a esta ONG";
+            string emailContent = Helper.EmailHelper.ConvertTemplateToString(title, content);
+
+            email.Content = emailContent;
+            email.Subject = title;
+
+            SendGridEmailService service = new();
+            await service.SendEmailAsync(email);
+
         }
 
         public IEnumerable<ContactDTO> GetAllContacts()

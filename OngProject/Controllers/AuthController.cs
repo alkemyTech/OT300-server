@@ -3,6 +3,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Templates;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -18,9 +19,9 @@ namespace OngProject.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login([FromBody] UserLoginDTO login)
+        public async Task<IActionResult> Login([FromBody] UserLoginDTO login)
         {
-            string token = _authBusiness.Login(login);
+            string token = await _authBusiness.Login(login);
 
             if (!string.IsNullOrEmpty(token))
                 return Ok(token);
@@ -30,13 +31,19 @@ namespace OngProject.Controllers
 
 
         [HttpPost("Register")]
-        public IActionResult Register([FromBody] RegisterDTO register)
+        public async Task<IActionResult> Register([FromBody] RegisterDTO register)
         {
-            //Todo: Throws Exception whe same email is used. It should not try to save to db if email is being used..
-            var result = _authBusiness.Register(register);
 
-            //Todo: Should we return the user or the token? if token is not returning why not just return the result?
-            return Ok(new { newUser = result, /*token = token*/});;
+            var result = await _authBusiness.Register(register);
+
+            if (result is null)
+            {
+                return BadRequest("There's an user registered with that email. Please try another one.");
+            }
+
+            string token = await _authBusiness.Generate(result);
+
+            return Created("", token);
         }
     }
 }

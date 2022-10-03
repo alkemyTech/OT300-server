@@ -26,7 +26,7 @@ namespace OngProject.Core.Business
             _imageStorageHerlper = imageStorageHerlper;
         }
 
-        public async Task<CategoryFullDTO> Add(CategoryPostDTO newDTO, Stream image)
+        public async Task<CategoryFullDTO> Add(CategoryPostDTO newDTO)
         {
             var categories = _unitOfWork.CategoryRepository.GetAll();
             var exists = categories.Any(x => x.Name == newDTO.Name);
@@ -41,10 +41,14 @@ namespace OngProject.Core.Business
 
                 //TODO: Check if stream is an image
                 //TODO: Check image format for extension.
+                if (newDTO.File is not null)
+                {
+                    var path = newDTO.File.Length == 0 ?
+                            "" :
+                            await _imageStorageHerlper.UploadImageAsync(newDTO.File, $"category-{entity.Name}.jpg");
 
-                var path = image.Length == 0 ? "" :
-                  await _imageStorageHerlper.UploadImageAsync(image, $"category-{entity.Name}.jpg");
-                entity.Image = path;
+                    entity.Image = path;
+                }
 
                 var newCategory = await _unitOfWork.CategoryRepository.Add(entity);
                 await _unitOfWork.SaveChangesAsync();
@@ -54,6 +58,22 @@ namespace OngProject.Core.Business
             }
         }
 
+        public async Task<bool> Delete(int id)
+        {
+            var entity = await _unitOfWork.CategoryRepository.GetById(id);
+            if (entity == null || entity.IsDeleted) return false;
+
+            try
+            {
+                await _unitOfWork.CategoryRepository.Delete(id);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                //Log()
+                throw;
+            }
+        }
 
         public IEnumerable<CategoryDTO> GetAllCatNames()
         {
@@ -70,8 +90,8 @@ namespace OngProject.Core.Business
 
         public async Task<CategoryFullDTO> GetById(int id)
         {
-            var dto = await _unitOfWork.CategoryRepository.GetById(id);
-            return dto.ToFullDTO();
+            var entity = await _unitOfWork.CategoryRepository.GetById(id);
+            return (entity.IsDeleted) ? new CategoryFullDTO() : entity.ToFullDTO();
         }
     }
 }

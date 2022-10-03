@@ -1,4 +1,6 @@
-﻿using OngProject.Core.Models.DTOs;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Win32;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 
 namespace OngProject.Core.Mapper
@@ -19,5 +21,16 @@ namespace OngProject.Core.Mapper
             return userDTO;
         }
 
+        public static UserTokenDTO ToUserTokenDTO(this User user)
+        {
+	    UserTokenDTO userTokenDTO = new UserTokenDTO
+            {
+                Id = user.Id,
+		Email = user.Email,
+		RoleId = user.RoleId
+	     };
+
+            return userTokenDTO;
+	}
     }
 }
