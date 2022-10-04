@@ -53,7 +53,7 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Post([Bind(new string[] { "Name", "Description" })][FromForm] CategoryPostDTO dto, IFormFile imageFile)
         {
-            dto.File = imageFile.OpenReadStream();
+            dto.File = imageFile?.OpenReadStream();
 
             CategoryFullDTO created = await _categoryBusiness.Add(dto);
 

@@ -32,7 +32,6 @@ namespace OngProject.Repositories
         {
             entity.CreatedAt = DateTime.UtcNow;
             entity.LastEditedAt = DateTime.UtcNow;
-
             var result = await _entities.AddAsync(entity);
 
             return result.Entity;
@@ -45,19 +44,28 @@ namespace OngProject.Repositories
             return result.Entity;
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var entity = await _entities.FindAsync(id);
+            try
+            {
+                var entity = await _entities.FindAsync(id);
 
-            entity.IsDeleted = true;
-            entity.LastEditedAt = DateTime.UtcNow;
+                entity.IsDeleted = true;
+                entity.LastEditedAt = DateTime.UtcNow;
 
-            _entities.Update(entity);
+                _entities.Update(entity);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
 
-        public async Task<bool> EntityExist(int id)
+        public Task<bool> EntityExist(int id)
         {
-            return await _entities.AnyAsync(x => x.Id == id);
+            return _entities.AnyAsync(x => x.Id == id);
         }
 
         public IEnumerable<T> GetAll()
