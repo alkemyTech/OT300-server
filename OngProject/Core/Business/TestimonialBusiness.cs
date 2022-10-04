@@ -55,11 +55,7 @@ namespace OngProject.Core.Business
 
             if (testimonials == null)
             {
-                if (testimonials == null)
-                {
                     throw new  Exception("The Testimony does not exist");
-                }
-              
             }
 
              await _unitOfWork.TestimonialRepository.Delete(id);
