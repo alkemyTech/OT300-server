@@ -12,7 +12,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "User, Admin")]
     public class SlideController : ControllerBase
     {
         private readonly ISlideBusiness _slideBusiness;
@@ -72,7 +72,7 @@ namespace OngProject.Controllers
 
             if (!exist)
             {
-                return NotFound("Either we couldn't find that category or we're having a problem");
+                return NotFound("Either we couldn't find that slide or we're having a problem");
             }
             else
             {
