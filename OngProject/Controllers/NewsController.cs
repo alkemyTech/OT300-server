@@ -83,8 +83,9 @@ namespace OngProject.Controllers
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
-        {   
-            if (await _newsService.GetById(id) is null)
+        {
+            var doesExist = await _newsService.DoesExist(id);
+            if (doesExist)
             {
                 return NotFound();
             }
