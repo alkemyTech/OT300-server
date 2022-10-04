@@ -36,9 +36,9 @@ namespace OngProject.Core.Business
             return UserDTOs;
         }
 
-        public User GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.UserRepository.GetById(id);
         }
 
         public User Update(User user)
@@ -46,9 +46,10 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public void Delete(User user)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.UserRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public Task Add(User entity)
@@ -56,14 +57,6 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
