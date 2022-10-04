@@ -21,9 +21,13 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
             _imageStorageHelper = imageStorageHelper;
         }
-        public Task<bool> RemoveSlide(int id)
+        
+        
+        public async Task RemoveSlide(int id)
         {
-            throw new System.NotImplementedException();
+            await _unitOfWork.SlideRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+            
         }
 
         /// <summary>
@@ -70,6 +74,11 @@ namespace OngProject.Core.Business
         public async Task<Slide> GetById(int id)
         {
            return await _unitOfWork.SlideRepository.GetById(id);
+        }
+
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.SlideRepository.EntityExist(id);
         }
     }
 }

@@ -35,6 +35,9 @@ namespace OngProject
             //Injects the configuration to the AWS3 helper
             services.Configure<AWS3ConfigurationModel>(
                 Configuration.GetSection(AWS3ConfigurationModel.AwsConfiguration));
+            services.Configure<EmailConfigModel>(
+                Configuration.GetSection(EmailConfigModel.WelcomeEmailConfig));
+
             services.AddScoped<IImageStorageHerlper, ImageStorageHelper>();
             services.AddScoped<IActivityBusiness, ActivityBusiness>();
             services.AddScoped<IAuthBusiness, AuthBusiness>();

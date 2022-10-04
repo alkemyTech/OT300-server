@@ -5,6 +5,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
 using OngProject.Services;
+using OngProject.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,10 +15,12 @@ namespace OngProject.Core.Business
     public class ContactBusiness: IContactsBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailService _emailService;
 
-        public ContactBusiness(IUnitOfWork unitOfWork)
+        public ContactBusiness(IUnitOfWork unitOfWork, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
+            _emailService = emailService;
         }
 
         public async Task AddContact(ContactDTO values)
@@ -28,14 +31,8 @@ namespace OngProject.Core.Business
                 {
                     return;
                 }
-                
-                Contact contact = new Contact()
-                {
-                    Name = values.Name,
-                    Email = values.Email,
-                    Phone = values.Phone,
-                    Message = values.Message,
-                };
+
+                Contact contact = ContactsMapper.ToEntity(values);
 
                 await SendContactEmail(contact);
 
@@ -59,9 +56,7 @@ namespace OngProject.Core.Business
             email.Content = emailContent;
             email.Subject = title;
 
-            SendGridEmailService service = new();
-            await service.SendEmailAsync(email);
-
+            await _emailService.SendEmailAsync(email);
         }
 
         public IEnumerable<ContactDTO> GetAllContacts()

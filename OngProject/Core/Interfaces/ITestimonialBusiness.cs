@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Interfaces
 {
-    public interface ITestimonialBusiness : IRepositoryBase<Testimonial>
+    public interface ITestimonialBusiness
     {
         IEnumerable<Testimonial> GetAll();
         Task<Testimonial> GetById(int id);
         Task<TestimonialDTO> Add(TestimonialDTO testimonial);
         Task<bool> Update(Testimonial testimonial);
-        Task Delete(int id);
+        Task<bool> Delete(int id);
         Task<bool> DoesExist(int id);
 
     }

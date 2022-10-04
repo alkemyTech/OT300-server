@@ -8,9 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using OngProject.Services.Interfaces;
 
 namespace OngProject.Core.Business
 {
@@ -18,11 +20,13 @@ namespace OngProject.Core.Business
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _config;
-        
-        public AuthBusiness(IUnitOfWork unitOfWork, IConfiguration config)
+        private readonly IEmailService _emailService;
+
+        public AuthBusiness(IUnitOfWork unitOfWork, IConfiguration config, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _config = config;
+            _emailService = emailService;
         }
 
         public async Task<string> Login(UserLoginDTO login)
@@ -43,10 +47,14 @@ namespace OngProject.Core.Business
         {
             var encryptedPassword = EncryptPassword(register.Password);
 
+            
+
+
             if (ValidateUserEmail(register.Email) is not null)
             {
                 return null;
             }
+
 
             var userNew = new User
             {
@@ -59,6 +67,8 @@ namespace OngProject.Core.Business
 
             await _unitOfWork.UserRepository.Add(userNew);
             await _unitOfWork.SaveChangesAsync();
+
+            await _emailService.SendWelcomeEmailAsync($"{userNew.FirstName} {userNew.LastName}", userNew.Email);
 
             return userNew.ToUserTokenDTO();
         }
