@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web.Http;
 using Microsoft.Extensions.Logging.Abstractions;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
@@ -72,6 +71,16 @@ namespace OngProject.Core.Business
             return true;
         }
 
+        public Task<bool> DoesExist(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> EntityExist(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<Testimonial> GetAll()
         {
             throw new NotImplementedException();
@@ -92,7 +101,8 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        Task IRepositoryBase<Testimonial>.Delete(Testimonial entity)
+
+        Task ITestimonialBusiness.Delete(int id)
         {
             throw new NotImplementedException();
         }

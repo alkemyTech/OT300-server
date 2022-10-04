@@ -61,13 +61,13 @@ namespace OngProject.Controllers
         }
 
         // DELETE: api/Testimonial/5
-        [HttpDelete("{id}")]
-        [Authorize(Roles = "User, Admin")]
-        public async Task<ActionResult<bool>> DeleteTestimonial(int id)
-        {
-            var delete = await _testimonialBusiness.Delete(id);
+        //[HttpDelete("{id}")]
+        //[Authorize(Roles = "User, Admin")]
+        //public async Task<ActionResult<bool>> DeleteTestimonial(int id)
+        //{
+        //    var delete = await _testimonialBusiness.Delete(id);
             
-            return delete;
-        }
+        //    return delete;
+        //}
     }
 }

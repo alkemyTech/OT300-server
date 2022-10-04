@@ -16,5 +16,16 @@ namespace OngProject.Core.Mapper
             };
             return commentDTO;
         }
+        public static Comment DTOToComment (CommentAddDto commentAddDto)
+        {
+            Comment comment = new Comment()
+            {
+                UserId = commentAddDto.UserId,
+                NewsId = commentAddDto.NewsId,
+                Body = commentAddDto.Body,
+                Description = ""
+            };
+            return comment;
+        }
     }
 }
