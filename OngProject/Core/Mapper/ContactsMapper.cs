@@ -1,4 +1,5 @@
-﻿using OngProject.Core.Models;
+﻿using Newtonsoft.Json.Linq;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System;
@@ -21,6 +22,19 @@ namespace OngProject.Core.Mapper
                 Message = contact.Message
             };       
             return contactsDTO;           
+        }
+
+        public static Contact ToEntity(this ContactDTO values)
+        {
+            Contact contact = new Contact()
+            {
+                Name = values.Name,
+                Email = values.Email,
+                Phone = values.Phone,
+                Message = values.Message,
+            };
+
+            return contact;
         }
 
         public static EmailModel ContactToEmailModel(Contact contact)

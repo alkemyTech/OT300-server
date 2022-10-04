@@ -10,6 +10,7 @@ namespace OngProject.Core.Interfaces
         IEnumerable<Role> GetAll();
         Task<Role> GetById(int id);
         Task<Role> Update(Role role);
-        Task Delete(Role role);
+        Task Delete(int id);
+        Task<bool> DoesExist(int id);
     }
 }

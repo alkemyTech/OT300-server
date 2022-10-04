@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -36,34 +36,26 @@ namespace OngProject.Core.Business
             return UserDTOs;
         }
 
-        public User GetById(int id)
+        public async Task<UserGetDTO> GetById(int id)
         {
-            throw new NotImplementedException();
-        }
+            var user = await _unitOfWork.UserRepository.GetById(id);
+            var userDto = UserMapper.ToUserDTO(user);
 
+            return userDto;
+        }
         public User Update(User user)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(User user)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.UserRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public Task Add(User entity)
-        {
-            throw new NotImplementedException();
-        }
+   
 
-        public Task Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task SaveChangesAsync()
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }

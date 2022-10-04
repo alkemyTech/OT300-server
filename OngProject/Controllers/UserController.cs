@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -57,9 +58,29 @@ namespace OngProject.Controllers
 
         // DELETE: api/Users2/5
         [HttpDelete("{id}")]
-        public ActionResult<bool> DeleteUser(int id)
+        [Authorize]
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            var claim = HttpContext.User.Identity as ClaimsIdentity;
+
+            if (claim != null)
+            {
+                var userId = Int32.Parse(claim.FindFirst("Identifier").Value); 
+                
+                var userDelete = await _userBusiness.GetById(id);
+               
+                if (userDelete != null && userDelete.Id == userId)
+                {
+                    await _userBusiness.Delete(id);
+                    return Ok();
+                }
+
+                return BadRequest("user don't have permission");
+
+            }
+
+            return BadRequest("User must Login");
+
         }
     }
 }

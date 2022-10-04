@@ -72,11 +72,23 @@ namespace OngProject.Core.Business
             return true;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task Delete(int id)
         {
-            await _unitOfWork.MembersRepository.Delete(id);
+            var members = await _unitOfWork.MembersRepository.GetById(id);
+
+            if (members == null) throw new Exception("Member does not exist");
+            
+
+            await _unitOfWork.MembersRepository.Delete(id);            
+
+            await _unitOfWork.SaveChangesAsync();
             return true;
+
         }
 
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.MembersRepository.EntityExist(id);
+        }
     }
 }

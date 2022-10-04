@@ -7,10 +7,11 @@ namespace OngProject.Core.Interfaces
 {
     public interface ISlideBusiness
     {
-        public Task<bool> RemoveSlide(int id);
+        public Task RemoveSlide(int id);
         public IEnumerable<SlideDTO> GetAll();
         public IEnumerable<SlidePublicDTO> GetAllSlides();
         Task<SlideResponseDTO> Create(SlideCreateDTO slide);
         Task<Slide> GetById(int id);
+        Task<bool> DoesExist(int id);
     }
 }

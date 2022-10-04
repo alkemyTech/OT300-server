@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Entities;
+using OngProject.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace OngProject.Controllers
             return Ok(_commentBusiness.GetAll());
         }
 
+
         [HttpDelete("{id}")]
         [Authorize(Roles = "User, Admin")]
         public async Task<ActionResult<bool>> Delete(int id)
@@ -53,5 +55,18 @@ namespace OngProject.Controllers
             } 
             return BadRequest("The user must have Login");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateComment([FromBody] CommentAddDto commentAddDto)
+        {
+            var comment = await _commentBusiness.Add(commentAddDto);
+            if (comment != null)
+            {
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+
     }
 }
