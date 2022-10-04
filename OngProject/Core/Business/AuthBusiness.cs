@@ -48,7 +48,7 @@ namespace OngProject.Core.Business
             var encryptedPassword = EncryptPassword(register.Password);
 
             
-            _emailService.SendEmailAsync(email);
+
 
             if (ValidateUserEmail(register.Email) is not null)
             {
@@ -67,15 +67,8 @@ namespace OngProject.Core.Business
 
             await _unitOfWork.UserRepository.Add(userNew);
             await _unitOfWork.SaveChangesAsync();
-            
-            var email = new EmailModel()
-            {
-                Content = "Queremos darte las gracias por decidir formar parte de nuestra familia",
-                RecipientEmail = register.Email,
-                RecipientName = $"{register.FirstName} {register.LastName}",
-                Subject = "Bienvenido a NuestraOrg",
-                Title = "Bienvenido a NuestraORG"
-            };
+
+            await _emailService.SendWelcomeEmailAsync($"{userNew.FirstName} {userNew.LastName}", userNew.Email);
 
             return userNew.ToUserTokenDTO();
         }
