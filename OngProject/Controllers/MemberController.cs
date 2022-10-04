@@ -63,9 +63,10 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
-        public async Task<IActionResult> Delete(int id)
+        [Authorize(Roles = "User")]
+        public async Task<ActionResult<bool>> DeleteTestimonial(int id)
         {
+
             var doesExist = await _memberBusiness.DoesExist(id);
             if (!doesExist)
             {
@@ -76,6 +77,7 @@ namespace OngProject.Controllers
             await _memberBusiness.Delete(id);
 
             return Ok();
+
         }
     }
 }
