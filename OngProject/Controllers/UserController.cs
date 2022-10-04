@@ -68,8 +68,8 @@ namespace OngProject.Controllers
                 var userId = Int32.Parse(claim.FindFirst("Identifier").Value); 
                 
                 var userDelete = await _userBusiness.GetById(id);
-                
-                if (userDelete.Id == userId)
+               
+                if (userDelete != null && userDelete.Id == userId)
                 {
                     await _userBusiness.Delete(id);
                     return Ok();
