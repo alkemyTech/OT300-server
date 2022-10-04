@@ -15,5 +15,12 @@ namespace OngProject.Entities
         
         [Required]
         public DateTime CreationDate { get; set; }
+        [Required]
+        [MaxLength(255)]
+        public string Body { get; set; }
+
+        [ForeignKey("News")]
+        public int NewsId { get; set; }
+        //public News News { get; set; }
     }
 }

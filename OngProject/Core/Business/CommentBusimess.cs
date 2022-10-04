@@ -44,15 +44,28 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
-        public Task Add(Comment comment)
+        public async Task<Comment> Add(CommentAddDto commentAddDto)
         {
-            throw new NotImplementedException();
+            Comment comment = new Comment();
+            comment = CommentMapper.DTOToComment(commentAddDto);
+            var user = await _unitOfWork.UserRepository.GetById(comment.UserId);
+
+            var news = await _unitOfWork.NewsRepository.GetById(comment.NewsId);
+
+            if (user != null && news != null)
+            {
+                await _unitOfWork.CommentRepository.Add(comment);
+                _unitOfWork.SaveChanges();
+                return comment;
+
+            }
+            return null;
         }
 
         public Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }
-
     }
+     
 }
