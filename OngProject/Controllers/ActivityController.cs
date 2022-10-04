@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Business;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models.DTOs;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -49,9 +51,15 @@ namespace OngProject.Controllers
 
         // POST: api/Activity
         [HttpPost]
-        public Task<ActionResult<User>> PostActivity(Activity activity)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PostActivity([FromForm] ActivityDTO activityDto, [Required]IFormFile imageFile)
         {
-            throw new NotImplementedException();
+            activityDto.ImageFile = imageFile.OpenReadStream();
+
+            await _activityBusiness.Add(activityDto);
+
+            return Created(" ", activityDto);
+
         }
 
         // DELETE: api/Activity/5

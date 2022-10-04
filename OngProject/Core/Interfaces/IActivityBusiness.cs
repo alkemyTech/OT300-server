@@ -1,5 +1,5 @@
-﻿using OngProject.Entities;
-using OngProject.Repositories.Interfaces;
+﻿using OngProject.Core.Models.DTOs;
+using OngProject.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +9,7 @@ namespace OngProject.Core.Interfaces
     {
         IEnumerable<Activity> GetAll();
         Task<Activity> GetById(int id);
-        Task Add(Activity activity);
+        Task<ActivityDTO> Add(ActivityDTO activityDTO);
         Task<bool> Update(Activity activity);
         Task<bool> Delete(int id);
     }
