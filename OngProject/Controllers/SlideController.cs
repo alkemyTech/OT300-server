@@ -12,7 +12,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User, Admin")]
+    //[Authorize(Roles = "User, Admin")]
     public class SlideController : ControllerBase
     {
         private readonly ISlideBusiness _slideBusiness;
@@ -66,10 +66,20 @@ namespace OngProject.Controllers
         // DELETE api/<SlidesController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            var exist = await _slideBusiness.DoesExist(id);
 
-
+            if (!exist)
+            {
+                return NotFound("Either we couldn't find that category or we're having a problem");
+            }
+            else
+            {
+                await _slideBusiness.RemoveSlide(id);
+                return Ok();
+            }
+            
 
         }
     }

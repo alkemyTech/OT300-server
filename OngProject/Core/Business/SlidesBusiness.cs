@@ -23,17 +23,10 @@ namespace OngProject.Core.Business
         }
         
         
-        public async Task<bool> RemoveSlide(int id)
+        public async Task RemoveSlide(int id)
         {
-            try
-            {
-                await _unitOfWork.SlideRepository.Delete(id);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            await _unitOfWork.SlideRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
             
         }
 
@@ -81,6 +74,11 @@ namespace OngProject.Core.Business
         public async Task<Slide> GetById(int id)
         {
            return await _unitOfWork.SlideRepository.GetById(id);
+        }
+
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.SlideRepository.EntityExist(id);
         }
     }
 }
