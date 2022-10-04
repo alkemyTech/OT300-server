@@ -1,9 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
+using OngProject.Templates;
+
 using System.Security.Claims;
 using System;
 using System.Linq;
+
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
@@ -37,6 +41,7 @@ namespace OngProject.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO register)
         {
+
             var result = await _authBusiness.Register(register);
 
             if (result is null)
