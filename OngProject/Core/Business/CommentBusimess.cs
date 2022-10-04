@@ -37,7 +37,7 @@ namespace OngProject.Core.Business
 
         public Task<Comment> GetById(int id)
         {
-            throw new NotImplementedException();
+            return _unitOfWork.CommentRepository.GetById(id);
         }
 
         public Task<bool> Update(Comment comment)
@@ -49,9 +49,10 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            await _unitOfWork.CommentRepository.Delete(id);
+            return true;
         }
 
     }
