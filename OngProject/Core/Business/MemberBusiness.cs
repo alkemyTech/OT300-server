@@ -74,7 +74,13 @@ namespace OngProject.Core.Business
 
         public async Task<bool> Delete(int id)
         {
+            var members = await _unitOfWork.MembersRepository.GetById(id);
+
+            if (members == null) throw new Exception("Member does not exist");
+            
+
             await _unitOfWork.MembersRepository.Delete(id);
+
             return true;
         }
 
