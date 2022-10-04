@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace OngProject.Core.Mapper
 {
-    public class ContactsMapper
+    public static class ContactsMapper
     {
 
         public static ContactDTO ContactsToContactsDTO(Contact contact)
