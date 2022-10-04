@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
+using System.Security.Claims;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OngProject.Controllers
 {
@@ -10,10 +14,12 @@ namespace OngProject.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthBusiness _authBusiness;
+        private readonly IUserBusiness _userBusiness;
 
-        public AuthController(IAuthBusiness authBusiness)
+        public AuthController(IAuthBusiness authBusiness,IUserBusiness userBusiness)
         {
             _authBusiness = authBusiness;
+            _userBusiness = userBusiness;
         }
 
         [HttpPost("Login")]
@@ -41,6 +47,23 @@ namespace OngProject.Controllers
             string token = await _authBusiness.Generate(result);
 
             return Created("", token);
+        }
+
+        [HttpGet("Me")]
+        [Authorize(Roles = "User, Admin")]
+        public async Task<IActionResult> Me()
+        {
+            var claim = HttpContext.User.Identity as ClaimsIdentity;
+            if(claim != null)
+            {
+                var id = Int32.Parse(claim.FindFirst("Identifier").Value);
+
+                var user = await _userBusiness.GetById(id);
+                return Ok(user);
+            }
+            
+            return NotFound();
+            
         }
     }
 }
