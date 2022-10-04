@@ -66,10 +66,18 @@ namespace OngProject.Controllers
         [Authorize(Roles = "User")]
         public async Task<ActionResult<bool>> DeleteTestimonial(int id)
         {
-            var delete = await _memberBusiness.Delete(id);
 
-            return delete;
-            
+            var doesExist = await _memberBusiness.DoesExist(id);
+            if (!doesExist)
+            {
+                return NotFound();
+            }
+
+            //Here member will never be null since we check above so we can just delete
+            await _memberBusiness.Delete(id);
+
+            return Ok();
+
         }
     }
 }

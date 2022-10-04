@@ -85,13 +85,13 @@ namespace OngProject.Controllers
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var roleToDelete = await _roleBusiness.GetById(id);
-            if (roleToDelete is null)
+            var doesExist = await _roleBusiness.DoesExist(id);
+            if (!doesExist)
             {
                 return NotFound($"Role with id: {id} does not exist");
             }
 
-            await _roleBusiness.Delete(roleToDelete);
+            await _roleBusiness.Delete(id);
             return Ok();
         }
     }

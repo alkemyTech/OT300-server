@@ -72,8 +72,16 @@ namespace OngProject.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var result = await _categoryBusiness.Delete(id);
-            return result?NoContent():NotFound("Either we couldn't find that category or we're having a problem");
+            var doesExist = await _categoryBusiness.DoesExist(id);
+
+            if (!doesExist)
+            {
+                return NotFound("Either we couldn't find that category or we're having a problem");
+            }
+
+            await _categoryBusiness.Delete(id);
+
+            return Ok();
         }
     }
 }
