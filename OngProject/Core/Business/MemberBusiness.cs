@@ -81,9 +81,7 @@ namespace OngProject.Core.Business
 
             await _unitOfWork.MembersRepository.Delete(id);            
 
-            await _unitOfWork.SaveChangesAsync();
-            return true;
-
+            await _unitOfWork.SaveChangesAsync();   
         }
 
         public async Task<bool> DoesExist(int id)

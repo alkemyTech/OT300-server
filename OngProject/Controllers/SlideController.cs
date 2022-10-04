@@ -53,7 +53,7 @@ namespace OngProject.Controllers
         {
             var slide = await _slideBusiness.Create(createRequest);
 
-           return CreatedAtAction(nameof(GetById), slide.Id, slide);
+            return Created("", slide);
         }
 
         // PUT api/<SlidesController>/5
