@@ -21,7 +21,7 @@ namespace OngProject.Repositories
             _dbContext = dbContext;
             _entities = dbContext.Set<T>();
         }
-        
+
 
         public async Task<T> GetById(int id)
         {
@@ -30,9 +30,8 @@ namespace OngProject.Repositories
 
         public async Task<T> Add(T entity)
         {
-            entity.CreatedAt = DateTimeOffset.Now;
-            entity.LastEditedAt = DateTimeOffset.Now;
-
+            entity.CreatedAt = DateTime.UtcNow;
+            entity.LastEditedAt = DateTime.UtcNow;
             var result = await _entities.AddAsync(entity);
 
             return result.Entity;
@@ -45,21 +44,28 @@ namespace OngProject.Repositories
             return result.Entity;
         }
 
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            //Todo: a null check should be done in the controller, This method does not return anything how would tell the client record does not exist?
-            T entity = await _entities.FindAsync(id);
-
-            if (entity is null)
+            try
             {
-                return;
+                var entity = await _entities.FindAsync(id);
+
+                entity.IsDeleted = true;
+                entity.LastEditedAt = DateTime.UtcNow;
+
+                _entities.Update(entity);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
             }
 
-            entity.IsDeleted = true;
-            entity.LastEditedAt = DateTime.UtcNow;
-            _entities.Update(entity);
+        }
 
-            await _dbContext.SaveChangesAsync();
+        public Task<bool> EntityExist(int id)
+        {
+            return _entities.AnyAsync(x => x.Id == id);
         }
 
         public IEnumerable<T> GetAll()

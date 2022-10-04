@@ -92,7 +92,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        Task IRepositoryBase<Testimonial>.Delete(int id)
+        Task IRepositoryBase<Testimonial>.Delete(Testimonial entity)
         {
             throw new NotImplementedException();
         }
