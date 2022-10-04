@@ -58,22 +58,17 @@ namespace OngProject.Core.Business
             }
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task Delete(int id)
         {
-            var entity = await _unitOfWork.CategoryRepository.GetById(id);
-            if (entity == null || entity.IsDeleted) return false;
-
-            try
-            {
                 await _unitOfWork.CategoryRepository.Delete(id);
-                return true;
-            }
-            catch (System.Exception)
-            {
-                //Log()
-                throw;
-            }
+                await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.CategoryRepository.EntityExist(id);
+        }
+
 
         public IEnumerable<CategoryDTO> GetAllCatNames()
         {
@@ -92,6 +87,11 @@ namespace OngProject.Core.Business
         {
             var entity = await _unitOfWork.CategoryRepository.GetById(id);
             return (entity.IsDeleted) ? new CategoryFullDTO() : entity.ToFullDTO();
+        }
+        public async Task<Category> GetEntityById(int id)
+        {
+            var entity = await _unitOfWork.CategoryRepository.GetById(id);
+            return  entity;
         }
     }
 }

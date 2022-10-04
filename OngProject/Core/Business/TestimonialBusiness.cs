@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web.Http;
 using Microsoft.Extensions.Logging.Abstractions;
 using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
@@ -51,9 +54,22 @@ namespace OngProject.Core.Business
 
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var testimonials = await _unitOfWork.TestimonialRepository.GetById(id);
+
+            if (testimonials == null)
+            {
+                if (testimonials == null)
+                {
+                    throw new  Exception("The Testimony does not exist");
+                }
+              
+            }
+
+             await _unitOfWork.TestimonialRepository.Delete(id);
+
+            return true;
         }
 
         public IEnumerable<Testimonial> GetAll()
@@ -76,7 +92,7 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        Task IRepositoryBase<Testimonial>.Delete(int id)
+        Task IRepositoryBase<Testimonial>.Delete(Testimonial entity)
         {
             throw new NotImplementedException();
         }

@@ -42,7 +42,14 @@ namespace OngProject.Core.Business
         public async Task Delete(int id)
         {
             await _unitOfWork.NewsRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
+
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.NewsRepository.EntityExist(id);
+        }
+
 
         public IEnumerable<NewsDTO> GetAll()
         {

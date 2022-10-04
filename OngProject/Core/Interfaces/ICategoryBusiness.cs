@@ -12,7 +12,9 @@ namespace OngProject.Core.Interfaces
         IEnumerable<CategoryDTO> GetAllCatNames();
         Task<CategoryFullDTO> Add(CategoryPostDTO categoryFullDTO);
         Task<CategoryFullDTO> GetById(int id);
-        Task<bool> Delete(int id);
+        Task<Category> GetEntityById(int id);
+        Task Delete(int id);
+        Task<bool> DoesExist(int id);
 
     }
 }
