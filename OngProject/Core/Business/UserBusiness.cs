@@ -35,12 +35,13 @@ namespace OngProject.Core.Business
 
             return UserDTOs;
         }
-
-        public User GetById(int id)
+        public async Task<UserGetDTO> GetById(int id)
         {
-            throw new NotImplementedException();
-        }
+            var user = await _unitOfWork.UserRepository.GetById(id);
+            var userDto = UserMapper.ToUserDTO(user);
 
+            return userDto;
+        }
         public User Update(User user)
         {
             throw new NotImplementedException();
@@ -65,5 +66,7 @@ namespace OngProject.Core.Business
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
