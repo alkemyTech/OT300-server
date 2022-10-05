@@ -13,6 +13,7 @@ using OngProject.DataAccess;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using OngProject.Configurations;
 using OngProject.Core.Models;
 using OngProject.Services;
 using OngProject.Services.Interfaces;
@@ -59,6 +60,7 @@ namespace OngProject
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OngProject", Version = "v1" });
             });
+            services.ConfigureSwagger();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer
             (
