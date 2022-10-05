@@ -61,6 +61,22 @@ namespace OngProject.Core.Business
             }
             return null;
         }
+        public List<CommentAddDto> showListCommentDto(int id)
+        {
+            List<CommentAddDto> listaFiltrada = new List<CommentAddDto>();
+            var lista = _unitOfWork.CommentRepository.GetAll();
+
+
+                foreach (var item in lista)
+                {
+                    if (item.NewsId == id)
+                    {
+                        listaFiltrada.Add(CommentMapper.CommentToCommentAddDto(item));
+                    }
+                }
+
+            return listaFiltrada;
+        }
 
         public async Task<bool> Delete(int id)
         {
