@@ -1,4 +1,5 @@
 ﻿using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
@@ -6,8 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OngProject.Core.Helper;
-using OngProject.Core.Mapper;
 
 namespace OngProject.Core.Business
 {
@@ -21,13 +20,13 @@ namespace OngProject.Core.Business
             _unitOfWork = unitOfWork;
             _imageStorageHelper = imageStorageHelper;
         }
-        
-        
+
+
         public async Task RemoveSlide(int id)
         {
             await _unitOfWork.SlideRepository.Delete(id);
             await _unitOfWork.SaveChangesAsync();
-            
+
         }
 
         /// <summary>
@@ -49,8 +48,12 @@ namespace OngProject.Core.Business
             {
                 slidesDTO.Add(SlideMapper.ToPublicDTO(slide));
             }
-            
+
             return slidesDTO;
+        }
+        public async Task<Slide> GetById(int id)
+        {
+            return await _unitOfWork.SlideRepository.GetById(id);
         }
 
         public async Task<SlideResponseDTO> Create(SlideCreateDTO slide)
@@ -71,9 +74,52 @@ namespace OngProject.Core.Business
             return slideCreated.ToSlideResponseDTO();
         }
 
-        public async Task<Slide> GetById(int id)
+        public async Task<bool> Update(int id, SlideCreateDTO slide)
         {
-           return await _unitOfWork.SlideRepository.GetById(id);
+            var actualSlide = await _unitOfWork.SlideRepository.GetById(id);
+            //addError(
+            if (slide.OrganizationId != actualSlide.OrganizationId) return false;
+            if (actualSlide is not null)
+            {
+                var stream = slide.ImageStream?.OpenReadStream();
+                if (stream is not null || stream.Length != 0)
+                {
+                    //TODO Establecer reglas de Naming de las imagenes
+                    // var imageUrl = await _imageStorageHelper.UploadImageAsync(stream, $"slide-{id}.jpg");
+                    try
+                    {
+                        actualSlide.ImageUrl = await _imageStorageHelper.UploadImageAsync(stream, slide.ImageStream.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        //TODO BusinessResponse<T> y BusinessPagedResponse<T> if error happens
+                        //log
+                        actualSlide.ImageUrl = $"{ex.Message}-upload-error.jpg";
+                    }
+                }
+                //mapping
+                actualSlide.SetNewValues(slide);
+
+                try
+                {
+                    var updated = await _unitOfWork.SlideRepository.Update(actualSlide);
+                    await _unitOfWork.SaveChangesAsync();
+                    return updated is not null;
+                }
+                catch (Exception)
+                {
+                    //log
+                    // addError(
+                    //status = failed
+                    throw;
+                };
+
+            }
+            // TODO refactor para respuestas unificadas
+            //addError(
+            //status = failed
+            //return BusinessResponse
+            return false;
         }
 
         public async Task<bool> DoesExist(int id)

@@ -55,6 +55,12 @@ namespace OngProject.Core.Mapper
             return model;
         }
 
-
+        public static Slide SetNewValues(this Slide entity, SlideCreateDTO dto)
+        {
+            entity.Text = dto.Text??"";
+            entity.Order = dto.Order;
+    
+            return entity;
+        }
     }
 }
