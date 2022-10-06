@@ -31,7 +31,7 @@ namespace OngProject.Controllers
 
         // GET: api/Testimonial/5
         [HttpGet("{id}")]
-        public Task<ActionResult<User>> GetTestimonial(int id)
+        public Task<IActionResult> GetTestimonial(int id)
         {
             throw new NotImplementedException();
         }
@@ -39,9 +39,14 @@ namespace OngProject.Controllers
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public Task<IActionResult> PutTestimonial(int id, User user)
+        public async Task<IActionResult> PutTestimonial(Testimonial testimonial)
         {
-            throw new NotImplementedException();
+            var exist = await _testimonialBusiness.DoesExist(testimonial.Id);
+
+            if (!exist)
+            {
+
+            }
         }
 
         // POST: api/Testimonial

@@ -80,7 +80,7 @@ namespace OngProject.Core.Business
 
         public Task<bool> Update(Testimonial testimonial)
         {
-            throw new NotImplementedException();
+            
         }
 
 
