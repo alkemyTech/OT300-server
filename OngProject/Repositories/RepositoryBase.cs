@@ -39,9 +39,10 @@ namespace OngProject.Repositories
 
         public async Task<T> Update(T entity)
         {
-            var result = await _entities.AddAsync(entity);
-
-            return result.Entity;
+            var result = _dbContext.Entry(entity).State = EntityState.Modified;
+            //TODO: si no esta en el contexto por UOF excepcion al savechanges
+            //TODO: Para que se neceista devolver T?
+            return entity;
         }
 
         public async Task<bool> Delete(int id)
