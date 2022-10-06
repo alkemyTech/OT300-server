@@ -13,5 +13,6 @@ namespace OngProject.Core.Interfaces
         Task<SlideResponseDTO> Create(SlideCreateDTO slide);
         Task<Slide> GetById(int id);
         Task<bool> DoesExist(int id);
+        Task<bool> Update(int id, SlideCreateDTO slide);
     }
 }

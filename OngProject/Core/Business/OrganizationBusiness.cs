@@ -1,14 +1,12 @@
 ﻿using OngProject.Core.Interfaces;
-using OngProject.Core.Models;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
-using OngProject.Core.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace OngProject.Core.Business
 {
@@ -16,11 +14,12 @@ namespace OngProject.Core.Business
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly OrganizationBusiness _organizationBusiness;
+        private IImageStorageHerlper _imageStorageHerlper;
 
-        public OrganizationBusiness(IUnitOfWork unitOfWork)
+        public OrganizationBusiness(IUnitOfWork unitOfWork, IImageStorageHerlper imageStorageHerlper)
         {
             _unitOfWork = unitOfWork;
+            _imageStorageHerlper = imageStorageHerlper;
         }
 
         public IEnumerable<OrganizationDTO> GetAll()
@@ -40,15 +39,24 @@ namespace OngProject.Core.Business
             return organization;
         }
 
-        
-        public async Task<Organization> Update(int id, Organization organization)
+
+        public async Task<OrganizationPublicDTO> Update(OrganizationPublicDTO organization)
         {
-            var orgToUpdate = await _unitOfWork.OrganizationRepository.GetById(id);
+            var orgToUpdate = _unitOfWork.OrganizationRepository.GetAll().First();
             if (orgToUpdate != null)
             {
-                _unitOfWork.OrganizationRepository.Update(organization);
-                _unitOfWork.SaveChanges();
-                return organization;
+                //set new values;
+                orgToUpdate.SetNewValues(organization);
+                //set image
+                if (organization.ImageStream is not null || organization.ImageStream.Length !=0)
+                {
+                    orgToUpdate.Img  =
+                        await _imageStorageHerlper.UploadImageAsync(organization.ImageStream, $"Organization-{organization.Name}.jpg".Replace(" ","-"));
+                }
+
+                var updated = await _unitOfWork.OrganizationRepository.Update(orgToUpdate);
+                await _unitOfWork.SaveChangesAsync();
+                return updated.ToPublicDTO();
             }
             else
             {
@@ -82,14 +90,17 @@ namespace OngProject.Core.Business
             try
             {
                 Organization org = _unitOfWork.OrganizationRepository.GetAll().First();
+
                 var dto = org.ToPublicDTO();
                 return dto;
             }
             catch (Exception e)
             {
                 //Log(e);
-                throw new Exception("Cannot retrieve organization public details, see inner excepction",e);
+                throw new Exception("Cannot retrieve organization public details, see inner excepction", e);
             }
         }
+
+    
     }
 }

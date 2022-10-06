@@ -12,7 +12,8 @@ namespace OngProject.Core.Interfaces
         Task<Comment>  Add(CommentAddDto commentAddDto);
         Task<bool> Update(Comment comment);
         Task<bool> Delete(int id);
+        List<CommentAddDto> showListCommentDto(int id);
 
-        
+
     }
 }

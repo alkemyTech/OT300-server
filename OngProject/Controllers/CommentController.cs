@@ -17,18 +17,20 @@ namespace OngProject.Controllers
     {
         private readonly ICommentBusiness _commentBusiness;
         private readonly IUserBusiness _userBusiness;
+        private readonly INewsBusiness _newsBusiness;
 
-        public CommentController(ICommentBusiness commentBusiness, IUserBusiness userBusiness)
+        public CommentController(ICommentBusiness commentBusiness, IUserBusiness userBusiness,INewsBusiness newsBusiness)
         {
             _commentBusiness = commentBusiness;
             _userBusiness = userBusiness;
+            _newsBusiness = newsBusiness;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult GetListComment()
         {
-            return Ok(_commentBusiness.GetAll());
+            return Ok(_commentBusiness.GetAll().OrderBy(x =>x.CreatedAt));
         }
 
 
@@ -66,6 +68,8 @@ namespace OngProject.Controllers
             }
             return BadRequest();
         }
+
+        
 
 
     }

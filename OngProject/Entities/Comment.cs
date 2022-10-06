@@ -10,11 +10,11 @@ namespace OngProject.Entities
         [ForeignKey("User")]
         public int UserId { get; set; }
         
-        [Required]
-        public string Description { get; set; }
+        //[Required]
+        //public string Description { get; set; }
         
-        [Required]
-        public DateTime CreationDate { get; set; }
+        //[Required]
+        //public DateTime CreationDate { get; set; }
         [Required]
         [MaxLength(255)]
         public string Body { get; set; }

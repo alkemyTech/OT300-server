@@ -9,8 +9,8 @@ namespace OngProject.Core.Mapper
         {
             CommentDTO commentDTO = new CommentDTO()
             {
-                CreationDate = comment.CreationDate,
-                Description = comment.Description,
+                CreatedAt = comment.CreatedAt,
+                Body = comment.Body,
                 UserId = comment.UserId
                 
             };
@@ -23,9 +23,18 @@ namespace OngProject.Core.Mapper
                 UserId = commentAddDto.UserId,
                 NewsId = commentAddDto.NewsId,
                 Body = commentAddDto.Body,
-                Description = ""
             };
             return comment;
+        }
+        public static CommentAddDto CommentToCommentAddDto(Comment comment)
+        {
+            CommentAddDto commentAdd = new CommentAddDto()
+            {
+                UserId = comment.UserId,
+                NewsId = comment.NewsId,
+                Body = comment.Body,
+            };
+            return commentAdd;
         }
     }
 }

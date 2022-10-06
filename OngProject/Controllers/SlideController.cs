@@ -4,6 +4,8 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
 using System.Threading.Tasks;
 using OngProject.Core.Mapper;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -53,14 +55,15 @@ namespace OngProject.Controllers
         {
             var slide = await _slideBusiness.Create(createRequest);
 
-           return CreatedAtAction(nameof(GetById), slide.Id, slide);
+            return Created("", slide);
         }
 
         // PUT api/<SlidesController>/5
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromForm] SlideCreateDTO dto)
         {
+            return await _slideBusiness.Update(id, dto) ? Ok():NotFound() ;
         }
 
         // DELETE api/<SlidesController>/5

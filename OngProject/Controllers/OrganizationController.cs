@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OngProject.Entities;
-using System.Linq;
-using System.Threading.Tasks;
-using System;
 using OngProject.Core.Interfaces;
-using OngProject.Core.Business;
+using OngProject.Core.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace OngProject.Controllers
 {
@@ -13,23 +12,15 @@ namespace OngProject.Controllers
     [ApiController]
     [Authorize]
 
-    public class OrganizationsController : ControllerBase
+    public class OrganizationController : ControllerBase
     {
         private readonly IOrganizationBusiness _organizationService;
         private readonly ISlideBusiness _slideBusiness;
 
-        public OrganizationsController(IOrganizationBusiness service, ISlideBusiness slideBusiness)
+        public OrganizationController(IOrganizationBusiness service, ISlideBusiness slideBusiness)
         {
             _organizationService = service;
             _slideBusiness = slideBusiness;
-        }
-    
-        [HttpGet("/api/organization")]
-        [Authorize(Roles = "Admin")]
-        public IActionResult GetAllOrganizations()
-        {
-            var organizations = _organizationService.GetAll();
-            return Ok(organizations);
         }
 
         [HttpGet("/api/organization/public")]
@@ -38,7 +29,25 @@ namespace OngProject.Controllers
         {
             var orgPubInfoDTO = _organizationService.GetPublicInfo();
             var slidesOrganizations = _slideBusiness.GetAllSlides();
-            return Ok(new {orgPubInfoDTO, slidesOrganizations});
+            return Ok(new { orgPubInfoDTO, slidesOrganizations });
+        }
+
+        [HttpPost("/api/organization/public")]
+        [Authorize(Roles ="Admin")] 
+        public async Task<IActionResult> UpdateOrganizationPublicInfo([FromForm] OrganizationPostPublicDTO updateDTO,[Required] IFormFile Image)
+        {
+            updateDTO.ImageStream = Image.OpenReadStream();
+            var updated = await _organizationService.Update(updateDTO);
+            return updated is not null ? Ok(new { updated }) : NotFound();
+        }
+
+        /****** 
+        [HttpGet("/api/organization")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetAllOrganizations()
+        {
+            var organizations = _organizationService.GetAll();
+            return Ok(organizations);
         }
 
         [HttpGet("{id}")]
@@ -61,28 +70,7 @@ namespace OngProject.Controllers
                 await _organizationService.Insert(organization);
                 return Ok(organization);
             }
-                       
-        }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrganization(int id, [FromQuery] Organization Organization)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
-                }
-                else
-                {
-                    var result = await _organizationService.Update(id, Organization);
-                    return Ok(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
         //i was looking about this because i don't know if the service return false what it going to happens here.
@@ -93,7 +81,7 @@ namespace OngProject.Controllers
             await _organizationService.Delete(id);
             return Ok();
         }
-
+        *////
 
     }
 }

@@ -18,10 +18,12 @@ namespace OngProject.Controllers
     public class NewsController : ControllerBase
     {
         private readonly INewsBusiness _newsService;
+        private readonly ICommentBusiness _commentBusiness;
 
-        public NewsController(INewsBusiness service)
+        public NewsController(INewsBusiness service,ICommentBusiness commentBusiness)
         {
             _newsService = service;
+            _commentBusiness = commentBusiness;
         }
 
         [HttpGet("/api/news")]
@@ -92,6 +94,17 @@ namespace OngProject.Controllers
             await _newsService.Delete(id);
 
             return Ok("Deleted succesfully");
+        }
+        [HttpGet("{id}/comment")]
+        [Authorize]
+        public async Task<IActionResult> ListCommentByNew(int id)
+        {
+            var existNew = await _newsService.DoesExist(id);
+            if (existNew)
+            {
+                return Ok(_commentBusiness.showListCommentDto(id));
+            }
+            else { return BadRequest("id not found"); }
         }
     }
 }
