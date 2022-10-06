@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -26,7 +27,7 @@ namespace OngProject.Core.Business
             Testimonial testimonial = new Testimonial();
 
             //set the file name for the path
-            var fileName = "Testimonial-" + testimonialDTO.Name + ".jpg";
+            var fileName = "Testimonial-" + testimonialDTO.Name + Guid.NewGuid().ToString() + ".jpg";
 
             //Map the DTO so when the Entity is added have all the information for the Database
             testimonial = testimonialDTO.DtoToTestimonial();
@@ -78,9 +79,22 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<bool> Update(Testimonial testimonial)
+        public async Task<TestimonialDTO> Update(int id, TestimonialDTO testimonialDto)
         {
+            var testimonialToUpdate = await _unitOfWork.TestimonialRepository.GetById(id);
+
+            //agregar GUID
+            var fileName = "Testimonial-" + testimonialDto.Name + Guid.NewGuid().ToString() + ".jpg"; ;
+
+            testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);
+
+            testimonialToUpdate = TestimonialMapper.DtoToTestimonial(testimonialDto);
+
+            var updated = await _unitOfWork.TestimonialRepository.Update(testimonialToUpdate);
+            await _unitOfWork.SaveChangesAsync();
             
+            return testimonialDto;
+
         }
 
 

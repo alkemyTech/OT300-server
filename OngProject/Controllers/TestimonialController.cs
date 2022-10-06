@@ -39,14 +39,18 @@ namespace OngProject.Controllers
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTestimonial(Testimonial testimonial)
+        public async Task<IActionResult> PutTestimonial(int id, TestimonialDTO updateTestimonial, IFormFile Image)
         {
-            var exist = await _testimonialBusiness.DoesExist(testimonial.Id);
+            var exist = await _testimonialBusiness.DoesExist(id);
 
             if (!exist)
             {
-
+                updateTestimonial.Image = Image.OpenReadStream();
+                var updated = await _testimonialBusiness.Update(id, updateTestimonial);
+                return Ok(updated); 
             }
+
+            return NotFound("The testimonial to update doesn't exist");
         }
 
         // POST: api/Testimonial
