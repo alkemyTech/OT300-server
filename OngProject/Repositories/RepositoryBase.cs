@@ -1,11 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace OngProject.Repositories
@@ -22,16 +22,17 @@ namespace OngProject.Repositories
             _entities = dbContext.Set<T>();
         }
 
-
         public async Task<T> GetById(int id)
         {
-            return await _entities.FindAsync(id);
+            var entity = await _entities.FindAsync(id);
+            return (entity == null || entity.IsDeleted) ? null : entity;
         }
 
         public async Task<T> Add(T entity)
         {
-            entity.CreatedAt = DateTime.UtcNow;
-            entity.LastEditedAt = DateTime.UtcNow;
+            var date = DateTime.UtcNow;
+            entity.CreatedAt = date;
+            entity.LastEditedAt = date;
             var result = await _entities.AddAsync(entity);
 
             return result.Entity;
@@ -40,9 +41,10 @@ namespace OngProject.Repositories
         public async Task<T> Update(T entity)
         {
             var result = _dbContext.Entry(entity).State = EntityState.Modified;
-            //TODO: si no esta en el contexto por UOF excepcion al savechanges
-            //TODO: Para que se neceista devolver T?
-            return entity;
+            entity.LastEditedAt = DateTime.UtcNow;
+            //TODO  si no esta en el contexto por UOF excepcion al savechanges
+            //TODO  Para que se neceista devolver T?
+            return await Task.FromResult(entity);
         }
 
         public async Task<bool> Delete(int id)
@@ -50,6 +52,7 @@ namespace OngProject.Repositories
             try
             {
                 var entity = await _entities.FindAsync(id);
+                if (entity == null || entity.IsDeleted) return false;
 
                 entity.IsDeleted = true;
                 entity.LastEditedAt = DateTime.UtcNow;
@@ -59,23 +62,22 @@ namespace OngProject.Repositories
             }
             catch (Exception e)
             {
-                return false;
+                throw new Exception("Error on Repository.Delete", e);
             }
-
         }
 
         public Task<bool> EntityExist(int id)
         {
-            return _entities.AnyAsync(x => x.Id == id);
+            return _entities.AnyAsync(x => x.Id == id && !x.IsDeleted);
         }
 
         public PagedList<T> GetAll(int pageNumber = 1 /*, int pageSize=10*/)
         {
-            return PagedList<T>.Create(_entities, pageNumber, 10);
+            return PagedList<T>.Create(_entities.Where(x => x.IsDeleted == false), pageNumber, 10);
         }
         public IEnumerable<T> GetAll()
         {
-            return _entities;
+            return _entities.Where(x => x.IsDeleted == false);
         }
     }
 }
