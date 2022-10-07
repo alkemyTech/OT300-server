@@ -84,12 +84,17 @@ namespace OngProject.Core.Business
         {
             var testimonialToUpdate = await _unitOfWork.TestimonialRepository.GetById(id);
 
-            var fileName = "Testimonial-" + testimonialDto.Name + "-" + Guid.NewGuid().ToString() + ".jpg"; ;
-
             testimonialToUpdate.UpdateDtoToTestimonial(testimonialDto);
-            
-            testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);                    
 
+            if (testimonialDto.Image is null || testimonialDto.Image.Length == 0)
+            {
+                testimonialToUpdate.Image = testimonialToUpdate.Image;
+            }
+            else
+            {
+                var fileName = "Testimonial-" + testimonialDto.Name + "-" + Guid.NewGuid().ToString() + ".jpg";
+                testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);
+            }
             await _unitOfWork.TestimonialRepository.Update(testimonialToUpdate);
             await _unitOfWork.SaveChangesAsync();
             

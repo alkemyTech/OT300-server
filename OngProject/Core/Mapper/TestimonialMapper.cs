@@ -21,8 +21,8 @@ namespace OngProject.Core.Mapper
         {
             //Testimonial testimonial = new Testimonial()
             {
-                testimonial.Name = testimonialUpdateDTO.Name ?? string.Empty;
-                testimonial.Content = testimonialUpdateDTO.Content ?? string.Empty;
+                testimonial.Name = testimonialUpdateDTO.Name ?? testimonial.Name;
+                testimonial.Content = testimonialUpdateDTO.Content ?? testimonial.Content;
             }
 
 

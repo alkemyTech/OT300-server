@@ -46,7 +46,7 @@ namespace OngProject.Controllers
 
             if (exist)
             {
-                updateTestimonial.Image = ImageFile.OpenReadStream();
+                if (ImageFile != null) { updateTestimonial.Image = ImageFile.OpenReadStream(); } else { updateTestimonial.Image = null; }
                 var updated = await _testimonialBusiness.Update(id, updateTestimonial);
                 return Ok(updated); 
             }
