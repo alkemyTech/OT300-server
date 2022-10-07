@@ -17,13 +17,13 @@ namespace OngProject.Core.Mapper
             return testimonial;
         }
 
-        public static Testimonial UpdateDtoToTestimonial(this TestimonialUpdateDTO testimonialUpdateDTO)
+        public static Testimonial UpdateDtoToTestimonial(this Testimonial testimonial, TestimonialUpdateDTO testimonialUpdateDTO)
         {
-            Testimonial testimonial = new Testimonial()
+            //Testimonial testimonial = new Testimonial()
             {
-                Name = testimonialUpdateDTO.Name ?? string.Empty,
-                Content = testimonialUpdateDTO.Content ?? string.Empty
-            };
+                testimonial.Name = testimonialUpdateDTO.Name ?? string.Empty;
+                testimonial.Content = testimonialUpdateDTO.Content ?? string.Empty;
+            }
 
 
             return testimonial;

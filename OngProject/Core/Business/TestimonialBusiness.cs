@@ -86,7 +86,7 @@ namespace OngProject.Core.Business
 
             var fileName = "Testimonial-" + testimonialDto.Name + "-" + Guid.NewGuid().ToString() + ".jpg"; ;
 
-            testimonialToUpdate = TestimonialMapper.UpdateDtoToTestimonial(testimonialDto);
+            testimonialToUpdate.UpdateDtoToTestimonial(testimonialDto);
             
             testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);                    
 
