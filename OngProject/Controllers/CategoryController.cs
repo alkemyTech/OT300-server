@@ -12,6 +12,8 @@ using OngProject.Core.Helper;
 using System.IO;
 using System;
 using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -30,12 +32,31 @@ namespace OngProject.Controllers
         }
 
 
+
         // GET: api/<CategoriesController>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public IActionResult GetAllNames()
+        [Authorize(Roles = "Admin,User")]
+        public IActionResult GetAllNames([FromQuery] int? page = 1)
         {
-            return Ok(_categoryBusiness.GetAllCatNames());
+            var role = (HttpContext.User.Identity as ClaimsIdentity).FindFirst(ClaimTypes.Role).Value;
+
+            //if admin US-48
+            if (role.Equals("Admin"))
+            {
+                return Ok(_categoryBusiness.GetAllCatNames());
+            }
+            //if user  US-94
+            else
+            {
+                var url = this.Request.Path;
+                var paged = _categoryBusiness.GetAll(page.Value);
+                return Ok(new
+                {
+                    data = paged,
+                    next = paged.HasNext ? $"{url}/{page+1}" : "",
+                    prev = (paged.Count>0 && paged.HasPrevious) ? $"{url}/{page-1}" : ""
+                });
+            }
         }
 
         // GET api/<CategoriesController>/5
