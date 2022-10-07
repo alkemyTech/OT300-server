@@ -60,6 +60,27 @@ namespace OngProject.Services
 
         }
 
+        public async Task SendContactEmailAsync(string recipientName, string recipientMail)
+        {
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var senderEmail = "Group300Alkemy@protonmail.com";
+            var senderName = "Alkemy300";
+
+            var client = new SendGridClient(apiKey);
+
+            var msg = new SendGridMessage()
+            {
+                From = new EmailAddress(senderEmail, senderName),
+                Subject = _config.AddContactEmail.Subject,
+                HtmlContent = GenerateEmail(_config.AddContactEmail.Title, _config.AddContactEmail.Content)
+            };
+
+            msg.AddTo(new EmailAddress(recipientMail, recipientName));
+
+            var response = await client.SendEmailAsync(msg).ConfigureAwait(false);
+
+        }
+
 
         private string GenerateEmail(string title, string content)
         {
@@ -69,8 +90,8 @@ namespace OngProject.Services
 
             string textReader = sr.ReadToEnd();
 
-            textReader = textReader.Replace("#T&iacute;tulo#", title);
-            textReader = textReader.Replace("#Content#", content);
+            textReader = textReader.Replace("T&iacute;tulo", title);
+            textReader = textReader.Replace("Content", content);
 
             return textReader;
 

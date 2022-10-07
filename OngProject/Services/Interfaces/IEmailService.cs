@@ -7,5 +7,6 @@ namespace OngProject.Services.Interfaces
     {
         Task SendEmailAsync(EmailModel emailModel);
         Task SendWelcomeEmailAsync(string name, string email);
+        Task SendContactEmailAsync(string name, string email);
     }
 }

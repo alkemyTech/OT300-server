@@ -34,29 +34,15 @@ namespace OngProject.Core.Business
 
                 Contact contact = ContactsMapper.ToEntity(values);
 
-                await SendContactEmail(contact);
-
                 await _unitOfWork.ContactRepository.Add(contact);
                 await _unitOfWork.SaveChangesAsync();
-            }
-            catch (System.ArgumentNullException)
+				await _emailService.SendContactEmailAsync(contact.Name, contact.Email);
+
+			}
+			catch (System.ArgumentNullException)
             {
                 throw;
             }
-        }
-
-        private async Task SendContactEmail(Contact contact)
-        {
-            EmailModel email = ContactsMapper.ContactToEmailModel(contact);
-
-            string title = "Registro completado exitosamente";
-            string content = "Gracias por añadir este nuevo contacto y aportar a esta ONG";
-            string emailContent = Helper.EmailHelper.ConvertTemplateToString(title, content);
-
-            email.Content = emailContent;
-            email.Subject = title;
-
-            await _emailService.SendEmailAsync(email);
         }
 
         public IEnumerable<ContactDTO> GetAllContacts()
