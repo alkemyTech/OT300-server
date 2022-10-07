@@ -1,12 +1,13 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System.Collections.Generic;
 
 namespace OngProject.Core.Mapper
 {
     public static class CategoryMapper
     {
 
-        public static CategoryDTO CategoryToCategoryDTO(Category category)
+        public static CategoryDTO CategoryToCategoryDTO(this Category category)
         {
             CategoryDTO categoryDTO = new CategoryDTO()
             {
@@ -56,6 +57,17 @@ namespace OngProject.Core.Mapper
                 Image = entity.Image
             };
             return categorydto;
+        }
+
+        public static List<CategoryDTO> ToDTO(this IList<Category> entities)
+        {
+            var listDTOs = new List<CategoryDTO>();
+            foreach (var item in entities)
+            {
+                listDTOs.Add(item.CategoryToCategoryDTO());
+                // yield return item.ToFullDTO();
+            }
+            return listDTOs;
         }
     }
 }

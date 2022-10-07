@@ -12,6 +12,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
+using System;
 
 namespace OngProject.Core.Business
 {
@@ -60,15 +61,14 @@ namespace OngProject.Core.Business
 
         public async Task Delete(int id)
         {
-                await _unitOfWork.CategoryRepository.Delete(id);
-                await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.CategoryRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> DoesExist(int id)
         {
             return await _unitOfWork.CategoryRepository.EntityExist(id);
         }
-
 
         public IEnumerable<CategoryDTO> GetAllCatNames()
         {
@@ -83,6 +83,15 @@ namespace OngProject.Core.Business
             return catDTO;
         }
 
+        public PagedList<CategoryDTO> GetAll(int page = 1)
+        {
+            if (page < 1) throw new ArgumentException("Argument must be greater than 0", "page");
+            var categories = _unitOfWork.CategoryRepository.GetAll(page);
+            var dtos = categories.ToDTO();
+            var pDTOs = new PagedList<CategoryDTO>(dtos, categories.TotalCount, page, 10);
+            return pDTOs;
+        }
+
         public async Task<CategoryFullDTO> GetById(int id)
         {
             var entity = await _unitOfWork.CategoryRepository.GetById(id);
@@ -91,7 +100,7 @@ namespace OngProject.Core.Business
         public async Task<Category> GetEntityById(int id)
         {
             var entity = await _unitOfWork.CategoryRepository.GetById(id);
-            return  entity;
+            return entity;
         }
     }
 }
