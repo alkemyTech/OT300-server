@@ -69,6 +69,10 @@ namespace OngProject.Repositories
             return _entities.AnyAsync(x => x.Id == id);
         }
 
+        public PagedList<T> GetAll(int pageNumber = 1 /*, int pageSize=10*/)
+        {
+            return PagedList<T>.Create(_entities, pageNumber, 10);
+        }
         public IEnumerable<T> GetAll()
         {
             return _entities;
