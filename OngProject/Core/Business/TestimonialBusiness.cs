@@ -84,12 +84,11 @@ namespace OngProject.Core.Business
         {
             var testimonialToUpdate = await _unitOfWork.TestimonialRepository.GetById(id);
 
-            //agregar GUID
             var fileName = "Testimonial-" + testimonialDto.Name + "-" + Guid.NewGuid().ToString() + ".jpg"; ;
 
-            testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);
-
             testimonialToUpdate = TestimonialMapper.UpdateDtoToTestimonial(testimonialDto);
+            
+            testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);                    
 
             await _unitOfWork.TestimonialRepository.Update(testimonialToUpdate);
             await _unitOfWork.SaveChangesAsync();
