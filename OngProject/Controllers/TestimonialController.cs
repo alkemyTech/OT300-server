@@ -13,7 +13,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "User, Admin")]
     public class TestimonialController : Controller
     {
         private readonly ITestimonialBusiness _testimonialBusiness;
@@ -39,13 +39,14 @@ namespace OngProject.Controllers
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTestimonial(int id, TestimonialDTO updateTestimonial, IFormFile Image)
+        [Authorize]
+        public async Task<IActionResult> PutTestimonial(int id, [FromForm] TestimonialUpdateDTO updateTestimonial, IFormFile ImageFile)
         {
             var exist = await _testimonialBusiness.DoesExist(id);
 
-            if (!exist)
+            if (exist)
             {
-                updateTestimonial.Image = Image.OpenReadStream();
+                updateTestimonial.Image = ImageFile.OpenReadStream();
                 var updated = await _testimonialBusiness.Update(id, updateTestimonial);
                 return Ok(updated); 
             }
@@ -55,6 +56,7 @@ namespace OngProject.Controllers
 
         // POST: api/Testimonial
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> PostTestimonial([FromForm] TestimonialDTO testimonialDTO, IFormFile imageFile)
         {
             if (!ModelState.IsValid)

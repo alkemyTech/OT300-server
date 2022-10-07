@@ -27,7 +27,7 @@ namespace OngProject.Core.Business
             Testimonial testimonial = new Testimonial();
 
             //set the file name for the path
-            var fileName = "Testimonial-" + testimonialDTO.Name + Guid.NewGuid().ToString() + ".jpg";
+            var fileName = "Testimonial-" + testimonialDTO.Name + "-" + Guid.NewGuid().ToString() + ".jpg";
 
             //Map the DTO so when the Entity is added have all the information for the Database
             testimonial = testimonialDTO.DtoToTestimonial();
@@ -59,14 +59,15 @@ namespace OngProject.Core.Business
                     throw new  Exception("The Testimony does not exist");
             }
 
-             await _unitOfWork.TestimonialRepository.Delete(id);
+            await _unitOfWork.TestimonialRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
 
             return true;
         }
 
-        public Task<bool> DoesExist(int id)
+        public async Task<bool> DoesExist(int id)
         {
-            return _unitOfWork.TestimonialRepository.EntityExist(id);
+            return await _unitOfWork.TestimonialRepository.EntityExist(id);
         }
 
         public IEnumerable<Testimonial> GetAll()
@@ -74,23 +75,23 @@ namespace OngProject.Core.Business
             throw new NotImplementedException();
         }
 
-        public Task<Testimonial> GetById(int id)
+        public async Task<Testimonial> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.TestimonialRepository.GetById(id);
         }
 
-        public async Task<TestimonialDTO> Update(int id, TestimonialDTO testimonialDto)
+        public async Task<TestimonialUpdateDTO> Update(int id, TestimonialUpdateDTO testimonialDto)
         {
             var testimonialToUpdate = await _unitOfWork.TestimonialRepository.GetById(id);
 
             //agregar GUID
-            var fileName = "Testimonial-" + testimonialDto.Name + Guid.NewGuid().ToString() + ".jpg"; ;
+            var fileName = "Testimonial-" + testimonialDto.Name + "-" + Guid.NewGuid().ToString() + ".jpg"; ;
 
             testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);
 
-            testimonialToUpdate = TestimonialMapper.DtoToTestimonial(testimonialDto);
+            testimonialToUpdate = TestimonialMapper.UpdateDtoToTestimonial(testimonialDto);
 
-            var updated = await _unitOfWork.TestimonialRepository.Update(testimonialToUpdate);
+            await _unitOfWork.TestimonialRepository.Update(testimonialToUpdate);
             await _unitOfWork.SaveChangesAsync();
             
             return testimonialDto;

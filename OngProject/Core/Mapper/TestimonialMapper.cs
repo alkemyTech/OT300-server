@@ -16,5 +16,17 @@ namespace OngProject.Core.Mapper
 
             return testimonial;
         }
+
+        public static Testimonial UpdateDtoToTestimonial(this TestimonialUpdateDTO testimonialUpdateDTO)
+        {
+            Testimonial testimonial = new Testimonial()
+            {
+                Name = testimonialUpdateDTO.Name ?? string.Empty,
+                Content = testimonialUpdateDTO.Content ?? string.Empty
+            };
+
+
+            return testimonial;
+        }
     }
 }
