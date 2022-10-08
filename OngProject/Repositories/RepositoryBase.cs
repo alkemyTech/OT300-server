@@ -40,7 +40,6 @@ namespace OngProject.Repositories
         public async Task<T> Update(T entity)
         {
             var result = _dbContext.Entry(entity).State = EntityState.Modified;
-            entity.LastEditedAt = DateTime.UtcNow;
             //TODO: si no esta en el contexto por UOF excepcion al savechanges
             //TODO: Para que se neceista devolver T?
             return entity;
