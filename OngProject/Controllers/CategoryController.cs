@@ -83,5 +83,18 @@ namespace OngProject.Controllers
 
             return Ok();
         }
+        [Authorize(Roles = "Admin")]
+        [HttpPost("{id}")]
+        public async Task<IActionResult> Update([FromForm] CategoryPostDTO categoryPostDTO,IFormFile file, int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            if (file != null) { categoryPostDTO.File = file.OpenReadStream(); } else { categoryPostDTO.File = null; }
+            var response = await _categoryBusiness.UpdateCategory(id, categoryPostDTO);
+            return Ok(response);
+        }
     }
+
 }

@@ -15,6 +15,7 @@ namespace OngProject.Core.Interfaces
         Task<Category> GetEntityById(int id);
         Task Delete(int id);
         Task<bool> DoesExist(int id);
+        Task<CategoryPostDTO> UpdateCategory(int id,CategoryPostDTO categoryPostDTO);
 
     }
 }
