@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using OngProject.Core.Interfaces;
+﻿using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OngProject.Core.Business
@@ -40,9 +36,24 @@ namespace OngProject.Core.Business
             return _unitOfWork.CommentRepository.GetById(id);
         }
 
-        public Task<bool> Update(Comment comment)
+        public async Task<CommentDTO> Update(string newContent, int commentId, int userId)
         {
-            throw new NotImplementedException();
+            var comment = await _unitOfWork.CommentRepository.GetById(commentId);
+
+            var user = await _unitOfWork.UserRepository.GetById(userId);
+
+            if ((comment == null || comment.UserId != userId) && user.RoleId != 1)
+            {
+                return null;
+            }
+
+            comment.Body = newContent;
+
+            var updated = await _unitOfWork.CommentRepository.Update(comment);
+
+            _unitOfWork.SaveChangesAsync();
+
+            return CommentMapper.CommentToCommentDTO(comment);
         }
         public async Task<Comment> Add(CommentAddDto commentAddDto)
         {
@@ -76,6 +87,11 @@ namespace OngProject.Core.Business
                 }
 
             return listaFiltrada;
+        }
+
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.CommentRepository.EntityExist(id);
         }
 
         public async Task<bool> Delete(int id)
