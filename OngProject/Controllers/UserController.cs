@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OngProject.Core.Business;
+using OngProject.Core.Models.DTOs;
 using OngProject.DataAccess;
 using OngProject.Entities;
 using OngProject.Repositories;
@@ -41,13 +42,20 @@ namespace OngProject.Controllers
             throw new NotImplementedException();
         }
 
-        // PUT: api/Users2/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public Task<IActionResult> PutUser(int id, User user)
+        
+        [HttpPatch("{id}")]
+        [Authorize(Roles = "User, Admin")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserPatchDTO user)
         {
-            throw new NotImplementedException();
-        }
+            int userId = int.Parse((HttpContext.User.Identity as ClaimsIdentity).FindFirst("Identifier").Value);
+            string role = (HttpContext.User.Identity as ClaimsIdentity).FindFirst(ClaimTypes.Role).Value;
+
+            if (userId != id && role != "Admin")
+                return Forbid();
+
+			UserPatchDTO updatedUserProfile = await _userBusiness.Update(id, user);
+			return updatedUserProfile is not null ? Ok(updatedUserProfile) : NotFound();
+		}
 
         // POST: api/Users2
         [HttpPost]
