@@ -38,6 +38,16 @@ namespace OngProject.Core.Models.DTOs
         internal Stream ImageFile { get; set; }
 
     }
+
+    public class NewsPutDTO
+    {
+        public string Name { get; set; }
+        public string Content { get; set; }
+        internal Stream ImageFile { get; set;}
+        [Required]
+        public int IdCategory { get; set;}
+
+    }
 }
 
 
