@@ -53,9 +53,9 @@ namespace OngProject.Controllers
             if (userId != id && role != "Admin")
                 return Forbid();
 
-			UserPatchDTO updatedUserProfile = await _userBusiness.Update(id, user);
-			return updatedUserProfile is not null ? Ok(updatedUserProfile) : NotFound();
-		}
+            UserPatchDTO updatedUserProfile = await _userBusiness.Update(id, user);
+            return updatedUserProfile is not null ? Ok(updatedUserProfile) : NotFound();
+        }
 
         // POST: api/Users2
         [HttpPost]
