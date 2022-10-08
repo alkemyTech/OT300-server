@@ -13,7 +13,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "Admin")]
     public class TestimonialController : Controller
     {
         private readonly ITestimonialBusiness _testimonialBusiness;
@@ -23,18 +23,18 @@ namespace OngProject.Controllers
         }
 
         // GET: api/Testimonial
-        [HttpGet]
-        public Task<IEnumerable<User>> GetAllTestimonials()
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet]
+        //public Task<IEnumerable<User>> GetAllTestimonials()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // GET: api/Testimonial/5
-        [HttpGet("{id}")]
-        public Task<IActionResult> GetTestimonial(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet("{id}")]
+        //public Task<IActionResult> GetTestimonial(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -73,7 +73,7 @@ namespace OngProject.Controllers
 
         // DELETE: api/Testimonial/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "User, Admin")]
+        [Authorize]
         public async Task<ActionResult<bool>> DeleteTestimonial(int id)
         {
             var delete = await _testimonialBusiness.Delete(id);
