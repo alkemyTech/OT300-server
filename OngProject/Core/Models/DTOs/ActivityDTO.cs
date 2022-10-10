@@ -14,7 +14,7 @@ namespace OngProject.Core.Models.DTOs
         [Column(TypeName = "TEXT")]
         public string Content { get; set; }
 
-        //[Required(ErrorMessage = "An image is required")]
+        [Required(ErrorMessage = "An image is required")]
         internal Stream ImageFile { get; set; }
     }
 }

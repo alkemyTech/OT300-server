@@ -36,23 +36,35 @@ namespace OngProject.Controllers
 
         // GET: api/Activity/5
         [HttpGet("{id}")]
-        public Task<ActionResult<Activity>> GetActivity(int id)
+        public Task<Activity> GetActivity(int id)
         {
-            throw new NotImplementedException();
+            return _activityBusiness.GetById(id);
         }
 
         // PUT: api/Activity/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public Task<IActionResult> PutActivity(int id, Activity activity)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> PutActivity(int id, [FromForm] ActivityUpdateDTO activityUpdateDto, IFormFile imageFile)
         {
-            throw new NotImplementedException();
+            var existActivity = await _activityBusiness.DoesExist(id);
+
+            if (existActivity)
+            {
+                if (imageFile != null) { activityUpdateDto.ImageFile = imageFile.OpenReadStream(); } else { activityUpdateDto.ImageFile = null; }
+
+                var update = await _activityBusiness.Update(id, activityUpdateDto);
+
+                return Ok(update);
+            }
+
+            return NotFound("activity does not exist to update");
         }
 
         // POST: api/Activity
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> PostActivity([FromForm] ActivityDTO activityDto, [Required]IFormFile imageFile)
+        [Authorize(Roles = "user,Admin")]
+        public async Task<IActionResult> PostActivity([FromForm] ActivityDTO activityDto, [Required] IFormFile imageFile)
         {
             activityDto.ImageFile = imageFile.OpenReadStream();
 
@@ -64,10 +76,11 @@ namespace OngProject.Controllers
 
         // DELETE: api/Activity/5
         [HttpDelete("{id}")]
-        public ActionResult<bool> DeleteActivity(int id)
+        public Task<bool> DeleteActivity(int id)
         {
             throw new NotImplementedException();
         }
     }
 }
+
 
