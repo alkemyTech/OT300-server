@@ -12,6 +12,7 @@ using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
+using System;
 
 namespace OngProject.Core.Business
 {
@@ -92,6 +93,33 @@ namespace OngProject.Core.Business
         {
             var entity = await _unitOfWork.CategoryRepository.GetById(id);
             return  entity;
+        }
+        public async Task<CategoryPostDTO> UpdateCategory(int id, CategoryPostDTO categoryPostDTO)
+        {
+            var category = await _unitOfWork.CategoryRepository.GetById(id);
+
+            if(category != null)
+            {
+                category.Name = categoryPostDTO.Name;
+                category.Description = categoryPostDTO.Description ?? category.Description;
+                
+                if(categoryPostDTO.File is null || categoryPostDTO.File.Length == 0)
+                {
+                    category.Image = category.Image;
+                }
+                else
+                {
+                    var filename = "Category-" + categoryPostDTO.Name + "-" + Guid.NewGuid().ToString() + ".jpg";
+                    category.Image = await _imageStorageHerlper.UploadImageAsync(categoryPostDTO.File, filename);
+                    
+                }
+
+                await _unitOfWork.CategoryRepository.Update(category);
+                await _unitOfWork.SaveChangesAsync();
+
+                
+            }
+            return categoryPostDTO;
         }
     }
 }
