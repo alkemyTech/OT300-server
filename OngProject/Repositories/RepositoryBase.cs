@@ -24,8 +24,38 @@ namespace OngProject.Repositories
 
         public async Task<T> GetById(int id)
         {
+            return await GetById(id, false);
+        }
+
+        public async Task<T> GetById(int id, bool includeDeleted = false)
+        {
             var entity = await _entities.FindAsync(id);
-            return (entity == null || entity.IsDeleted) ? null : entity;
+            if ((entity == null || entity.IsDeleted && !includeDeleted))
+            {
+                return null;
+            }
+            return entity;
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            return GetAll(false);
+        }
+
+        public PagedList<T> GetAll(int pageNumber = 1 /*, int pageSize=10*/)
+        {
+            return GetAll(pageNumber, false);
+        }
+
+        public PagedList<T> GetAll(int pageNumber = 1, bool includeDeleted = false /*, int pageSize=10*/)
+        {
+            var all = GetAll(includeDeleted).AsQueryable();
+            return PagedList<T>.Create(all, pageNumber, 10);
+        }
+
+        public IEnumerable<T> GetAll(bool includeDeleted = false)
+        {
+            return includeDeleted ? _entities : _entities.Where(x => x.IsDeleted == false);
         }
 
         public async Task<T> Add(T entity)
@@ -68,16 +98,12 @@ namespace OngProject.Repositories
 
         public Task<bool> EntityExist(int id)
         {
-            return _entities.AnyAsync(x => x.Id == id && !x.IsDeleted);
+            return EntityExist(id, false);
         }
 
-        public PagedList<T> GetAll(int pageNumber = 1 /*, int pageSize=10*/)
+        public Task<bool> EntityExist(int id, bool includeDeleted = false)
         {
-            return PagedList<T>.Create(_entities.Where(x => x.IsDeleted == false), pageNumber, 10);
-        }
-        public IEnumerable<T> GetAll()
-        {
-            return _entities.Where(x => x.IsDeleted == false);
+            return _entities.AnyAsync(x => x.Id == id && x.IsDeleted == includeDeleted);
         }
     }
 }
