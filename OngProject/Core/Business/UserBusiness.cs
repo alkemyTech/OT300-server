@@ -43,9 +43,19 @@ namespace OngProject.Core.Business
 
             return userDto;
         }
-        public User Update(User user)
+        public async Task<UserPatchDTO> Update(int id, UserPatchDTO user)
         {
-            throw new NotImplementedException();
+            User toUpdate = await _unitOfWork.UserRepository.GetById(id);
+
+            if (toUpdate is null)
+                return null;
+
+            toUpdate.PatchToEntity(user);
+
+            await _unitOfWork.UserRepository.Update(toUpdate);
+            await _unitOfWork.SaveChangesAsync();
+
+            return user;
         }
 
         public async Task Delete(int id)
