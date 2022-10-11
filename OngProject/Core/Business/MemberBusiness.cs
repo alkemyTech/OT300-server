@@ -1,11 +1,14 @@
 ﻿using OngProject.Core.Helper;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static Amazon.S3.Util.S3EventNotification;
 
@@ -22,18 +25,22 @@ namespace OngProject.Core.Business
             _imageStorageHerlper = imageStorageHerlper;
         }
 
-        public IEnumerable<MembersDTO> GetAll()
+        public PagedList<MembersDTO> GetAll(PaginationParams paginationParams)
         {
-            var members = _unitOfWork.MembersRepository.GetAll();
-            var dtos = new List<MembersDTO>();
+            var members = _unitOfWork.MembersRepository.GetAll(paginationParams.PageNumber);
+            var membersDto = new List<MembersDTO>();
 
             foreach (var member in members)
             {
-                dtos.Add(MemberMapper.ToPublicDTO(member));
+                membersDto.Add(MemberMapper.ToPublicDTO(member));
             }
 
-            return dtos;
+            var pagedMembers = new PagedList<MembersDTO>(membersDto,members.TotalCount, paginationParams.PageNumber, paginationParams.PageSize);
+
+
+            return pagedMembers;
         }
+
 
         public Task<Member> GetById(int id)
         {

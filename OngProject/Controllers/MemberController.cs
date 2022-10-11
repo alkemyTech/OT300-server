@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories;
 using System.Threading.Tasks;
 
 namespace OngProject.Controllers
@@ -19,11 +21,22 @@ namespace OngProject.Controllers
             _memberBusiness = memberBusiness;
         }
 
+
         [HttpGet]
-        public IActionResult GetAll()
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetAll([FromQuery] PaginationParams paginationParams)
         {
-            var members = _memberBusiness.GetAll();
-            return Ok(members);
+
+            PagedList<MembersDTO> pageMembers = _memberBusiness.GetAll(paginationParams);
+            var url = this.Request.Path;
+            return Ok(new
+            {
+                next = pageMembers.HasNext ? $"{url}/{paginationParams.PageNumber + 1}" : "",
+                prev = (pageMembers.Count > 0 && pageMembers.HasPrevious) ? $"{url}/{paginationParams.PageNumber - 1}" : "",
+                totalPages = pageMembers.TotalPages,
+                currentPage = pageMembers.CurrentPage,
+                data = pageMembers
+            });
         }
 
         [HttpGet("{id}")]
