@@ -53,13 +53,22 @@ namespace OngProject.Controllers
             }
         }
 
-        [HttpPut]
-        [Authorize]
-        public async Task<IActionResult> Put( Member members)
+        [HttpPut("{id}")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> Put(int id, [FromForm] MemberUpdateDTO memberUpdateDto, IFormFile imageFile)
         {
-            var member = await _memberBusiness.Update(members);
+            var existActivity = await _memberBusiness.DoesExist(id);
 
-            return Ok(member);
+            if (existActivity)
+            {
+                if (imageFile != null) { memberUpdateDto.ImageFile = imageFile.OpenReadStream(); } else { memberUpdateDto.ImageFile = null; }
+
+                await _memberBusiness.Update(id, memberUpdateDto);
+
+                return Ok("The member was updated successfully");
+            }
+
+            return NotFound("Member does not exist to update");
         }
 
         [HttpDelete("{id}")]
