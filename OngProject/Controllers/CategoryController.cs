@@ -14,6 +14,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http.Extensions;
+using OngProject.Repositories;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -49,12 +50,14 @@ namespace OngProject.Controllers
             else
             {
                 var url = this.Request.Path;
-                var paged = _categoryBusiness.GetAll(page.Value);
+                PagedList<CategoryDTO> paged = _categoryBusiness.GetAll(page.Value);
                 return Ok(new
                 {
-                    data = paged,
                     next = paged.HasNext ? $"{url}/{page + 1}" : "",
-                    prev = (paged.Count > 0 && paged.HasPrevious) ? $"{url}/{page - 1}" : ""
+                    prev = (paged.Count > 0 && paged.HasPrevious) ? $"{url}/{page - 1}" : "",
+                    currentPage = paged.CurrentPage,
+                    totalPages = paged.TotalPages,
+                    data = paged,
                 });
             }
         }
