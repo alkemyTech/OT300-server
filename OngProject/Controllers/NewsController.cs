@@ -38,7 +38,9 @@ namespace OngProject.Controllers
             {
                 data = pageNews,
                 next = pageNews.HasNext ? $"{url}/{page + 1}" : "",
-                prev = (pageNews.Count > 0 && pageNews.HasPrevious) ? $"{url}/{page - 1}" : ""
+                prev = (pageNews.Count > 0 && pageNews.HasPrevious) ? $"{url}/{page - 1}" : "",
+                currentPage = pageNews.CurrentPage,
+                totalPages = pageNews.TotalPages,
             });
         }
  
