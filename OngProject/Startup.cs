@@ -101,6 +101,7 @@ namespace OngProject
             app.UseRouting();
             app.UseAuthentication();
             app.UseMiddleware<OwnerShipMiddleWare>();
+            app.UseRequestMethod();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
