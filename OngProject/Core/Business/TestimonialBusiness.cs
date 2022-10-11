@@ -6,6 +6,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Core.Business
@@ -70,9 +71,24 @@ namespace OngProject.Core.Business
             return await _unitOfWork.TestimonialRepository.EntityExist(id);
         }
 
-        public IEnumerable<Testimonial> GetAll()
+        public PagedList<TestimonialListDTO> GetAllPaged(int page=1)
         {
-            throw new NotImplementedException();
+
+            if (page < 1) throw new ArgumentException("Pages must be greater than 0", "page");
+            
+            var testimony = _unitOfWork.TestimonialRepository.GetAll(page);
+            
+            List<TestimonialListDTO> testimonialListDTO = new List<TestimonialListDTO>();
+
+            foreach (var testimonial in testimony)
+            {
+                testimonialListDTO.Add(testimonial.testimonialToDTO());
+            }
+
+            var pDTOs = new PagedList<TestimonialListDTO>(testimonialListDTO, testimony.TotalCount, page, 10);
+
+            return pDTOs;
+
         }
 
         public async Task<Testimonial> GetById(int id)
