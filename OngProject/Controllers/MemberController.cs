@@ -63,7 +63,7 @@ namespace OngProject.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public async Task<ActionResult<bool>> DeleteTestimonial(int id)
         {
 

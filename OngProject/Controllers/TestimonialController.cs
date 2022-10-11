@@ -13,7 +13,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class TestimonialController : Controller
     {
         private readonly ITestimonialBusiness _testimonialBusiness;
@@ -23,29 +23,40 @@ namespace OngProject.Controllers
         }
 
         // GET: api/Testimonial
-        [HttpGet]
-        public Task<IEnumerable<User>> GetAllTestimonials()
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet]
+        //public Task<IEnumerable<User>> GetAllTestimonials()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // GET: api/Testimonial/5
-        [HttpGet("{id}")]
-        public Task<ActionResult<User>> GetTestimonial(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet("{id}")]
+        //public Task<IActionResult> GetTestimonial(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public Task<IActionResult> PutTestimonial(int id, User user)
+        [Authorize]
+        public async Task<IActionResult> PutTestimonial(int id, [FromForm] TestimonialUpdateDTO updateTestimonial, IFormFile ImageFile)
         {
-            throw new NotImplementedException();
+            var exist = await _testimonialBusiness.DoesExist(id);
+
+            if (exist)
+            {
+                if (ImageFile != null) { updateTestimonial.Image = ImageFile.OpenReadStream(); } else { updateTestimonial.Image = null; }
+                var updated = await _testimonialBusiness.Update(id, updateTestimonial);
+                return Ok(updated); 
+            }
+
+            return NotFound("The testimonial to update doesn't exist");
         }
 
         // POST: api/Testimonial
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> PostTestimonial([FromForm] TestimonialDTO testimonialDTO, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
@@ -62,7 +73,7 @@ namespace OngProject.Controllers
 
         // DELETE: api/Testimonial/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "User, Admin")]
+        [Authorize]
         public async Task<ActionResult<bool>> DeleteTestimonial(int id)
         {
             var delete = await _testimonialBusiness.Delete(id);
