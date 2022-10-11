@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System.Collections.Generic;
 
 namespace OngProject.Core.Mapper
 {
@@ -41,6 +42,17 @@ namespace OngProject.Core.Mapper
                 IdCategory = news.IdCategory
             };
             return dto;
+        }
+
+        public static List<NewsDTO> ToDTO(this IList<News> entities)
+        {
+            var listDTOs = new List<NewsDTO>();
+            foreach (var item in entities)
+            {
+                listDTOs.Add(item.ToFullDTO());
+                
+            }
+            return listDTOs;
         }
     }
 }
