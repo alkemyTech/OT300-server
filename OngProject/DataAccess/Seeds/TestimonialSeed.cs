@@ -33,10 +33,10 @@ namespace OngProject.DataAccess.Seeds
             var i = 1;
             foreach (var m in test)
             {
-                m.Image = $"/s3/ong/testimonie/img{1}.jpg";
+                m.Image = $"/s3/ong/testimonie/img{m}.jpg";
                 m.CreatedAt = DateTime.Now;
                 m.IsDeleted = false;
-                // m.LastEditedAt = DateTime.Now;
+                m.LastEditedAt = DateTime.Now;
                 i++;
             }
 
