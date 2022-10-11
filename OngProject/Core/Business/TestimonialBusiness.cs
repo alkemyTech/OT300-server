@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
@@ -78,12 +79,7 @@ namespace OngProject.Core.Business
             
             var testimony = _unitOfWork.TestimonialRepository.GetAll(page);
             
-            List<TestimonialListDTO> testimonialListDTO = new List<TestimonialListDTO>();
-
-            foreach (var testimonial in testimony)
-            {
-                testimonialListDTO.Add(testimonial.testimonialToDTO());
-            }
+            var testimonialListDTO = testimony.Select(x => x.testimonialToDTO()).ToList();
 
             var pDTOs = new PagedList<TestimonialListDTO>(testimonialListDTO, testimony.TotalCount, page, 10);
 
