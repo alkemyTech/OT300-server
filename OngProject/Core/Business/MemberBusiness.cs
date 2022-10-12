@@ -65,12 +65,33 @@ namespace OngProject.Core.Business
             return members;
         }
 
-        public async Task<bool> Update(Member members)
+        public async Task<MemberUpdateDTO> Update(int id, MemberUpdateDTO memberUpdateDto)
         {
-            await _unitOfWork.MembersRepository.Update(members);
+            var memberUp = await _unitOfWork.MembersRepository.GetById(id);
+
+            if (memberUpdateDto.Name == null) memberUpdateDto.Name = memberUp.Name;
+
+            if (memberUpdateDto.ImageFile is null || memberUpdateDto.ImageFile.Length == 0)
+            {
+                memberUp.Image = "";
+            }
+
+            else
+            {
+                var fileName = "Member -" + memberUpdateDto.Name + ".jpg";
+
+                memberUp.Image = await _imageStorageHerlper.UploadImageAsync(memberUpdateDto.ImageFile, fileName);
+            }
+
+            memberUp.UpdateDtoToMember(memberUpdateDto);
+
+            await _unitOfWork.MembersRepository.Update(memberUp);
+
             await _unitOfWork.SaveChangesAsync();
-            return true;
+
+            return memberUpdateDto;
         }
+    
 
         public async Task Delete(int id)
         {

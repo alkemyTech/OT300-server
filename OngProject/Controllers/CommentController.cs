@@ -6,6 +6,7 @@ using OngProject.Core.Models.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -56,6 +57,29 @@ namespace OngProject.Controllers
                 
             } 
             return BadRequest("The user must have Login");
+        }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update(int id, [FromBody]UpdateCommentDTO content)
+        {
+
+            var doesExist = await _commentBusiness.DoesExist(id);
+
+            if (!doesExist)
+            {
+                return NotFound("Comment not found");
+            }
+
+            var claim = HttpContext.User.Identity as ClaimsIdentity;
+            var userid = Int32.Parse(claim.FindFirst("Identifier").Value);
+            var commentDto = await _commentBusiness.Update(content.Body, id, userid);
+
+            if (commentDto is null)
+            {
+                return Forbid("Bearer");
+            }
+
+            return Ok(commentDto);
         }
 
         [HttpPost]

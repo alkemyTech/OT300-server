@@ -18,6 +18,7 @@ using OngProject.Core.Models;
 using OngProject.Services;
 using OngProject.Services.Interfaces;
 using OngProject.Core.Helper;
+using OngProject.Middleware;
 
 namespace OngProject
 {
@@ -99,6 +100,8 @@ namespace OngProject
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthentication();
+            app.UseMiddleware<OwnerShipMiddleWare>();
+            app.UseRequestMethod();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

@@ -55,19 +55,27 @@ namespace OngProject.Core.Business
             return entity.ToFullDTO();
         }
 
-        public async Task<News> Update(News news)
+        public async Task<NewsPutDTO> Update(int id, NewsPutDTO newsDto)
         {
-            var newsToUpdate = await _unitOfWork.NewsRepository.GetById(news.Id);
-            if (newsToUpdate != null)
+            var newsToUpdate = await _unitOfWork.NewsRepository.GetById(id);
+
+            newsToUpdate.NewsUpdate(newsDto);
+
+            if (newsDto.ImageFile is null || newsDto.ImageFile.Length == 0)
             {
-                await _unitOfWork.NewsRepository.Update(news);
-                _unitOfWork.SaveChanges();
-                return news;
+                newsToUpdate.Image = newsToUpdate.Image;
             }
             else
             {
-                return null;
+                var fileName = "News-" + newsDto.Name + "-" + Guid.NewGuid().ToString() + ".jpg";
+                newsToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(newsDto.ImageFile, fileName);
             }
+
+            await _unitOfWork.NewsRepository.Update(newsToUpdate);
+            _unitOfWork.SaveChanges();
+
+            return newsDto;
+            
         }
 
         public async Task Delete(int id)

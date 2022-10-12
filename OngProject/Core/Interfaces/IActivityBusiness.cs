@@ -10,7 +10,8 @@ namespace OngProject.Core.Interfaces
         IEnumerable<Activity> GetAll();
         Task<Activity> GetById(int id);
         Task<ActivityDTO> Add(ActivityDTO activityDTO);
-        Task<bool> Update(Activity activity);
+        Task<ActivityUpdateDTO> Update(int id, ActivityUpdateDTO activityUpdatedto);
         Task<bool> Delete(int id);
+        Task<bool> DoesExist(int id);
     }
 }

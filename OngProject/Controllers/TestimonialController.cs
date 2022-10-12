@@ -8,12 +8,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using OngProject.Core.Business;
 using OngProject.Core.Models.DTOs;
+using OngProject.Repositories;
 
 namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "Admin, User")]
     public class TestimonialController : Controller
     {
         private readonly ITestimonialBusiness _testimonialBusiness;
@@ -24,14 +25,26 @@ namespace OngProject.Controllers
 
         // GET: api/Testimonial
         [HttpGet]
-        public Task<IEnumerable<User>> GetAllTestimonials()
+        [Authorize]
+        public IActionResult GetAllTestimonials([FromQuery] int page=1)
         {
-            throw new NotImplementedException();
+            PagedList<TestimonialListDTO> pageTestimony = _testimonialBusiness.GetAllPaged(page);
+            var url = this.Request.Path;
+            return Ok(new
+            {                
+                next = pageTestimony.HasNext ? $"{url}/{page + 1}" : "",
+                prev = (pageTestimony.Count > 0 && pageTestimony.HasPrevious) ? $"{url}/{page - 1}" : "",
+                totalPages = pageTestimony.TotalPages,
+                currentPage = pageTestimony.CurrentPage,
+                data = pageTestimony
+            });
+
         }
 
         // GET: api/Testimonial/5
         [HttpGet("{id}")]
-        public Task<ActionResult<User>> GetTestimonial(int id)
+        [Authorize]
+        public Task<IActionResult> GetTestimonial(int id)
         {
             throw new NotImplementedException();
         }
@@ -39,13 +52,24 @@ namespace OngProject.Controllers
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public Task<IActionResult> PutTestimonial(int id, User user)
+        [Authorize (Roles = "Admin")]
+        public async Task<IActionResult> PutTestimonial(int id, [FromForm] TestimonialUpdateDTO updateTestimonial, IFormFile ImageFile)
         {
-            throw new NotImplementedException();
+            var exist = await _testimonialBusiness.DoesExist(id);
+
+            if (exist)
+            {
+                if (ImageFile != null) { updateTestimonial.Image = ImageFile.OpenReadStream(); } else { updateTestimonial.Image = null; }
+                var updated = await _testimonialBusiness.Update(id, updateTestimonial);
+                return Ok(updated); 
+            }
+
+            return NotFound("The testimonial to update doesn't exist");
         }
 
         // POST: api/Testimonial
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> PostTestimonial([FromForm] TestimonialDTO testimonialDTO, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
@@ -62,7 +86,7 @@ namespace OngProject.Controllers
 
         // DELETE: api/Testimonial/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "User, Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteTestimonial(int id)
         {
             var delete = await _testimonialBusiness.Delete(id);

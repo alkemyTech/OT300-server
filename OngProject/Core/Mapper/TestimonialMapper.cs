@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using System.Data.Common;
 
 namespace OngProject.Core.Mapper
 {
@@ -15,6 +16,30 @@ namespace OngProject.Core.Mapper
 
 
             return testimonial;
+        }
+
+        public static Testimonial UpdateDtoToTestimonial(this Testimonial testimonial, TestimonialUpdateDTO testimonialUpdateDTO)
+        {
+            //Testimonial testimonial = new Testimonial()
+            {
+                testimonial.Name = testimonialUpdateDTO.Name ?? testimonial.Name;
+                testimonial.Content = testimonialUpdateDTO.Content ?? testimonial.Content;
+            }
+
+
+            return testimonial;
+        }
+
+        public static TestimonialListDTO testimonialToDTO(this Testimonial testimonial)
+        {
+            TestimonialListDTO testimonialListDTO = new TestimonialListDTO()
+            {
+                Id = testimonial.Id,
+                Name=testimonial.Name,
+                Image=testimonial.Image,
+                Content=testimonial.Content
+            };
+            return testimonialListDTO;
         }
     }
 }

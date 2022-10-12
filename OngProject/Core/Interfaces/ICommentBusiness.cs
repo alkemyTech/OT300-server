@@ -10,10 +10,9 @@ namespace OngProject.Core.Interfaces
         IEnumerable<CommentDTO> GetAll();
         Task<Comment> GetById(int id);
         Task<Comment>  Add(CommentAddDto commentAddDto);
-        Task<bool> Update(Comment comment);
+        Task<CommentDTO> Update(string newContent, int commentId, int userId);
         Task<bool> Delete(int id);
         List<CommentAddDto> showListCommentDto(int id);
-
-
+        Task<bool> DoesExist(int id);
     }
 }

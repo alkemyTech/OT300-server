@@ -1,6 +1,8 @@
-﻿using OngProject.Core.Models.DTOs;
+using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
 
 namespace OngProject.Core.Mapper
 {
@@ -44,6 +46,7 @@ namespace OngProject.Core.Mapper
             return dto;
         }
 
+
         public static List<NewsDTO> ToDTO(this IList<News> entities)
         {
             var listDTOs = new List<NewsDTO>();
@@ -53,6 +56,16 @@ namespace OngProject.Core.Mapper
                 
             }
             return listDTOs;
+        }
+
+        public static News NewsUpdate(this News news, NewsPutDTO newsPutDTO)
+        {
+            {
+                news.Name = newsPutDTO.Name ?? news.Name;
+                news.Content = newsPutDTO.Content ?? news.Content;
+                news.IdCategory = newsPutDTO.IdCategory == 0 ? news.IdCategory : newsPutDTO.IdCategory;
+            }
+            return news;
         }
     }
 }

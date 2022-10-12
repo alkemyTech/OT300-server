@@ -12,7 +12,7 @@ namespace OngProject.Core.Interfaces
         PagedList<NewsDTO> GetAllPage(int page);
         Task<News> GetById(int id);
         Task<NewsFullDTO> Add(NewsPostDTO dto);
-        Task<News> Update(News news);
+        Task<NewsPutDTO> Update(int id, NewsPutDTO newsDto);
         Task Delete(int id);
         Task<bool> DoesExist(int id);
     }

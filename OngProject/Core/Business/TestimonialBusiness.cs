@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 
 namespace OngProject.Core.Business
@@ -26,7 +29,7 @@ namespace OngProject.Core.Business
             Testimonial testimonial = new Testimonial();
 
             //set the file name for the path
-            var fileName = "Testimonial-" + testimonialDTO.Name + ".jpg";
+            var fileName = "Testimonial-" + testimonialDTO.Name + "-" + Guid.NewGuid().ToString() + ".jpg";
 
             //Map the DTO so when the Entity is added have all the information for the Database
             testimonial = testimonialDTO.DtoToTestimonial();
@@ -58,29 +61,57 @@ namespace OngProject.Core.Business
                     throw new  Exception("The Testimony does not exist");
             }
 
-             await _unitOfWork.TestimonialRepository.Delete(id);
+            await _unitOfWork.TestimonialRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
 
             return true;
         }
 
-        public Task<bool> DoesExist(int id)
+        public async Task<bool> DoesExist(int id)
         {
-            return _unitOfWork.TestimonialRepository.EntityExist(id);
+            return await _unitOfWork.TestimonialRepository.EntityExist(id);
         }
 
-        public IEnumerable<Testimonial> GetAll()
+        public PagedList<TestimonialListDTO> GetAllPaged(int page=1)
         {
-            throw new NotImplementedException();
+
+            if (page < 1) throw new ArgumentException("Pages must be greater than 0", "page");
+            
+            var testimony = _unitOfWork.TestimonialRepository.GetAll(page);
+            
+            var testimonialListDTO = testimony.Select(x => x.testimonialToDTO()).ToList();
+
+            var pDTOs = new PagedList<TestimonialListDTO>(testimonialListDTO, testimony.TotalCount, page, 10);
+
+            return pDTOs;
+
         }
 
-        public Task<Testimonial> GetById(int id)
+        public async Task<Testimonial> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _unitOfWork.TestimonialRepository.GetById(id);
         }
 
-        public Task<bool> Update(Testimonial testimonial)
+        public async Task<TestimonialUpdateDTO> Update(int id, TestimonialUpdateDTO testimonialDto)
         {
-            throw new NotImplementedException();
+            var testimonialToUpdate = await _unitOfWork.TestimonialRepository.GetById(id);
+
+            testimonialToUpdate.UpdateDtoToTestimonial(testimonialDto);
+
+            if (testimonialDto.Image is null || testimonialDto.Image.Length == 0)
+            {
+                testimonialToUpdate.Image = testimonialToUpdate.Image;
+            }
+            else
+            {
+                var fileName = "Testimonial-" + testimonialDto.Name + "-" + Guid.NewGuid().ToString() + ".jpg";
+                testimonialToUpdate.Image = await _imageStorageHerlper.UploadImageAsync(testimonialDto.Image, fileName);
+            }
+            await _unitOfWork.TestimonialRepository.Update(testimonialToUpdate);
+            await _unitOfWork.SaveChangesAsync();
+            
+            return testimonialDto;
+
         }
 
 

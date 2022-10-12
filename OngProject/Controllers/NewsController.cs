@@ -21,12 +21,15 @@ namespace OngProject.Controllers
     {
         private readonly INewsBusiness _newsService;
         private readonly ICommentBusiness _commentBusiness;
+        private readonly ICategoryBusiness _categoryBusiness;
 
-        public NewsController(INewsBusiness service,ICommentBusiness commentBusiness)
+        public NewsController(INewsBusiness service,ICommentBusiness commentBusiness, ICategoryBusiness categoryBusiness)
         {
             _newsService = service;
             _commentBusiness = commentBusiness;
+            _categoryBusiness = categoryBusiness;
         }
+
 
         [HttpGet]
         [Authorize(Roles = "User")]
@@ -59,7 +62,8 @@ namespace OngProject.Controllers
             return Ok(news);
         }
 
-        [HttpPost]       
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InsertNews([FromForm] NewsPostDTO dto, [Required]IFormFile imageFile)
         {
             dto.ImageFile =imageFile.OpenReadStream();
@@ -74,24 +78,31 @@ namespace OngProject.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNews(int id, [FromQuery] News news)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateNews(int id, [FromForm] NewsPutDTO newsDTO, IFormFile imageFile)
         {
-            try
+            var catExist = await _categoryBusiness.DoesExist(newsDTO.IdCategory);
+
+            if (catExist)
             {
-                if (!ModelState.IsValid)
+                var exist = await _newsService.DoesExist(id);
+
+                if (!exist)
                 {
-                    return BadRequest(string.Join(" | ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
+                    return NotFound("the News you want to update doesn't exist");
                 }
                 else
                 {
-                    var result = await _newsService.Update(news);
+                    if (newsDTO.ImageFile != null) { newsDTO.ImageFile = imageFile.OpenReadStream(); } else { newsDTO.ImageFile = null; }
+                    var result = await _newsService.Update(id, newsDTO);
                     return Ok(result);
                 }
             }
-            catch (Exception ex)
+            else
             {
-                return BadRequest(ex.Message);
+                return NotFound("Category doesn't exist");
             }
+
         }
 
         [HttpDelete("{id}")]
