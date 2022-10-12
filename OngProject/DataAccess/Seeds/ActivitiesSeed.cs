@@ -10,7 +10,8 @@ namespace OngProject.DataAccess.Seeds
         {
             var data = new[] {new Activity()
                 {
-                    Id = 1, Name = "Encuentro para Innovadores y Emprendedores Sociales",
+                    Id = 1, 
+                    Name = "Encuentro para Innovadores y Emprendedores Sociales",
                     Content =
                         "La Embajada de Canadá en Bogotá, realizará el próximo 16 de noviembre, " +
                         "un evento en el cual se invita a emprendedores e innovadores sociales, a explorar experiencias significativas de innovación y " +
@@ -25,7 +26,9 @@ namespace OngProject.DataAccess.Seeds
                 },
                 new Activity()
                 {
-                    Id = 2, Name = "Presentes en el Foro Educativo Distrital 2017", Image = "",
+                    Id = 2, 
+                    Name = "Presentes en el Foro Educativo Distrital 2017", 
+                    Image = "",
                     CreatedAt = DateTime.UtcNow,
                     Content =
                         "La Corporación Somos Más facilitó espacios de encuentro entre integrantes de la comunidad educativa de la ciudad de Bogotá, " +
@@ -42,7 +45,9 @@ namespace OngProject.DataAccess.Seeds
                 },
                 new Activity()
                 {
-                    Id = 3, Name = "Somos Más apoya a la ART", Image = "",
+                    Id = 3, 
+                    Name = "Somos Más apoya a la ART", 
+                    Image = "",
                     CreatedAt = DateTime.UtcNow,
                     Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada " +
                               "a finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar " +
@@ -54,6 +59,94 @@ namespace OngProject.DataAccess.Seeds
                               "dinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con " +
                               "100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención " +
                               "del territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 4, 
+                    Name = "Test 4", 
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 5,
+                    Name = "Test 5",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 6,
+                    Name = "Test 6",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 7,
+                    Name = "Test 7",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 8,
+                    Name = "Test 8",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 9,
+                    Name = "Test 9",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 10,
+                    Name = "Test 10",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 11,
+                    Name = "Test 11",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 12,
+                    Name = "Test 12",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 13,
+                    Name = "Test 13",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
+                },
+                new Activity()
+                {
+                    Id = 14,
+                    Name = "Test 14",
+                    Image = "",
+                    CreatedAt = DateTime.UtcNow,
+                    Content = "La Agencia de Renovación del Territorio – ART hace parte de la arquitectura institucional del gobierno de Colombia fue creada \na finales de 2015 para transformar el sector rural colombiano y cerrar las brechas entre el campo y la ciudad. Busca gerenciar \nprocesos para la transformación de los territorios priorizados mediante la articulación institucional y la participación efectiva \nen el marco de los Planes de Renovación del Territorio. El Programa de Desarrollo con Enfoque Territorial- PDET es un proceso de construcción y \nparticipación a 10 años, que va a reflejar la visión colectiva de los actores del territorio. Es por esto que la participación activa de las \ncomunidades es fundamental, ya que el PDET busca reivindicar su valor protagónico en la promoción de su propio desarrollo. Las Corporación Somos Más apoyó a \nla Dirección de Estructuración de Proyectos de la ART en la facilitación de dos encuentros con los equipos territoriales de las subregiones para promover \ndinámicas efectivas de trabajo colaborativo y socializar la metodología PDET. El primer encuentro se desarrolló del 24 al 26 de agosto de 2017 con \n100 participantes entre coordinador regional, facilitador experto, gestor municipal, apoyo social o espejo y profesional de la dirección de intervención \ndel territorio de 14 subregiones; el segundo se desarrolló en 13 y 14 de septiembre y participaron los coordinadores y gerentes de las 16 subregiones PDET."
                 }
             };
             return data;

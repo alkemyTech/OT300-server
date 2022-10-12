@@ -36,12 +36,16 @@ namespace OngProject.DataAccess.Seeds
                 new Member() { Id = 6, Name = "Rodrigo Fuente", Description = "Colaboradores | Contador" ,Image=""},
                 new Member() { Id = 7, Name = "Maria Garcia", Description = "Colaboradores | Profesora de Artes Dramáticas",Image="" },
                 new Member() { Id = 8, Name = "Marco Fernandez", Description = "Colaboradores | Profesor de Educación Física",Image=""  },
+                new Member() { Id = 9, Name = "test1", Description = "Colaboradores | Profesor",Image=""  },
+                new Member() { Id = 10, Name = "test2", Description = "Colaboradores | Profesor",Image=""  },
+                new Member() { Id = 11, Name = "test3", Description = "Colaboradores | Profesor",Image=""  },
             };
 
             foreach (var m in members)
             {
-                //m.FacebookUrl = "";
-                //m.InstagramUrl = "";
+                m.FacebookUrl = "";
+                m.InstagramUrl = "";
+                m.LinkedInUrl = "";
                 m.CreatedAt = DateTime.Now;
                 m.IsDeleted = false;
                 m.LastEditedAt = DateTime.Now;

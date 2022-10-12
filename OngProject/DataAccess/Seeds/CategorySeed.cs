@@ -13,36 +13,97 @@ namespace OngProject.DataAccess.Seeds
                 {
                     Id = 1,
                     Name = "Animals and pets",
-                    Image = "",
                     Description = "Animals and pets"
                 },
                 new Category()
                 {
                     Id = 2,
                     Name = "Art and culture",
-                    Image = "",
                     Description = "Art and culture"
                 },
                 new Category()
                 {
                     Id = 3,
                     Name = "Education",
-                    Image = "",
                     Description = "Education"
                 },
                 new Category()
                 {
                     Id = 4,
                     Name = "International aid",
-                    Image = "",
                     Description = "International aid"
                 },
                 new Category()
                 {
                     Id = 5,
                     Name = "Disability",
-                    Image = "",
                     Description = "Disability"
+                },
+                new Category()
+                {
+                    Id = 6,
+                    Name = "6",
+                    Description = "6"
+                },
+                new Category()
+                {
+                    Id = 7,
+                    Name = "7",
+                    Description = "7"
+                },
+                new Category()
+                {
+                    Id = 8,
+                    Name = "8",
+                    Description = "8"
+                },
+                new Category()
+                {
+                    Id = 9,
+                    Name = "9",
+                    Description = "9"
+                },
+                new Category()
+                {
+                    Id = 10,
+                    Name = "10",
+                    Description = "10"
+                },
+                new Category()
+                {
+                    Id = 11,
+                    Name = "11",
+                    Description = "11"
+                },
+                new Category()
+                {
+                    Id = 12,
+                    Name = "12",
+                    Description = "12"
+                },
+                new Category()
+                {
+                    Id = 13,
+                    Name = "13",
+                    Description = "13"
+                },
+                new Category()
+                {
+                    Id = 14,
+                    Name = "14",
+                    Description = "14"
+                },
+                new Category()
+                {
+                    Id = 15,
+                    Name = "15",
+                    Description = "15"
+                },
+                new Category()
+                {
+                    Id = 16,
+                    Name = "16",
+                    Description = "16"
                 }
             };
 
