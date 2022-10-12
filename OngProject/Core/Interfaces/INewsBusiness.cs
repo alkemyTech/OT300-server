@@ -1,5 +1,6 @@
 ﻿using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace OngProject.Core.Interfaces
 {
     public interface INewsBusiness
     {
-        IEnumerable<NewsDTO> GetAll();
+        PagedList<NewsDTO> GetAllPage(int page);
         Task<News> GetById(int id);
         Task<NewsFullDTO> Add(NewsPostDTO dto);
         Task<NewsPutDTO> Update(int id, NewsPutDTO newsDto);

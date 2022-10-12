@@ -3,6 +3,7 @@ using OngProject.Core.Interfaces;
 using OngProject.Core.Mapper;
 using OngProject.Core.Models.DTOs;
 using OngProject.Entities;
+using OngProject.Repositories;
 using OngProject.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,20 @@ namespace OngProject.Core.Business
             _imageStorageHerlper = imageStorageHerlper;
         }
 
+        public PagedList<NewsDTO> GetAllPage(int page = 1)
+        {
+            if (page < 1) throw new ArgumentException("Argument must be greater than 0", "page");
+            var news = _unitOfWork.NewsRepository.GetAll(page);
+            var dtos = news.ToDTO();
+            var pDTOs = new PagedList<NewsDTO>(dtos, news.TotalCount, page, 10);
+            return pDTOs;
+        }
+
+        public async Task<News> GetById(int id)
+        {
+            return await _unitOfWork.NewsRepository.GetById(id);
+        }
+
         public async Task<NewsFullDTO> Add(NewsPostDTO news)
         {
             var categoryExists = await _unitOfWork.CategoryRepository.GetById(news.IdCategory);
@@ -38,28 +53,6 @@ namespace OngProject.Core.Business
             _unitOfWork.SaveChanges();
 
             return entity.ToFullDTO();
-        }
-
-        public async Task Delete(int id)
-        {
-            await _unitOfWork.NewsRepository.Delete(id);
-            await _unitOfWork.SaveChangesAsync();
-        }
-
-        public async Task<bool> DoesExist(int id)
-        {
-            return await _unitOfWork.NewsRepository.EntityExist(id);
-        }
-
-
-        public IEnumerable<NewsDTO> GetAll()
-        {
-            return (IEnumerable<NewsDTO>)_unitOfWork.NewsRepository.GetAll();
-        }
-
-        public async Task<News> GetById(int id)
-        {
-            return await _unitOfWork.NewsRepository.GetById(id);
         }
 
         public async Task<NewsPutDTO> Update(int id, NewsPutDTO newsDto)
@@ -82,8 +75,18 @@ namespace OngProject.Core.Business
             _unitOfWork.SaveChanges();
 
             return newsDto;
-
             
+        }
+
+        public async Task Delete(int id)
+        {
+            await _unitOfWork.NewsRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<bool> DoesExist(int id)
+        {
+            return await _unitOfWork.NewsRepository.EntityExist(id);
         }
     }
 }

@@ -9,6 +9,8 @@ using System;
 using OngProject.Core.Models.DTOs;
 using OngProject.Core.Business;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using OngProject.Repositories;
 
 namespace OngProject.Controllers
 {
@@ -28,13 +30,23 @@ namespace OngProject.Controllers
             _categoryBusiness = categoryBusiness;
         }
 
-        [HttpGet("/api/news")]
-        [Authorize]
-        public IActionResult GetAllNews()
+
+        [HttpGet]
+        [Authorize(Roles = "User")]
+        public IActionResult GetAll([FromQuery] int? page = 1)
         {
-            var news = _newsService.GetAll();
-            return Ok(news);
+             PagedList<NewsDTO> pageNews = _newsService.GetAllPage(page.Value);
+            var url = this.Request.Path;
+            return Ok(new
+            {
+                data = pageNews,
+                next = pageNews.HasNext ? $"{url}/{page + 1}" : "",
+                prev = (pageNews.Count > 0 && pageNews.HasPrevious) ? $"{url}/{page - 1}" : "",
+                currentPage = pageNews.CurrentPage,
+                totalPages = pageNews.TotalPages,
+            });
         }
+ 
 
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
