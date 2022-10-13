@@ -26,20 +26,19 @@ namespace OngProject.Controllers
         public IActionResult GetContacts()
         {
             return Ok(_contactsBusiness.GetAllContacts());
-        }
-        [Authorize]
+        }        
 
         // GET api/<ContactsController>/5
-        [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //[HttpGet("{id}")]
+        //[Authorize(Roles = "Admin")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<ContactsController>
         [HttpPost]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize]
         public async Task<IActionResult> Add([FromBody] ContactDTO values)
         {
             if (!ModelState.IsValid)
@@ -53,15 +52,15 @@ namespace OngProject.Controllers
         }
 
         // PUT api/<ContactsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
         // DELETE api/<ContactsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

@@ -14,7 +14,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "User, Admin")]
+    [Authorize(Roles = "Admin")]
     public class SlideController : ControllerBase
     {
         private readonly ISlideBusiness _slideBusiness;
@@ -28,7 +28,7 @@ namespace OngProject.Controllers
 
         // GET: api/<SlidesController>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public IActionResult Get()
         {
             return Ok(_slideBusiness.GetAll());
@@ -36,7 +36,7 @@ namespace OngProject.Controllers
 
         // GET api/<SlidesController>/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> GetById(int id)
         {
             var slide = await _slideBusiness.GetById(id);
@@ -49,7 +49,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [ProducesResponseType(201, Type = typeof(SlideResponseDTO))]
         public async Task<IActionResult> Create([FromForm] SlideCreateDTO createRequest)
         {
@@ -60,7 +60,7 @@ namespace OngProject.Controllers
 
         // PUT api/<SlidesController>/5
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, [FromForm] SlideCreateDTO dto)
         {
             return await _slideBusiness.Update(id, dto) ? Ok():NotFound() ;
@@ -68,7 +68,7 @@ namespace OngProject.Controllers
 
         // DELETE api/<SlidesController>/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         public async Task<ActionResult> Delete(int id)
         {
             var exist = await _slideBusiness.DoesExist(id);

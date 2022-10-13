@@ -35,12 +35,12 @@ namespace OngProject.Controllers
         }
 
         // GET: api/Users2/5
-        [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
-        public Task<ActionResult<User>> GetUser(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet("{id}")]
+        //[Authorize(Roles = "Admin")]
+        //public Task<ActionResult<User>> GetUser(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         
         [HttpPatch("{id}")]
@@ -58,11 +58,11 @@ namespace OngProject.Controllers
         }
 
         // POST: api/Users2
-        [HttpPost]
-        public Task<ActionResult<User>> PostUser(User user)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpPost]
+        //public Task<ActionResult<User>> PostUser(User user)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // DELETE: api/Users2/5
         [HttpDelete("{id}")]

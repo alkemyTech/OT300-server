@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http.Extensions;
 using OngProject.Repositories;
+using OngProject.Core.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -36,7 +37,7 @@ namespace OngProject.Controllers
 
         // GET: api/<CategoriesController>
         [HttpGet]
-        [Authorize(Roles = "Admin,User")]
+        [Authorize]
         public IActionResult GetAllNames([FromQuery] int? page = 1)
         {
             var role = (HttpContext.User.Identity as ClaimsIdentity).FindFirst(ClaimTypes.Role).Value;
@@ -49,16 +50,24 @@ namespace OngProject.Controllers
             //if user  US-94
             else
             {
-                var url = this.Request.Path;
                 PagedList<CategoryDTO> paged = _categoryBusiness.GetAll(page.Value);
-                return Ok(new
+                if(page > paged.TotalPages)
                 {
-                    next = paged.HasNext ? $"{url}/{page + 1}" : "",
-                    prev = (paged.Count > 0 && paged.HasPrevious) ? $"{url}/{page - 1}" : "",
-                    currentPage = paged.CurrentPage,
-                    totalPages = paged.TotalPages,
-                    data = paged,
-                });
+                    return BadRequest($"page number {page} doesn't exist");
+                }
+                else
+                {
+                    var url = this.Request.Path;
+                    return Ok(new
+                    {
+                        next = paged.HasNext ? $"{url}/{page + 1}" : "",
+                        prev = (paged.Count > 0 && paged.HasPrevious) ? $"{url}/{page - 1}" : "",
+                        currentPage = paged.CurrentPage,
+                        totalPages = paged.TotalPages,
+                        data = paged
+                    });
+                }
+                
             }
         }
 
@@ -87,13 +96,27 @@ namespace OngProject.Controllers
         }
 
         // PUT api/<CategoriesController>/5
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
+
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update([FromForm] CategoryPostDTO categoryPostDTO, IFormFile file, int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            if (file != null) { categoryPostDTO.File = file.OpenReadStream(); } else { categoryPostDTO.File = null; }
+            var response = await _categoryBusiness.UpdateCategory(id, categoryPostDTO);
+            return Ok(response);
         }
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int id)
         {
             var doesExist = await _categoryBusiness.DoesExist(id);
@@ -107,18 +130,7 @@ namespace OngProject.Controllers
 
             return Ok();
         }
-        [Authorize(Roles = "Admin")]
-        [HttpPost("{id}")]
-        public async Task<IActionResult> Update([FromForm] CategoryPostDTO categoryPostDTO,IFormFile file, int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-            if (file != null) { categoryPostDTO.File = file.OpenReadStream(); } else { categoryPostDTO.File = null; }
-            var response = await _categoryBusiness.UpdateCategory(id, categoryPostDTO);
-            return Ok(response);
-        }
+        
     }
 
 }
