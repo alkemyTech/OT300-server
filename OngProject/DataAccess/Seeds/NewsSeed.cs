@@ -31,7 +31,55 @@ namespace OngProject.DataAccess.Seeds
                     Id = 3,
                     Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
                     Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
-                    IdCategory = 2                
+                    IdCategory = 3                
+                },
+                new News(){
+                    Id = 4,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 4
+                },
+                new News(){
+                    Id = 5,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 5
+                },
+                new News(){
+                    Id = 6,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 6
+                },
+                new News(){
+                    Id = 7,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 7
+                },
+                new News(){
+                    Id = 8,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 8
+                },
+                new News(){
+                    Id = 9,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 9
+                },
+                new News(){
+                    Id = 10,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 10
+                },
+                new News(){
+                    Id = 11,
+                    Name = "PROMUEVE LA GARANTÍA DE LOS DERECHOS DE LOS NIÑOS, NIÑAS Y ADOLESCENTES, ¡COLOMBIA ESCUCHA TU VOZ!",
+                    Content = "Con el objetivo de desarrollar acciones de movilización e impacto social para la incidencia en planes de Gobierno, planes de desarrollo, y políticas públicas a favor de la niñez y la adolescencia en Colombia, durante el mes de enero del presente año se realiza la...",
+                    IdCategory = 11
                 }
             };
 

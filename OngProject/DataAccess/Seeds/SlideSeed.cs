@@ -7,32 +7,36 @@ namespace OngProject.DataAccess.Seeds
     {
         public static Slide[] GetData()
         {
-            var slides = new[] {
-                new Slide()
-                {
-                    Id = 1,
-                    ImageUrl = "image1",
-                    Order = 1,
-                    OrganizationId = 1
-                    ,Text = "text2"
-                },
-                new Slide()
-                {
-                    Id = 2,
-                    ImageUrl = "image2",
-                    Order = 2,
-                    OrganizationId = 1
-                    ,Text = "text2"
-                },
-
-
+            var slides = new[]
+            {
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{},
+                new Slide{}
             };
-
+            var iter = 1;
             foreach (var s in slides)
             {
+                s.ImageUrl = $"/image/Slides/{iter}.jpg";
+                s.OrganizationId = 1;
+                s.Text = $"Lorem Ipsum{iter}";
+                s.Id = iter;
+                s.Order = iter;
                 s.CreatedAt = DateTime.Now;
                 s.IsDeleted = false;
                 s.LastEditedAt = DateTime.Now;
+                iter++;
             }
 
             return slides;

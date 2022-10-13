@@ -46,6 +46,118 @@ namespace OngProject.DataAccess.Seeds
                     UserId = 5,
                     Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
                     NewsId = 2
+                },
+
+                new Comment()
+                {
+                    UserId = 4,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 3
+                },
+
+                new Comment()
+                {
+                    UserId = 6,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 3
+                },
+
+                new Comment()
+                {
+                    UserId = 7,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 4
+                },
+
+                new Comment()
+                {
+                    UserId = 8,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 4
+                },
+
+                new Comment()
+                {
+                    UserId = 9,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 5
+                },
+
+                new Comment()
+                {
+                    UserId = 10,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 5
+                },
+
+                new Comment()
+                {
+                    UserId = 9,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 6
+                },
+
+                new Comment()
+                {
+                    UserId = 8,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 6
+                },
+
+                new Comment()
+                {
+                    UserId = 7,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 7
+                },
+
+                new Comment()
+                {
+                    UserId = 6,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 7
+                },
+
+                new Comment()
+                {
+                    UserId = 5,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 8
+                },
+
+                new Comment()
+                {
+                    UserId = 4,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 8
+                },
+
+                new Comment()
+                {
+                    UserId = 3,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 9
+                },
+
+                new Comment()
+                {
+                    UserId = 2,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 9
+                },
+
+                new Comment()
+                {
+                    UserId = 1,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 10
+                },
+
+                new Comment()
+                {
+                    UserId = 2,
+                    Body = "Los recortes utilizados estan relacionados de acuerdo al contexto mas cercano de los alumnos.",
+                    NewsId = 10
                 }
 
             };
