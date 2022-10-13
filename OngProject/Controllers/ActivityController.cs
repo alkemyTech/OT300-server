@@ -28,11 +28,11 @@ namespace OngProject.Controllers
         }
 
         // GET: api/Activity
-        [HttpGet]
-        public Task<IEnumerable<Activity>> GetActivities()
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet]
+        //public Task<IEnumerable<Activity>> GetActivities()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // GET: api/Activity/5
         [HttpGet("{id}")]
@@ -75,11 +75,11 @@ namespace OngProject.Controllers
         }
 
         // DELETE: api/Activity/5
-        [HttpDelete("{id}")]
-        public Task<bool> DeleteActivity(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //    [HttpDelete("{id}")]
+        //    public Task<bool> DeleteActivity(int id)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
     }
 }
 

@@ -32,19 +32,28 @@ namespace OngProject.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public IActionResult GetAll([FromQuery] int? page = 1)
         {
-             PagedList<NewsDTO> pageNews = _newsService.GetAllPage(page.Value);
-            var url = this.Request.Path;
-            return Ok(new
+            PagedList<NewsDTO> pageNews = _newsService.GetAllPage(page.Value);
+
+            if(page > pageNews.TotalPages)
             {
-                data = pageNews,
-                next = pageNews.HasNext ? $"{url}/{page + 1}" : "",
-                prev = (pageNews.Count > 0 && pageNews.HasPrevious) ? $"{url}/{page - 1}" : "",
-                currentPage = pageNews.CurrentPage,
-                totalPages = pageNews.TotalPages,
-            });
+                return BadRequest($"page number {page} doesn't exist");
+            }
+            else
+            {
+                var url = this.Request.Path;
+                return Ok(new
+                {
+                    data = pageNews,
+                    next = pageNews.HasNext ? $"{url}/{page + 1}" : "",
+                    prev = (pageNews.Count > 0 && pageNews.HasPrevious) ? $"{url}/{page - 1}" : "",
+                    currentPage = pageNews.CurrentPage,
+                    totalPages = pageNews.TotalPages,
+                });
+            }
+            
         }
  
 
@@ -60,6 +69,18 @@ namespace OngProject.Controllers
             }
 
             return Ok(news);
+        }
+
+        [HttpGet("{id}/comment")]
+        [Authorize]
+        public async Task<IActionResult> ListCommentByNew(int id)
+        {
+            var existNew = await _newsService.DoesExist(id);
+            if (existNew)
+            {
+                return Ok(_commentBusiness.showListCommentDto(id));
+            }
+            else { return BadRequest($"News with id{id} doesn't exist"); }
         }
 
         [HttpPost]
@@ -118,16 +139,6 @@ namespace OngProject.Controllers
 
             return Ok("Deleted succesfully");
         }
-        [HttpGet("{id}/comment")]
-        [Authorize]
-        public async Task<IActionResult> ListCommentByNew(int id)
-        {
-            var existNew = await _newsService.DoesExist(id);
-            if (existNew)
-            {
-                return Ok(_commentBusiness.showListCommentDto(id));
-            }
-            else { return BadRequest("id not found"); }
-        }
+
     }
 }

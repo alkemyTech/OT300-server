@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using OngProject.Core.Business;
 using OngProject.Core.Models.DTOs;
 using OngProject.Repositories;
+using OngProject.Core.Models;
 
 namespace OngProject.Controllers
 {
@@ -29,25 +30,32 @@ namespace OngProject.Controllers
         public IActionResult GetAllTestimonials([FromQuery] int page=1)
         {
             PagedList<TestimonialListDTO> pageTestimony = _testimonialBusiness.GetAllPaged(page);
-            var url = this.Request.Path;
-            return Ok(new
-            {                
-                next = pageTestimony.HasNext ? $"{url}/{page + 1}" : "",
-                prev = (pageTestimony.Count > 0 && pageTestimony.HasPrevious) ? $"{url}/{page - 1}" : "",
-                totalPages = pageTestimony.TotalPages,
-                currentPage = pageTestimony.CurrentPage,
-                data = pageTestimony
-            });
 
+            if(page > pageTestimony.TotalPages)
+            {
+                return BadRequest($"page number {page} doesn't exist");
+            }
+            else
+            {
+                var url = this.Request.Path;
+                return Ok(new
+                {
+                    next = pageTestimony.HasNext ? $"{url}/{page + 1}" : "",
+                    prev = (pageTestimony.Count > 0 && pageTestimony.HasPrevious) ? $"{url}/{page - 1}" : "",
+                    totalPages = pageTestimony.TotalPages,
+                    currentPage = pageTestimony.CurrentPage,
+                    data = pageTestimony
+                });
+            }
         }
 
         // GET: api/Testimonial/5
-        [HttpGet("{id}")]
-        [Authorize]
-        public Task<IActionResult> GetTestimonial(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //[HttpGet("{id}")]
+        //[Authorize]
+        //public Task<IActionResult> GetTestimonial(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

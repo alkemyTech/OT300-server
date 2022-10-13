@@ -26,17 +26,24 @@ namespace OngProject.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult GetAll([FromQuery] PaginationParams paginationParams)
         {
-
             PagedList<MembersDTO> pageMembers = _memberBusiness.GetAll(paginationParams);
-            var url = this.Request.Path;
-            return Ok(new
+            if (paginationParams.PageNumber > pageMembers.TotalPages)
             {
-                next = pageMembers.HasNext ? $"{url}/{paginationParams.PageNumber + 1}" : "",
-                prev = (pageMembers.Count > 0 && pageMembers.HasPrevious) ? $"{url}/{paginationParams.PageNumber - 1}" : "",
-                totalPages = pageMembers.TotalPages,
-                currentPage = pageMembers.CurrentPage,
-                data = pageMembers
-            });
+                return BadRequest($"page number {paginationParams.PageNumber} doesn't exist");
+            }
+            else
+            {
+                var url = this.Request.Path;
+                return Ok(new
+                {
+                    next = pageMembers.HasNext ? $"{url}/{paginationParams.PageNumber + 1}" : "",
+                    prev = (pageMembers.Count > 0 && pageMembers.HasPrevious) ? $"{url}/{paginationParams.PageNumber - 1}" : "",
+                    totalPages = pageMembers.TotalPages,
+                    currentPage = pageMembers.CurrentPage,
+                    data = pageMembers
+                });
+            }
+            
         }
 
         [HttpGet("{id}")]
@@ -67,7 +74,7 @@ namespace OngProject.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "User")]
+        [Authorize]
         public async Task<IActionResult> Put(int id, [FromForm] MemberUpdateDTO memberUpdateDto, IFormFile imageFile)
         {
             var existActivity = await _memberBusiness.DoesExist(id);
@@ -86,7 +93,7 @@ namespace OngProject.Controllers
 
         [HttpDelete("{id}")]
         [Authorize]
-        public async Task<ActionResult<bool>> DeleteTestimonial(int id)
+        public async Task<ActionResult<bool>> DeleteMember(int id)
         {
 
             var doesExist = await _memberBusiness.DoesExist(id);
@@ -94,7 +101,6 @@ namespace OngProject.Controllers
             {
                 return NotFound();
             }
-
             //Here member will never be null since we check above so we can just delete
             await _memberBusiness.Delete(id);
 
