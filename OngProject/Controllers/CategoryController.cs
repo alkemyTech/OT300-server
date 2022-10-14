@@ -35,9 +35,22 @@ namespace OngProject.Controllers
 
 
 
+        /// <summary>
+        /// Gets the list of categories names
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns>A list of categories names</returns>
+        /// <remarks>
+        /// Sample Request:
+        /// api/category/page=2
+        /// </remarks>
+        /// <response code="200">The list of names</response>
+        /// /// <response code="400">If page number does not exist</response>
         // GET: api/<CategoriesController>
         [HttpGet]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult GetAllNames([FromQuery] int? page = 1)
         {
             var role = (HttpContext.User.Identity as ClaimsIdentity).FindFirst(ClaimTypes.Role).Value;
@@ -71,9 +84,22 @@ namespace OngProject.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets the details for a unique Category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The details for the category with the same id</returns>
+        /// <remarks>
+        /// Sample Request:
+        ///  Get Category/id/1
+        /// </remarks>
+        /// <response code="200">The category Details</response>
+        /// /// <response code="404">If Category does not exist</response>
         // GET api/<CategoriesController>/5
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryFullDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Get(int id)
         {
             var exists = await _categoryBusiness.GetById(id);
@@ -81,26 +107,56 @@ namespace OngProject.Controllers
             return Ok(exists);
         }
 
+        /// <summary>
+        /// Creates a new Category
+        /// </summary>
+        /// <param name="createCategoryDTO"></param>
+        /// <returns>The Created Category</returns>
+        /// <remarks>
+        /// Sample Request:
+        ///     POST /Category
+        ///     {
+        ///        "Description": "Educations Activities",
+        ///        "name": "Education",
+        ///        "imageFile": "Image to uppload and save"
+        ///     }
+        /// </remarks>
+        /// <response code="201">The category Details</response>
+        /// /// <response code="409">If Category Already exist</response>
         // POST api/<CategoriesController>
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Post([Bind(new string[] { "Name", "Description" })][FromForm] CategoryPostDTO dto, IFormFile imageFile)
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CategoryFullDTO))]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<ActionResult> Post([Bind(new string[] { "Name", "Description" })][FromForm] CategoryPostDTO createCategoryDTO, IFormFile imageFile)
         {
-            dto.File = imageFile?.OpenReadStream();
+            createCategoryDTO.File = imageFile?.OpenReadStream();
 
-            CategoryFullDTO created = await _categoryBusiness.Add(dto);
+            CategoryFullDTO created = await _categoryBusiness.Add(createCategoryDTO);
 
             return (created.Id == 0) ?
-                 Conflict($"Category with  name : {dto.Name} already exists") :
+                 Conflict($"Category with  name : {createCategoryDTO.Name} already exists") :
                  Created("", created);
         }
 
-        // PUT api/<CategoriesController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
+        /// <summary>
+        /// Updates an existing Category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The Updated Category</returns>
+        /// <remarks>
+        /// Sample Request:
+        ///     PUT /Category/2
+        ///     {
+        ///        "Description": "Educations Activities",
+        ///        "name": "Education",
+        ///        "imageFile": "Image to uppload and save"
+        ///     }
+        /// </remarks>
+        /// <response code="200">The updated category Details</response>
+        /// /// <response code="400">If Category does not exist</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CategoryFullDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Update([FromForm] CategoryPostDTO categoryPostDTO, IFormFile file, int id)
@@ -114,6 +170,19 @@ namespace OngProject.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Deletes an existing Category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Empty response</returns>
+        /// <remarks>
+        /// Sample Request:
+        ///     Delete /Category/2
+        /// </remarks>
+        /// <response code="200">If category Was deleted</response>
+        /// /// <response code="404">If Category does not exist</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
