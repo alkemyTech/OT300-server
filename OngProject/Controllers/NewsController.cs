@@ -195,7 +195,7 @@ namespace OngProject.Controllers
         }
 
 		/// <summary>
-		///     Put method which updates an existing new. Only available for Administrators.
+		///     Delete method which deletes an existing new. Only available for Administrators.
 		/// </summary>
 		/// <param name="id">New's ID to delete.</param>
 		/// <remarks>
