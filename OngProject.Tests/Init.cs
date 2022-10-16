@@ -6,7 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using OngProject.Core.Interfaces;
 using OngProject.DataAccess;
+using OngProject.Services.Interfaces;
+using OngProject.Tests.ServicesMocks;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +37,8 @@ namespace OngProject.Tests
                .UseStartup<Startup>()
                .ConfigureTestServices(services =>
                {
+                   services.AddScoped<IImageStorageHerlper, MockS3>();
+                   services.AddScoped<IEmailService, MockEmail>();
                    services.RemoveAll(typeof(DbContextOptions<OngDbContext>));
                    services.AddDbContext<OngDbContext>(opt =>
                    {
@@ -83,7 +88,6 @@ namespace OngProject.Tests
             _testServer.Dispose();
             Client.Dispose();
             DbContext.Dispose();
-
         }
     }
 }
