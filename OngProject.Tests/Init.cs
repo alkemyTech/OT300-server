@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using OngProject.DataAccess;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using OngProject.DataAccess;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,26 +23,28 @@ namespace OngProject.Tests
         public static string TokenUser;
 
         [AssemblyInitialize]
-        public static  async Task AssemblyInit(TestContext ctx)
+        public static async Task AssemblyInit(TestContext ctx)
         {
+            //Test Host
             var builder = new WebHostBuilder()
-           .ConfigureAppConfiguration(configurationBuilder =>
-           {
-               configurationBuilder.AddJsonFile("appsettings.development.json");
-           })
-           .UseStartup<Startup>()
-           .ConfigureTestServices(services =>
-           {
-               services.RemoveAll(typeof(DbContextOptions<OngDbContext>));
-               services.AddDbContext<OngDbContext>(opt =>
+               .ConfigureAppConfiguration(configurationBuilder =>
                {
-                   opt.UseInMemoryDatabase("ONGTest");
+                   configurationBuilder.AddJsonFile("appsettings.development.json");
+               })
+               .UseStartup<Startup>()
+               .ConfigureTestServices(services =>
+               {
+                   services.RemoveAll(typeof(DbContextOptions<OngDbContext>));
+                   services.AddDbContext<OngDbContext>(opt =>
+                   {
+                       opt.UseInMemoryDatabase("ONGTest");
+                   });
                });
-           });
 
             _testServer = new TestServer(builder);
             Client = _testServer.CreateClient();
 
+            //Seeds
             DbContext = _testServer.Services.GetService<OngDbContext>();
             DbContext.Roles.AddRange(DataAccess.Seeds.RoleSeed.GetData());
             DbContext.Users.AddRange(DataAccess.Seeds.UserSeed.GetData());
@@ -50,12 +52,13 @@ namespace OngProject.Tests
 
             //Tokens
             var controller = "auth";
-            //var logins
+
+            //Credentials
             var credentialsAdmin = new { email = "MartaJuarez@gmail.com", password = "123456" };
-            var usersAdmin = new { email = "CarlosJuarez@gmail.com", password = "123456" };
+            var credentialsUser = new { email = "CarlosJuarez@gmail.com", password = "123456" };
 
             var jsonAdmin = JsonConvert.SerializeObject(credentialsAdmin);
-            var jsonUser = JsonConvert.SerializeObject(usersAdmin);
+            var jsonUser = JsonConvert.SerializeObject(credentialsUser);
 
             //as admin
             var response =
@@ -65,6 +68,7 @@ namespace OngProject.Tests
                 );
 
             TokenAdmin = await response.Content.ReadAsStringAsync();
+
             //as user
             response = await Client
                 .PostAsync($"api/{controller}/login",
