@@ -23,11 +23,11 @@ namespace OngProject.Middleware
 			string requestMethod = context.Request.Method;
 			string requestPath = context.Request.Path;
 
-			if (httpMethods.Contains(requestMethod) && !requestPath.Contains("Auth"))
+			if (httpMethods.Contains(requestMethod) && !requestPath.ToLower().Contains("auth") )
 			{
 				var role = context.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
 
-				if (!role.Value.Equals("Admin"))
+				if (role is not null && role.Value is not "Admin")
 					context.Response.StatusCode = 401;
 			}
 
