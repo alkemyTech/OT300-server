@@ -27,22 +27,80 @@ namespace OngProject.Controllers
             _activityBusiness = activityBusiness;
         }
 
-        // GET: api/Activity
-        //[HttpGet]
-        //public Task<IEnumerable<Activity>> GetActivities()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        // GET: api/Activity/5
+        /// <summary>
+        ///    Get a single Activity based on the ID.
+        /// </summary>
+        /// <param name="id">Activity ID</param>
+        /// <remarks>
+        /// Sample request: api/Activity/1
+        /// </remarks>
+        /// <returns>The Activity information.</returns>
+        /// <response code="200">The whole Activity information.</response>
+        /// <response code="404">If the Activity does not exist.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Activity))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public Task<Activity> GetActivity(int id)
         {
             return _activityBusiness.GetById(id);
         }
 
-        // PUT: api/Activity/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Post method which adds a new  Activity to the database.
+        /// </summary>
+        /// 
+        /// /// <param name="activityDto"></param>
+        /// /// <param name="imageFile"></param>
+        /// <returns>Create new Activity</returns>
+        /// <remarks>
+        /// Sample Request:
+        ///     POST /Activity/
+        ///     {      
+        ///        "Name": "Name activity.",
+        ///        "Content": "Description content.",
+        ///        "imageFile": "image of the Activity you want to save."
+        ///     }
+        /// </remarks>
+        /// <response code="200"> Activity was created successfully.</response>
+        /// /// <response code="404">Error, the Activity was not created.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActivityDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost]
+        [Authorize(Roles = "user,Admin")]
+        public async Task<IActionResult> PostActivity([FromForm] ActivityDTO activityDto, [Required] IFormFile imageFile)
+        {
+            activityDto.ImageFile = imageFile.OpenReadStream();
+
+            await _activityBusiness.Add(activityDto);
+
+            return Created(" ", activityDto);
+
+        }
+
+
+        /// <summary>
+        /// Updates an existing Activity. Only available for Administrators.
+        /// </summary>
+        /// <param name="id"></param>
+        /// /// <param name="activityUpdateDto"></param>
+        /// /// <param name="imageFile"></param>
+        /// <returns>The Updated Activity</returns>
+        /// <remarks>
+        /// Sample Request: 
+        ///     PUT /Activity/1
+        ///     {
+        ///        "ID" : "Activity ID to update. Example: 1.",
+        ///        "Name": "Name activity.",
+        ///        "Content": "Description content.",
+        ///        "imageFile": "image of the Activity you want to save."
+        ///     }
+        /// </remarks>
+        /// <response code="200"> Activity was successfully updated.</response>
+        /// /// <response code="401">If the user is not an administrator try to run the endpoint.</response>
+        /// /// <response code="400"> Activity does not exist</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActivityUpdateDTO))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutActivity(int id, [FromForm] ActivityUpdateDTO activityUpdateDto, IFormFile imageFile)
@@ -59,19 +117,6 @@ namespace OngProject.Controllers
             }
 
             return NotFound("activity does not exist to update");
-        }
-
-        // POST: api/Activity
-        [HttpPost]
-        [Authorize(Roles = "user,Admin")]
-        public async Task<IActionResult> PostActivity([FromForm] ActivityDTO activityDto, [Required] IFormFile imageFile)
-        {
-            activityDto.ImageFile = imageFile.OpenReadStream();
-
-            await _activityBusiness.Add(activityDto);
-
-            return Created(" ", activityDto);
-
         }
 
         // DELETE: api/Activity/5
