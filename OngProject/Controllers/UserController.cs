@@ -39,7 +39,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserGetDTO))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         public IActionResult GetUsers()
         {
             return Ok(_userBusiness.GetAllUsers());
