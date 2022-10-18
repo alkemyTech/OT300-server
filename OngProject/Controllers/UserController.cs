@@ -26,7 +26,18 @@ namespace OngProject.Controllers
             _userBusiness = userBusiness;
         }
 
-        // GET: api/Users
+
+        /// <summary>
+        ///    List of all registered users.  Only available for Administrators.
+        /// </summary>
+        /// <remarks>
+        /// Sample request: api/User/
+        /// </remarks>
+        /// <returns>List of registered users.</returns>
+        /// /// <response code="200"> Shows the list of Users.</response>
+        /// /// <response code="401">If the user is not an administrator try to run the endpoint.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserGetDTO))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult GetUsers()
@@ -34,15 +45,29 @@ namespace OngProject.Controllers
             return Ok(_userBusiness.GetAllUsers());
         }
 
-        // GET: api/Users2/5
-        //[HttpGet("{id}")]
-        //[Authorize(Roles = "Admin")]
-        //public Task<ActionResult<User>> GetUser(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
-        
+        /// <summary>
+        /// Update an existing User.
+        /// </summary>
+        /// <param name="id"></param>
+        /// /// <param name="user"></param>
+        /// <returns>The Updated User</returns>
+        /// <remarks>
+        /// Sample Request: 
+        ///     PUT /User/1
+        ///     {
+        ///        "ID" : "ID User. Example: 1.",
+        ///        "FirstName": "Name user.",
+        ///        "LastName": "LastName user.",
+        ///        "Email": "example@example.com",
+        ///        "Password": "abcdefgh" -- "12345678",
+        ///        "Photo": "Picture of the user you want to save."
+        ///     }
+        /// </remarks>
+        /// <response code="200"> User was successfully updated.</response>
+        /// /// <response code="404"> User does not exist</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserPatchDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPatch("{id}")]
         [Authorize(Roles = "User, Admin")]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserPatchDTO user)
@@ -57,14 +82,19 @@ namespace OngProject.Controllers
             return updatedUserProfile is not null ? Ok(updatedUserProfile) : NotFound();
         }
 
-        // POST: api/Users2
-        //[HttpPost]
-        //public Task<ActionResult<User>> PostUser(User user)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        // DELETE: api/Users2/5
+        /// <summary>
+        /// Delete an existing User.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Empty response</returns>
+        /// <remarks>
+        /// Sample Request:
+        ///     Delete /User/2
+        /// </remarks>
+        /// <response code="200">If User Was deleted</response>
+        /// /// <response code="400">If User does not exist</response>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteUser(int id)
