@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
+using OngProject.Core.Mapper;
 using OngProject.Core.Models;
 using OngProject.Core.Models.DTOs;
-using OngProject.Entities;
 using OngProject.Repositories;
 using System.Threading.Tasks;
 
@@ -22,8 +22,21 @@ namespace OngProject.Controllers
         }
 
 
+        /// <summary>
+        ///     Gets a paged list of  members. Only available for Administrators.
+        /// </summary>
+        /// <param name="paginationParams">Page number</param>
+        /// <remarks>
+        /// Sample request:GET api/member?pageNumber=3&amp;pageSize=10
+        /// </remarks>
+        /// <returns>A List with the members in the current page.</returns>
+        /// <response code="200">The members in the current page. Including the link to the previous and next page.</response>
+        /// <response code="400">If page number does not exist, or values are invalid</response>
+        /// <response code="401">Not logged in user tries to execute the endpoint</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<MembersDTO>))]
         [HttpGet]
         [Authorize(Roles = "Admin")]
+
         public IActionResult GetAll([FromQuery] PaginationParams paginationParams)
         {
             PagedList<MembersDTO> pageMembers = _memberBusiness.GetAll(paginationParams);
@@ -43,22 +56,52 @@ namespace OngProject.Controllers
                     data = pageMembers
                 });
             }
-            
         }
 
+        /// <summary>
+        ///     Gets a single member based on the ID. Only available for Administrators.
+        /// </summary>
+        /// <param name="id">Member's ID</param>
+        /// <remarks>
+        /// Sample request: api/Member/1
+        /// </remarks>
+        /// <returns>The member's information.</returns>
+        /// <response code="200">The whole member's information.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="401">Not logged in user tries to execute the endpoint.</response>
+        /// <response code="404">If the member does not exist.</response>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MembersDTO))]
+        // [ProducesResponseType(StatusCodes.Status403Forbidden)]
         public async Task<IActionResult> GetById(int id)
         {
-
-            var members =  await _memberBusiness.GetById(id);
-
-            return Ok(members);
+            var members = await _memberBusiness.GetById(id);
+            return Ok(members.ToPublicDTO());
+            //TODO needs refactor sinces is returning Entity from business
+            //  return  members !=null ? Ok(members):NotFound(id);
         }
 
+
+
+
+        /// <summary>
+        ///   Adds a member to the database. Only available for Administrators.
+        /// </summary>
+        /// <param name="memberDTO"/>
+        /// <param name="imageFile"/>
+        /// <remarks>
+        /// Sample request:POST api/Member/
+        /// </remarks>
+        /// <returns>A 201 status code with the member's information.</returns>
+        /// <response code="201">The data of the created member.</response>
+        /// <response code="401">If a not logged  user tries to execute the endpoint.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MembersDTO))]
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> Add([FromForm]MembersDTO memberDTO, IFormFile imageFile)
+        //        [SwaggerRequestExample(typeof(MembersDTO), typeof(MembersDTOExample))]
+        public async Task<IActionResult> Add([FromForm] MembersDTO memberDTO, IFormFile imageFile)
         {
             if (!ModelState.IsValid)
             {
@@ -73,6 +116,22 @@ namespace OngProject.Controllers
             }
         }
 
+
+
+        /// <summary>
+        ///    Uupdates an existing member. Only available for Administrators.
+        /// </summary>
+        /// <param name="id">Member's ID to update.</param>
+        /// <param name="memberUpdateDto"/>
+        /// <param name="imageFile"/>
+        /// <remarks>
+        /// Sample request: api/Member/1
+        /// </remarks>
+        /// <returns>A 200 status code.</returns>
+        /// <response code="200">The member was updated</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="401">If a non logged user tries to execute the endpoint.</response>        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="404">Can be due because  the member  doesn't exist.</response>
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> Put(int id, [FromForm] MemberUpdateDTO memberUpdateDto, IFormFile imageFile)
@@ -91,6 +150,21 @@ namespace OngProject.Controllers
             return NotFound("Member does not exist to update");
         }
 
+
+
+
+        /// <summary>
+        ///     Deletes an existing member. Only available for Administrators.
+        /// </summary>
+        /// <param name="id">Member's ID to delete.</param>
+        /// <remarks>
+        /// Sample request: DELETE api/Member/1
+        /// </remarks>
+        /// <returns>A 200 status code when success.</returns>
+        /// <response code="200">A message indicating that the member was deleted succesfully</response>
+        /// <response code="401">If a non logged user tries to execute the endpoint.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="404">If the member doesn't exist in the database.</response>
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<ActionResult<bool>> DeleteMember(int id)
@@ -108,4 +182,24 @@ namespace OngProject.Controllers
 
         }
     }
+
+    //TODO :
+    //Implement on all controllers , inherit from ActionResult
+    //Contructor receives a PagedList
+
+    public class PagedResult<T> where T : class
+    {
+
+        public string Next { get; }
+        public string Prev { get; }
+        public int TotalPages { get; }
+        public int CurrentPage { get; }
+        public PagedList<T> Data { get; }
+
+        public PagedResult(PagedList<T> data)
+        {
+            Data = data;
+        }
+    }
+
 }
