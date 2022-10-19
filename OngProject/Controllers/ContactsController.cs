@@ -22,7 +22,7 @@ namespace OngProject.Controllers
 
         // GET: api/<ContactsController>
         [Authorize(Roles = "Admin")]
-        [HttpGet("Contacts")]
+        [HttpGet]
         public IActionResult GetContacts()
         {
             return Ok(_contactsBusiness.GetAllContacts());
