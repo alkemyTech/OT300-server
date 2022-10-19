@@ -40,9 +40,11 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Activity))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public Task<Activity> GetActivity(int id)
+        public async Task<IActionResult> GetActivity(int id)
         {
-            return _activityBusiness.GetById(id);
+            var activityId = await _activityBusiness.GetById(id);
+
+            if (activityId is null) { return NotFound("Activity does not exist"); } else { return Ok(activityId); }; 
         }
 
         /// <summary>
@@ -66,7 +68,7 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActivityDTO))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost]
-        [Authorize(Roles = "user,Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PostActivity([FromForm] ActivityDTO activityDto, [Required] IFormFile imageFile)
         {
             activityDto.ImageFile = imageFile.OpenReadStream();
