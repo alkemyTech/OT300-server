@@ -25,6 +25,18 @@ namespace OngProject.Controllers
         }
 
         // GET: api/Testimonial
+        /// <summary>
+        ///    GetAll Testimonial.
+        /// </summary>
+        /// <param name="page">Testimonial </param>
+        /// <remarks>
+        /// Sample request: api/Testimonial?page=1
+        /// </remarks>
+        /// <returns>A list of Testimonial  .</returns>
+        /// <response code="200">A Testimonial list.</response>
+        /// <response code="400">If Testimonial page does not exist.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TestimonialListDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpGet]
         [Authorize]
         public IActionResult GetAllTestimonials([FromQuery] int page=1)
@@ -59,6 +71,30 @@ namespace OngProject.Controllers
 
         // PUT: api/Testimonial/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+
+
+        /// <summary>
+        /// Updates an existing Testimonial. Only available for Administrators.
+        /// </summary>
+        /// <param name="updateTestimonial"></param>
+        /// <returns>The Updated Testimonial</returns>
+        /// <remarks>
+        /// Sample Request: 
+        ///     PUT api/Testimonial/1
+        ///     {
+        /// 
+        ///        "Name": "Name Testimonial.",
+        ///        "Content": "Testimonial Content", 
+        ///        "imageFile": "image of the Testimonial you want to save."
+        ///     }
+        /// </remarks>
+        /// <response code="200"> Testimonial was successfully updated.</response>
+        /// /// <response code="401">If the user is not an administrator try to run the endpoint.</response>
+        /// /// <response code="404"> Testimonial does not exist</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TestimonialDTO))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPut("{id}")]
         [Authorize (Roles = "Admin")]
         public async Task<IActionResult> PutTestimonial(int id, [FromForm] TestimonialUpdateDTO updateTestimonial, IFormFile ImageFile)
@@ -76,6 +112,25 @@ namespace OngProject.Controllers
         }
 
         // POST: api/Testimonial
+        /// <summary>
+        /// Post method which adds a new  Testimonial to the database.
+        /// </summary>
+        /// 
+        /// /// <param name="testimonialDTO"></param>
+        /// <returns>Update the Testimonial</returns>
+        /// <remarks>
+        /// Sample Request:
+        ///     POST /Testimonial/
+        ///     {      
+        ///        "Name": "Name Testimonial.",
+        ///        "Content": "Description content.",
+        ///        "imageFile": "image of the Testimonial you want to save."
+        ///     }
+        /// </remarks>
+        /// <response code="200"> Testimonial was updated successfully.</response>
+        /// /// <response code="400">Error, the Testimonial was not update.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TestimonialDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> PostTestimonial([FromForm] TestimonialDTO testimonialDTO, IFormFile imageFile)
@@ -93,6 +148,20 @@ namespace OngProject.Controllers
         }
 
         // DELETE: api/Testimonial/5
+        /// <summary>
+		///     Delete method which deletes an existing testimonial. Only available for Administrators.
+		/// </summary>
+		/// <param name="id">Testimonial ID to delete.</param>
+		/// <remarks>
+		/// Sample request: api/Testimonial/1
+		/// </remarks>
+		/// <returns>A 200 status code .</returns>
+		/// <response code="200">A message indicating that the testimonial was deleted succesfully</response>
+		/// <response code="401">If a non administrator user tries to execute the endpoint.</response>
+		/// <response code="404">If the testimonial doesn't exist in the database.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TestimonialDTO))]
+		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<bool>> DeleteTestimonial(int id)
