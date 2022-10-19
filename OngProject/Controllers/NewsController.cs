@@ -86,12 +86,14 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdNews(int id)
         {
-            News news = await _newsService.GetById(id);
+            var exist = await _newsService.DoesExist(id);
 
-            if (news is null)
+            if (!exist)
             {
                 return NotFound("New does not exist");
             }
+
+            News news = await _newsService.GetById(id);
 
             return Ok(news);
         }
@@ -212,7 +214,7 @@ namespace OngProject.Controllers
 		public async Task<IActionResult> Delete(int id)
         {
             var doesExist = await _newsService.DoesExist(id);
-            if (doesExist)
+            if (!doesExist)
             {
                 return NotFound();
             }
