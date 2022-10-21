@@ -51,7 +51,7 @@ namespace OngProject.Core.Business
 
             var updated = await _unitOfWork.CommentRepository.Update(comment);
 
-            _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             return CommentMapper.CommentToCommentDTO(comment);
         }

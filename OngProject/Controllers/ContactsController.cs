@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OngProject.Core.Interfaces;
 using OngProject.Core.Models.DTOs;
@@ -21,22 +22,39 @@ namespace OngProject.Controllers
         }
 
         // GET: api/<ContactsController>
+        /// <summary>
+        ///    Get all Contacts. Only available for Administrators.
+        /// </summary>
+        /// <param></param>
+        /// <remarks>
+        /// Sample request: api/Contacts
+        /// </remarks>
+        /// <returns>All Contacts</returns>
+        /// <response code="200">A list of Contacts</response>
+        /// <response code="401">when an no admin user try to use the endpoint</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ContactDTO))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult GetContacts()
         {
             return Ok(_contactsBusiness.GetAllContacts());
-        }        
+        }
 
-        // GET api/<ContactsController>/5
-        //[HttpGet("{id}")]
-        //[Authorize(Roles = "Admin")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
 
         // POST api/<ContactsController>
+        /// <summary>
+        ///    Create new Contact
+        /// </summary>
+        /// <param name="values"></param>
+        /// <remarks>
+        /// Sample request: api/Contacts
+        /// </remarks>
+        /// <returns>The information of contact created</returns>
+        /// <response code="201">Create and return the information of contact</response>
+        /// <response code="400">when the information have some missing field</response>
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ContactDTO))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Add([FromBody] ContactDTO values)
@@ -51,16 +69,5 @@ namespace OngProject.Controllers
             return Created("https://localhost:5001/Contacts/", values);
         }
 
-        // PUT api/<ContactsController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        // DELETE api/<ContactsController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

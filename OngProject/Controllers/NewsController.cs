@@ -77,12 +77,12 @@ namespace OngProject.Controllers
         /// </remarks>
         /// <returns>The new's information.</returns>
         /// <response code="200">The whole new's information.</response>
-        /// <response code="401">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
         /// <response code="404">If the new does not exist.</response>
         [HttpGet("{id}")]
 		[Authorize(Roles = "Admin")]
 		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(News))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdNews(int id)
         {
@@ -110,7 +110,7 @@ namespace OngProject.Controllers
         /// <response code="404">If the new does not exist.</response>
         [HttpGet("{id}/comment")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CommentAddDto))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ListCommentByNew(int id)
         {
             var existNew = await _newsService.DoesExist(id);
@@ -118,7 +118,7 @@ namespace OngProject.Controllers
             {
                 return Ok(_commentBusiness.showListCommentDto(id));
             }
-            else { return BadRequest($"News with id{id} doesn't exist"); }
+            else { return NotFound($"News with id{id} doesn't exist"); }
         }
 
         /// <summary>
@@ -131,12 +131,12 @@ namespace OngProject.Controllers
         /// </remarks>
         /// <returns>A 201 status code with the new's information.</returns>
         /// <response code="201">The data of the created new.</response>
-        /// <response code="401">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
         /// <response code="409">Can be due because the category doesn't exist or because there was an error adding the new.</response>
         [HttpPost]
 		[Authorize(Roles = "Admin")]
-		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NewsFullDTO))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+		[ProducesResponseType(StatusCodes.Status201Created, Type = typeof(NewsFullDTO))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> InsertNews([FromForm] NewsPostDTO dto, [Required] IFormFile imageFile)
         {
@@ -162,12 +162,12 @@ namespace OngProject.Controllers
 		/// </remarks>
 		/// <returns>A 200 status code with the updated information.</returns>
 		/// <response code="200">The updated new</response>
-		/// <response code="401">If a non administrator user tries to execute the endpoint.</response>
+		/// <response code="403">If a non administrator user tries to execute the endpoint.</response>
 		/// <response code="404">Can be due because either the category doesn't exist nor the new doesn't exist.</response>
 		[HttpPut("{id}")]
 		[Authorize(Roles = "Admin")]
 		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NewsFullDTO))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
 
 		public async Task<IActionResult> UpdateNews(int id, [FromForm] NewsPutDTO newsDTO, IFormFile imageFile)
@@ -205,13 +205,14 @@ namespace OngProject.Controllers
 		/// </remarks>
 		/// <returns>A 200 status code with the updated information.</returns>
 		/// <response code="200">A message indicating that the new was deleted succesfully</response>
-		/// <response code="401">If a non administrator user tries to execute the endpoint.</response>
+		/// <response code="403">If a non administrator user tries to execute the endpoint.</response>
 		/// <response code="404">If the new doesn't exist in the database.</response>
 		[HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
 		[ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NewsFullDTO))]
-		[ProducesResponseType(StatusCodes.Status401Unauthorized)]
-		public async Task<IActionResult> Delete(int id)
+		[ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> Delete(int id)
         {
             var doesExist = await _newsService.DoesExist(id);
             if (!doesExist)

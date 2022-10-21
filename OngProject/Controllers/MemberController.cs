@@ -34,6 +34,8 @@ namespace OngProject.Controllers
         /// <response code="400">If page number does not exist, or values are invalid</response>
         /// <response code="401">Not logged in user tries to execute the endpoint</response>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PagedResult<MembersDTO>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpGet]
         [Authorize(Roles = "Admin")]
 
@@ -73,7 +75,9 @@ namespace OngProject.Controllers
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MembersDTO))]
-        // [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]        
         public async Task<IActionResult> GetById(int id)
         {
             var members = await _memberBusiness.GetById(id);
@@ -96,8 +100,10 @@ namespace OngProject.Controllers
         /// <returns>A 201 status code with the member's information.</returns>
         /// <response code="201">The data of the created member.</response>
         /// <response code="401">If a not logged  user tries to execute the endpoint.</response>
-        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="400">If a required field is missing</response>
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MembersDTO))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize]
         //        [SwaggerRequestExample(typeof(MembersDTO), typeof(MembersDTOExample))]
@@ -119,7 +125,7 @@ namespace OngProject.Controllers
 
 
         /// <summary>
-        ///    Uupdates an existing member. Only available for Administrators.
+        ///    Updates an existing member. Only available for Administrators.
         /// </summary>
         /// <param name="id">Member's ID to update.</param>
         /// <param name="memberUpdateDto"/>
@@ -129,9 +135,11 @@ namespace OngProject.Controllers
         /// </remarks>
         /// <returns>A 200 status code.</returns>
         /// <response code="200">The member was updated</response>
-        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
-        /// <response code="401">If a non logged user tries to execute the endpoint.</response>        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="401">If a non logged user tries to execute the endpoint.</response>        
         /// <response code="404">Can be due because  the member  doesn't exist.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MemberUpdateDTO))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> Put(int id, [FromForm] MemberUpdateDTO memberUpdateDto, IFormFile imageFile)
@@ -163,8 +171,10 @@ namespace OngProject.Controllers
         /// <returns>A 200 status code when success.</returns>
         /// <response code="200">A message indicating that the member was deleted succesfully</response>
         /// <response code="401">If a non logged user tries to execute the endpoint.</response>
-        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
         /// <response code="404">If the member doesn't exist in the database.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<ActionResult<bool>> DeleteMember(int id)

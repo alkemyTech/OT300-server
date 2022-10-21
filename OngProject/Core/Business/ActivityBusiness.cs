@@ -69,7 +69,7 @@ namespace OngProject.Core.Business
 
             if (activityUpdateDto.ImageFile is null || activityUpdateDto.ImageFile.Length == 0)
             {
-                activityUp.Image = "";
+                activityUp.Image = activityUp.Image;
             }
             
             else
