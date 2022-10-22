@@ -31,7 +31,7 @@ namespace OngProject.Controllers
         /// <summary>
         /// Obtain Token for Users LogIn
         /// </summary>
-        /// <param name="login"></param>
+        /// <param name="login">Email and Password</param>
         /// <returns>The token for the user or Admin for valid credentials</returns>
         /// <remarks>
         /// Sample Request:     All Parameters required     
@@ -60,7 +60,7 @@ namespace OngProject.Controllers
         /// <summary>
         /// Register a new User
         /// </summary>
-        /// <param name="register"></param>
+        /// <param name="register">User Information</param>
         /// <returns>The token for the user or Admin for valid credentials</returns>
         /// <remarks>
         /// Sample Request:      All Parameters required           

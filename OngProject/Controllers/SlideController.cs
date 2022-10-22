@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using OngProject.Core.Mapper;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using OngProject.Entities;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -27,6 +29,17 @@ namespace OngProject.Controllers
 
 
         // GET: api/<SlidesController>
+        /// <summary>
+        ///     Gets a list of all slides. Only available for Administrators.
+        /// </summary> 
+        /// <remarks>
+        /// Sample request: api/Slide
+        /// </remarks>
+        /// <returns>A List with all slide</returns>
+        /// <response code="200">A List with all Slide available</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<SlideDTO>))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [HttpGet]
         [Authorize]
         public IActionResult Get()
@@ -35,6 +48,20 @@ namespace OngProject.Controllers
         }
 
         // GET api/<SlidesController>/5
+        /// <summary>
+        ///     Gets a single Slide based on the ID. Only available for Administrators.
+        /// </summary>
+        /// <param name="id">Slide ID</param>
+        /// <remarks>
+        /// Sample request: api/Slide/1
+        /// </remarks>
+        /// <returns>Slide information.</returns>
+        /// <response code="200">Slide Information.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="404">If the role does not exist.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Slide))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetById(int id)
@@ -48,9 +75,22 @@ namespace OngProject.Controllers
             return Ok(slide.ToSlideResponseDTO());
         }
 
+        /// <summary>
+        ///     adds a new Slide to the database. Only available for Administrators.
+        /// </summary>
+        /// <param name="createRequest"></param>
+        /// <remarks>
+        /// Sample request: api/slide
+        /// </remarks>
+        /// <returns>Created Slide.</returns>
+        /// <response code="201">Created slide Information.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="400">If the request lack some field.</response>
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SlideCreateDTO))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        [Authorize]
-        [ProducesResponseType(201, Type = typeof(SlideResponseDTO))]
+        [Authorize]        
         public async Task<IActionResult> Create([FromForm] SlideCreateDTO createRequest)
         {
             var slide = await _slideBusiness.Create(createRequest);
@@ -59,6 +99,21 @@ namespace OngProject.Controllers
         }
 
         // PUT api/<SlidesController>/5
+        /// <summary>
+        ///     Update a slide. Only available for Administrators.
+        /// </summary>
+        /// <param name="id"></param>
+        /// /// <param name="dto"></param>
+        /// <remarks>
+        /// Sample request: api/slide/1
+        /// </remarks>
+        /// <returns>Updated slide information.</returns>
+        /// <response code="200">Updated slide Information.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="404">If the slide to update was not found.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RoleDTO))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> Put(int id, [FromForm] SlideCreateDTO dto)
@@ -67,6 +122,20 @@ namespace OngProject.Controllers
         }
 
         // DELETE api/<SlidesController>/5
+        /// <summary>
+        ///     Delete method which deletes an existing slide. Only available for Administrators.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <remarks>
+        /// Sample request: api/slide/1
+        /// </remarks>
+        /// <returns>a true or false if the slide was or not delete.</returns>
+        /// <response code="200">if it was delete.</response>
+        /// <response code="403">If a non administrator user tries to execute the endpoint.</response>
+        /// <response code="404">If the slide to delete was not found.</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<ActionResult> Delete(int id)

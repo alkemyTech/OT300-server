@@ -99,7 +99,7 @@ namespace OngProject.Controllers
         /// </remarks>
         /// <response code="200"> Activity was successfully updated.</response>
         /// /// <response code="401">If the user is not an administrator try to run the endpoint.</response>
-        /// /// <response code="400"> Activity does not exist</response>
+        /// /// <response code="404"> Activity does not exist</response>
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ActivityUpdateDTO))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

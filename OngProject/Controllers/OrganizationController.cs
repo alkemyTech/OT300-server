@@ -10,7 +10,7 @@ namespace OngProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles ="Admin")]
 
     public class OrganizationController : ControllerBase
     {
@@ -23,7 +23,16 @@ namespace OngProject.Controllers
             _slideBusiness = slideBusiness;
         }
 
-        [HttpGet("/api/organization/public")]
+        /// <summary>
+        ///     Get All public information of Organization and all the Slides in order
+        /// </summary> 
+        /// <remarks>
+        /// Sample request: api/organization/public
+        /// </remarks>
+        /// <returns>All public information</returns>
+        /// <response code="200">All public information</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrganizationPublicDTO))]
+        [HttpGet("public")]
         [AllowAnonymous]
         public IActionResult GetOrganizationPublicInfo()
         {
@@ -32,8 +41,26 @@ namespace OngProject.Controllers
             return Ok(new { orgPubInfoDTO, slidesOrganizations });
         }
 
-        [HttpPost("/api/organization/public")]
-        [Authorize(Roles ="Admin")] 
+
+        /// <summary>
+        ///     Update Organization information. Only available for Administrators.
+        /// </summary>
+        /// <param name="updateDTO"></param>
+        /// /// <param name="Image"></param>
+        /// <remarks>
+        /// Sample request: api/organization/public
+        /// </remarks>
+        /// <returns>Updated Organization Information</returns>
+        /// <response code="200">Updated Information</response>
+        /// <response code="401">If the user was not log in</response>
+        /// <response code="403">If an user that is not Admin try to update</response>
+        /// <response code="404">Organization not found</response>
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrganizationPublicDTO))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [HttpPost("public")]
+        [Authorize] 
         public async Task<IActionResult> UpdateOrganizationPublicInfo([FromForm] OrganizationPostPublicDTO updateDTO,[Required] IFormFile Image)
         {
             updateDTO.ImageStream = Image.OpenReadStream();
@@ -41,7 +68,7 @@ namespace OngProject.Controllers
             return updated is not null ? Ok(new { updated }) : NotFound();
         }
 
-        /****** 
+        /* Comment out for further advance in the structure
         [HttpGet("/api/organization")]
         [Authorize(Roles = "Admin")]
         public IActionResult GetAllOrganizations()
@@ -73,15 +100,13 @@ namespace OngProject.Controllers
 
         }
 
-        //i was looking about this because i don't know if the service return false what it going to happens here.
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrganization(int id)
         {
             await _organizationService.Delete(id);
             return Ok();
         }
-        *////
+        */
 
     }
 }

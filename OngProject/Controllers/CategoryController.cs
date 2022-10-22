@@ -85,7 +85,7 @@ namespace OngProject.Controllers
         }
 
         /// <summary>
-        /// Gets the details for a unique Category
+        /// Gets the details for a unique Category. Only available for Administrators.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The details for the category with the same id</returns>
@@ -108,7 +108,7 @@ namespace OngProject.Controllers
         }
 
         /// <summary>
-        /// Creates a new Category
+        /// Creates a new Category. Only available for Administrators.
         /// </summary>
         /// <param name="createCategoryDTO"></param>
         /// <returns>The Created Category</returns>
@@ -140,7 +140,7 @@ namespace OngProject.Controllers
         }
 
         /// <summary>
-        /// Updates an existing Category
+        /// Updates an existing Category. Only available for Administrators.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>The Updated Category</returns>
@@ -171,7 +171,7 @@ namespace OngProject.Controllers
         }
 
         /// <summary>
-        /// Deletes an existing Category
+        /// Deletes an existing Category. Only available for Administrators.
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Empty response</returns>
