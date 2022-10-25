@@ -13,10 +13,13 @@ namespace OngProject.Core.Business
     public class UserBusiness : IUserBusiness
     {
         private readonly IUnitOfWork _unitOfWork;
+        IImageStorageHerlper _s3;
 
-        public UserBusiness(IUnitOfWork unitOfWork)
+        public UserBusiness(IUnitOfWork unitOfWork, IImageStorageHerlper s3)
         {
             _unitOfWork = unitOfWork;
+            _s3 = s3;
+
         }
         //public User Insert(User request)
         //{
@@ -49,9 +52,13 @@ namespace OngProject.Core.Business
 
             if (toUpdate is null)
                 return null;
-
+            if (user.PhotoStream != null)
+            {
+                //upload the picture
+                toUpdate.Photo = await _s3.UploadImageAsync(user.PhotoStream, $"user-{toUpdate.Id}-{Guid.NewGuid()}");
+            }
             toUpdate.PatchToEntity(user);
-
+            user.Photo = toUpdate.Photo;
             await _unitOfWork.UserRepository.Update(toUpdate);
             await _unitOfWork.SaveChangesAsync();
 
@@ -64,8 +71,8 @@ namespace OngProject.Core.Business
             await _unitOfWork.SaveChangesAsync();
         }
 
-   
 
-        
+
+
     }
 }

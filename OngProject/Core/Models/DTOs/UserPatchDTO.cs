@@ -1,4 +1,6 @@
-﻿namespace OngProject.Core.Models.DTOs
+﻿using System.IO;
+
+namespace OngProject.Core.Models.DTOs
 {
 	public class UserPatchDTO
 	{
@@ -9,5 +11,6 @@
 		public string? Password { get; set; }
 		public string? Photo { get; set; }
 		#nullable disable
+		internal Stream PhotoStream { get; set; }
 	}
 }

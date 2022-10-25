@@ -70,8 +70,9 @@ namespace OngProject.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPatch("{id}")]
         [Authorize(Roles = "User, Admin")]
-        public async Task<IActionResult> UpdateUser(int id, [FromBody] UserPatchDTO user)
+        public async Task<IActionResult> UpdateUser(int id, [FromForm] UserPatchDTO user, IFormFile photo)
         {
+            user.PhotoStream = photo?.OpenReadStream();
             int userId = int.Parse((HttpContext.User.Identity as ClaimsIdentity).FindFirst("Identifier").Value);
             string role = (HttpContext.User.Identity as ClaimsIdentity).FindFirst(ClaimTypes.Role).Value;
 
